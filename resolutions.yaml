@@ -1,0 +1,12 @@
+# Decisions for collisions NOT covered by a source's `overrides:`.
+# Filled after reviewing the `megapack lock` collision report. Each entry is stamped with the hashes
+# of the files it was decided against; a changed hash marks it stale for re-review.
+#
+#   - path: def/example.sii
+#     winner: <source-id>            # or
+#     merged: overrides/def/example.sii
+#     inputs: { <source-id>: <sha256>, <source-id>: <sha256> }
+#     note: why
+schema: 1
+
+resolutions: []

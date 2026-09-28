@@ -1,0 +1,20 @@
+[orange]{{display_name}}{{part_label}}
+
+[normal]The world around the road for ETS2 1.61: realistic train lengths per country and locomotive, Cip's real train and level-crossing sounds, built on the current game files so new trains and countries keep working.
+[red]Place ABOVE Sound Fixes Pack (optional) and any other train sound or train length mod.
+[red]Do not load Realistic Train Lengths or Real Train Sounds ETS2: both are built in.
+--------------------
+[orange]Included sources:
+[normal]{{source_list}}
+Train speeds, power and weights: Sound Fixes Pack by Drive Safely (as carried by Realistic Train Lengths)
+--------------------
+[orange]Download the originals / support the authors:
+[normal]{{source_links}}
+- Sound Fixes Pack: https://steamcommunity.com/sharedfiles/filedetails/?id=648591060
+--------------------
+[green]Changelogs
+
+[orange]v0.1.0
+[normal]- Realistic Train Lengths rebuilt on the 1.61 game files: fixes the missing Dutch Flirt (traffic.frt.nl) error and keeps the new NL, BE and LU trains
+- Real Train Sounds (Cip): train engine, wheel and horn sounds and per-country level-crossing sounds
+- Cip's sounds for the DV12 and E.405 locomotives now reach the trains (1.61 renamed their files)

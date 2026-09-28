@@ -1,0 +1,26 @@
+# Origin mods merged into World. One entry per archive or Workshop item.
+#
+#   id         stable slug. Extraction folder: <root>/local/<id>/<version>/ for `archives`,
+#              <root>/workshop/<workshop id>/<version>/ for `workshop`
+#   archives   paths relative to megapack.yaml `source_root` (.scs or .zip)
+#   workshop   Steam Workshop item id under megapack.yaml `workshop_root` (instead of `archives`);
+#              `package:` pins a versions.sii package, default = the one without compatible_versions
+#   origin     where it comes from: steam-workshop {url} | scs-forum {url} | local {note}
+#   layer      merge order; higher wins on a declared override
+#   overrides  source ids or patterns this one may replace files of (collisions auto-resolve)
+#   exclude    this source's paths dropped from the merge (matched after `renames`)
+schema: 1
+
+sources:
+  # Sound assets only: FMOD banks and the generic train soundrefs (replacing vanilla's, and Sound Fixes Pack's
+  # when it loads below World). Cip's whole-file .sui/.sii copies are not merged; their edits are carried
+  # onto the current base game in world/edits.yaml.
+  - id: cip-train-sounds
+    name: Real Train Sounds ETS2
+    author: Cip
+    version: "1.61"
+    workshop: 2439106226
+    origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=2439106226" }
+    layer: 10
+    exclude:
+      - "def/*"
