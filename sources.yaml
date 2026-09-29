@@ -9,6 +9,11 @@
 #   layer      merge order; higher wins on a declared override
 #   overrides  source ids or patterns this one may replace files of (collisions auto-resolve)
 #   exclude    this source's paths dropped from the merge (matched after `renames`)
+#
+# Graphics sources follow the maintainer's load order, lowest to highest: Grass < DIOX < Asphalt < Tree < Weather
+# < Realistic Rain (DIOX is deliberately below Juninho944's set). Each one overrides everything below it, so every
+# shared path goes to the higher layer. Game config files these mods ship as whole copies are excluded here and
+# carried as edits of the current base game instead (world/graphics.yaml); see docs/adr/ADR-0002-world-graphics.md.
 schema: 1
 
 sources:
@@ -24,3 +29,114 @@ sources:
     layer: 10
     exclude:
       - "def/*"
+
+  - id: juninho-grass
+    name: grass_4.0_lite
+    author: Juninho944
+    version: "2.0"
+    workshop: 2937314261
+    origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=2937314261" }
+    layer: 20
+    exclude:
+      # carried as edits (grass density, terrain colour tints) so the 11 terrain materials 1.61 added survive
+      - "def/world/detail_vegetation.sii"
+      - "def/world/terrain_material.sii"
+      - "def/world/terrain_material.base_share.sii"
+
+  - id: diox-water
+    name: Beautiful Water
+    author: DIOX
+    version: "1.40"
+    workshop: 2489276751
+    origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=2489276751" }
+    layer: 30
+    overrides: ["juninho-grass"]
+
+  - id: diox-nature
+    name: Beautiful Nature
+    author: DIOX
+    version: "1.40"
+    workshop: 2552800092
+    origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=2552800092" }
+    layer: 40
+    overrides: ["juninho-grass", "diox-water"]
+    exclude:
+      # carried as edits: its leaves LOD and rain values only (its economy and dead sound keys are dropped)
+      - "def/game_data.sii"
+
+  - id: juninho-asphalt
+    name: Asphalt_improved_1.5_ETS_2k
+    author: Juninho944
+    version: "2.0"
+    workshop: 3403569587
+    origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=3403569587" }
+    layer: 50
+    overrides: ["juninho-grass", "diox-*"]
+
+  - id: juninho-tree
+    name: tree_improved_4k
+    author: Juninho944
+    version: "1.10"
+    workshop: 2916069460
+    origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=2916069460" }
+    layer: 60
+    overrides: ["juninho-grass", "diox-*", "juninho-asphalt"]
+    exclude:
+      # an author's leftover ("new folder"): referenced by nothing, and its .tobj points at a missing /shrubs_fr.dds
+      - "model2/vegetation/bush/generic_shrubs_obsolete/Nova pasta/*"
+
+  - id: juninho-weather
+    name: Weather_3.9_2K
+    author: Juninho944
+    version: "2.0"
+    workshop: 3019731483
+    origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=3019731483" }
+    layer: 70
+    overrides: ["juninho-grass", "diox-*", "juninho-asphalt", "juninho-tree"]
+    exclude:
+      # only `default` (the map's climate) and `underground` (tunnels) are used. The special views stay
+      # vanilla; the other climates are registered by no def/climate*.sii, so the game never loads them.
+      - "def/climate/albedo/*"
+      - "def/climate/black/*"
+      - "def/climate/grayscale/*"
+      - "def/climate/integrity/*"
+      - "def/climate/reference/*"
+      - "def/climate/alpine/*"
+      - "def/climate/arctic/*"
+      - "def/climate/arid/*"
+      - "def/climate/baltic/*"
+      - "def/climate/coastal/*"
+      - "def/climate/continental/*"
+      - "def/climate/def/*"
+      - "def/climate/desert/*"
+      - "def/climate/eaa*/*"
+      - "def/climate/icelandic/*"
+      - "def/climate/inverno/*"
+      - "def/climate/mediter/*"
+      - "def/climate/outono/*"
+      - "def/climate/primavera/*"
+      - "def/climate/romania/*"
+      - "def/climate/subarctic/*"
+      - "def/climate/subtropical/*"
+      - "def/climate/verao/*"
+      # a stray climate copy in an asset folder; nothing includes it
+      - "asset/skybox/shared/nice.sii"
+      # windshield drops come from Realistic Rain, carried as edits (world/graphics.yaml)
+      - "def/vehicle/interior_glass_config_rain.sii"
+
+  - id: realistic-rain
+    name: Realistic Rain
+    author: Darkcaptain
+    version: "5.2.1"
+    workshop: 1787041596
+    package: 160_content                 # 1.60/1.61 package; re-pin after a game update
+    origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=1787041596" }
+    layer: 80
+    overrides: ["juninho-weather"]
+    exclude:
+      # carried as edits (world/graphics.yaml)
+      - "def/vehicle/interior_glass_config_rain.sii"
+      # wheel spray: vanilla for the first builds (maintainer decides vanilla vs Realistic Rain before release);
+      # its sprite textures go too, or vanilla's spray models would draw with them
+      - "unit/hookup/vehicle/particle/*"
+      - "asset/particles/wheels/w_sprites/*"
