@@ -136,13 +136,17 @@ sources:
     exclude:
       # carried as edits (world/graphics.yaml)
       - "def/vehicle/interior_glass_config_rain.sii"
-      # wheel spray: vanilla for the first builds (maintainer decides vanilla vs Realistic Rain before release);
-      # its sprite textures go too, or vanilla's spray models would draw with them
-      - "unit/hookup/vehicle/particle/*"
-      - "asset/particles/wheels/w_sprites/*"
+      # thunder comes from Kass (kass-thunder); rrthunders.bank is referenced by nothing
+      - "sound/world/weather_thunder.soundref"
+      - "sound/world/rrthunders.bank*"
+      - "sound_fixes_pack/world/thunder.bank*"
+    # Its wheel spray (7 unit/hookup/vehicle/particle/*rain*.sii + w_sprites textures) ships whole (maintainer,
+    # 2026-09-30): its units are auto-named (_nameless.*), so edits pinned to them would break on a re-export.
+    # tools/whole_files.py --check flags a game update that changes the base copies they replace.
 
-  # Lightning look only: bolt and cloud textures (sets 1-6 replace vanilla's and Weather_3.9's bolts, 7-20 are new;
-  # the game loads the whole folder). Its water, rain, spray, windshield, game_data, camera and sounds are not used.
+  # Lightning look and thunder sound only: bolt and cloud textures (sets 1-6 replace vanilla's and Weather_3.9's
+  # bolts, 7-20 are new; the game loads the whole folder) and its thunder bank (40+ thunders). Its water, rain
+  # sounds and particles, spray, windshield, game_data and camera are not used.
   - id: kass-thunder
     name: Realistic Rain & Water & Thunder Sounds
     author: Kass
@@ -155,7 +159,9 @@ sources:
       - "def/*"
       - "material/*"
       - "model/*"
-      - "sound/*"
+      - "sound/truck/*"                    # its cabin rain sound; Realistic Rain's stays
+      - "sound/world/kassrain_out.bank*"
+      - "sound/world/weather_rain.soundref"
       - "unit/*"
       - "asset/particles/*"
       - "asset/skybox/lightning*"          # the two lightning models are identical to vanilla's

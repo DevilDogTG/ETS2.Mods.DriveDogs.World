@@ -1,6 +1,6 @@
 # source: kass-thunder
 # version: V10.8
-# files: 92
+# files: 95
 path	size	sha256
 asset/skybox/shared/lightning/lightning10_bolt.dds	11184996	cc592551181337769aef8eab8bf75aee6714eaae263f0b3a87e8cf920904c868
 asset/skybox/shared/lightning/lightning10_bolt.tobj	99	eeedbd0478b6778e3cac507055d1c1557462f7437fd213647dd733fd10446e51
@@ -94,3 +94,6 @@ asset/skybox/shared/simple_lightning/lightning4.dds	1398276	038f3368c7bc2aafee51
 asset/skybox/shared/simple_lightning/lightning4.tobj	100	b36e5934f9d667b253a281352d20a87c0caa83d9e98595adf59ef81d66d4650a
 asset/skybox/shared/simple_lightning/lightning5.dds	1398276	a078c048ffb27bfac83df56e3dd674054b5ba9b527836d036e57650f0ac684c2
 asset/skybox/shared/simple_lightning/lightning5.tobj	100	249373eeaa1d229081a6ef0fc071119f75d7d7b0224fca4f41d82ae55593985c
+sound/world/kassthunder.bank	19470208	9e14e6001b1cf5ddd2fe21618933e07d7174179622df0b0173601b8c5f073466
+sound/world/kassthunder.bank.guids	1766	5c38db551169545fda50b490cfb38f3d24d86e1fdcf05f81399976f47b9c3f01
+sound/world/weather_thunder.soundref	50	760023f7323d098d64541446e3d493c8c22a4c023dd4aad517cbd8b4fd829216
