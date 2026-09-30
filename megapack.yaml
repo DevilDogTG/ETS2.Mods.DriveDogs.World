@@ -6,7 +6,7 @@ package:
   name: drivedog_world                   # archive: <name>_v<version>.scs
   versioned_filenames: true              # DriveDogs convention; each release is a new mod in the mod manager
   display_name: "DriveDogs: World"
-  version: "0.2.0-dev.3"                 # World's own version, independent of sources
+  version: "0.2.0-dev.4"                 # World's own version, independent of sources
   author: "DevilDogTG"
   game: ets2                             # ets2 | ats — sources must be for this game
   manifest_template: src/manifest.sii
@@ -46,6 +46,8 @@ references:
 
 parts:
   split_defs: false                      # definitions stay with their source's assets
-  max_part_bytes: 3221225472
+  # one archive (test, dev.4): 2.98 GB is the largest proven size; a 5.1 GiB single archive is under test.
+  # Back to 3221225472 (2 parts once the size estimate is fixed) if the game does not read past 4 GiB.
+  max_part_bytes: 17179869184
   max_part_files: 60000
   pack_margin: 0.9
