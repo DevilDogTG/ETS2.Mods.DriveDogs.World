@@ -48,8 +48,8 @@ SOURCE = "juninho-weather"
 FILES = ["def/climate/default/nice.sii", "def/climate/default/bad.sii"]
 
 NIGHT_MAX_ELEVATION = -4.0   # sun at or below 4 degrees under the horizon
-FOG_DENSITY_MAX = 0.005      # vanilla night rain: ~0.0032-0.0037
-FOG_OFFSET_MIN = 25.0        # vanilla night rain: 8.6-37.5 m, mostly 27.5-33 m
+FOG_DENSITY_MAX = 0.0035     # vanilla night rain: ~0.0032-0.0037 (0.005 in dev.1-3; beam a little further)
+FOG_OFFSET_MIN = 30.0        # vanilla night rain: 8.6-37.5 m, mostly 27.5-33 m (25 in dev.1-3)
 WETNESS_MAX = 0.6            # vanilla night rain: 0.16-1.0, weighted average 0.53
 INDEXED = re.compile(r"^(\w+)\[(\d+)\]$")
 
