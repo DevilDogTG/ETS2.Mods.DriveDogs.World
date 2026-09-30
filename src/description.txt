@@ -1,16 +1,19 @@
 [orange]{{display_name}}{{part_label}}
 
-[normal]The world around the road for ETS2 1.61: weather, rain, roads, grass and trees from Juninho944, DIOX and Realistic Rain in one pack, with a fix for poor headlight reach in night rain; realistic train lengths and Cip's real train and level-crossing sounds. Game settings are built on the current game files, so what the game adds in updates keeps working.
+[normal]The world around the road for ETS2 1.61: weather, rain, roads, grass and trees from Juninho944, DIOX and Realistic Rain in one pack, with wet-road puddles, lightning, a realistic mix of light and heavy rain, a fixed equinox date for natural day and night, and a fix for poor headlight reach in night rain; realistic train lengths and Cip's real train and level-crossing sounds. Game settings are built on the current game files, so what the game adds in updates keeps working.
 [red]Enable every part. Place ABOVE Sound Fixes Pack (optional) and any other train sound or train length mod.
-[red]Do not load these, they are built in: Weather_3.9, Asphalt_improved, grass_4.0_lite, tree_improved_4k (Juninho944), Beautiful Water, Beautiful Nature (DIOX), Realistic Rain, Realistic Train Lengths, Real Train Sounds ETS2.
+[red]Do not load these, they are built in: Weather_3.9, Asphalt_improved, grass_4.0_lite, tree_improved_4k (Juninho944), Beautiful Water, Beautiful Nature (DIOX), Realistic Rain, Realistic Rain Reflections, Realistic Rain & Water & Thunder Sounds (Kass), Realistic Train Lengths, Real Train Sounds ETS2.
+[red]Also disable any day/night or date mod (e.g. Workshop 1061306287): World sets the date.
 --------------------
 [orange]Included sources:
 [normal]{{source_list}}
 Train speeds, power and weights: Sound Fixes Pack by Drive Safely (as carried by Realistic Train Lengths)
+Wet-road puddles and surface reflections: Realistic Rain Reflections Standalone v1.4 by Grimes (blended into Asphalt_improved's roads)
 --------------------
 [orange]Download the originals / support the authors:
 [normal]{{source_links}}
 - Sound Fixes Pack: https://steamcommunity.com/sharedfiles/filedetails/?id=648591060
+- Realistic Rain Reflections (Grimes): https://grimesmods.wordpress.com/2017/05/08/realistic-rain-reflections-standalone/
 --------------------
 [green]Changelogs
 
@@ -20,6 +23,10 @@ Train speeds, power and weights: Sound Fixes Pack by Drive Safely (as carried by
 - Wet-road reflections back to the game's strength
 - Their game settings are carried onto the 1.61 files instead of old full copies: keeps the 11 terrain materials 1.61 added, drops Beautiful Nature's economy and unused sound settings
 - Wheel spray in rain: the game's own
+- Wet roads: Realistic Rain Reflections' puddles in the wheel tracks, blended into Asphalt_improved's road surfaces; wet reflections on sidewalks, tiles, concrete, parking lots and junctions
+- Lightning: Kass's lightning bolts and flashes (20 kinds)
+- Rain mix: mostly light and medium rain, heavy rain less often, thunderstorms rare (Weather_3.9 made nearly all rain heavy)
+- Day and night: a fixed equinox date (23 September), about 12 hours of daylight everywhere; no sun at 22:00, no dark mornings
 
 [orange]v0.1.0
 [normal]- Realistic Train Lengths rebuilt on the 1.61 game files: fixes the missing Dutch Flirt (traffic.frt.nl) error and keeps the new NL, BE and LU trains
