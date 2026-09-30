@@ -2,13 +2,15 @@
 # 1061306287, whose weekly real-date sync brought winter darkness back; see docs/adr/ADR-0002-world-graphics.md).
 #
 # The game date never advances. The sun follows map latitude/longitude, this date and one clock for the whole map
-# (summer_time: 1 stays as in vanilla). Day 266 (23 September, equinox): ~12 h of daylight everywhere, sunset
-# ~19:00 (Berlin) to ~20:30 (Lisbon), no midnight sun or polar night. Cost: no seasons.
+# (summer_time: 1 stays as in vanilla). Day 270 (27 September, just after the equinox): ~12 h of daylight
+# everywhere, sun up ~07:00 and down ~19:00 in central Germany/Czechia (maintainer's target); the west runs
+# 45-90 min later (Lisbon 08:28-20:26), the east 30-60 min earlier (Istanbul 05:55-17:54). No midnight sun or
+# polar night. Cost: no seasons.
 #
 # thunderstorm_probability 1.0 (vanilla 0.37): storms come only from the storm-class weather variants
 # (tools/night_climate.py gives the other classes no lightning), so their weights alone set the storm share.
 def/env_data.sii:
   env.data:
     set:
-      day_in_year: '266'
+      day_in_year: '270'
       thunderstorm_probability: '1.0'
