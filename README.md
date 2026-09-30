@@ -27,19 +27,25 @@ World replaces Sound Fixes Pack's train sound settings (train `.sui` files, gene
 
 ## Build
 
-Requires Python 3.10+ with the megapack skill's `scripts/requirements.txt` and Pillow, `scs_packer` on `PATH`,
-the base game extracted at the version in `megapack.yaml`, and the Workshop items extracted
-(`extract-reference`, category `workshop`: 2439106226 at `1.61`, 3209674677 at `1.0`).
+Requires Python 3.10+ with the megapack skill's `scripts/requirements.txt`, Pillow and numpy, `scs_packer` on
+`PATH`, the base game extracted at the version in `megapack.yaml`, every Workshop source in `sources.yaml` extracted
+(`extract-reference`, category `workshop`, at the listed version), and Realistic Rain Reflections Standalone v1.4
+(Grimes, not on the Workshop) unzipped to `<extracted root>/local/rain-reflections/1.4/`.
 
 ```bash
-python tools/harvest_edits.py
+python tools/harvest_edits.py        # trains -> world/edits.yaml
+python tools/harvest_graphics.py     # graphics sources' game config -> world/graphics.yaml
+python tools/night_climate.py        # weather mix + night rain limits -> world/climate.yaml
+python tools/rain_reflections.py     # puddle normal maps + reflection values -> overrides/ (after a clone too)
 python tools/generate_cover.py
 python ~/.agent-brains/profiles/ets2-mod-developer/skills/megapack/scripts/megapack.py lock
 python ~/.agent-brains/profiles/ets2-mod-developer/skills/megapack/scripts/megapack.py check --strict
 python ~/.agent-brains/profiles/ets2-mod-developer/skills/megapack/scripts/megapack.py build
 ```
 
-`harvest_edits.py --check` fails when `world/edits.yaml` no longer matches its inputs.
+Each tool's `--check` fails when its output no longer matches its inputs. `world/environment.yaml` (date, storm
+chance) is hand-written. The blended road normal maps in `overrides/` are git-ignored: `rain_reflections.py`
+regenerates them.
 
 ## Updating
 
@@ -59,5 +65,5 @@ python ~/.agent-brains/profiles/ets2-mod-developer/skills/megapack/scripts/megap
 | `tools/harvest_edits.py` | generates `world/edits.yaml` from the two Workshop mods and validates it |
 | `tools/generate_cover.py` | renders `src/cover.jpg` with the version badge |
 | `src/` | manifest and description templates, cover |
-| `overrides/` | own files laid over the merge (none yet) |
+| `overrides/` | own files laid over the merge: `tools/rain_reflections.py` output (edited materials, blended road normal maps) |
 | `lock/` | generated source hashes and collision report |
