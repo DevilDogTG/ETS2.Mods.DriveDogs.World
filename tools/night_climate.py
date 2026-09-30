@@ -8,7 +8,8 @@ variants are heavy with strong lightning. Each variant (skybox index) gets one c
 cloudy skies -> light, the darkest storm skies with lightning everywhere -> storm), and in every profile:
   rain_intensity and rain_max_wetness are clamped into the class range (Weather's day curve is kept inside it),
   lightning_intensity is 0 outside the storm class and at least STORM_LIGHTNING_MIN inside it,
-  weight[i] = the class share (DAY_SHARES, or NIGHT_SHARES at night) split evenly over the class's variants.
+  weight[i] = the class share (DAY_SHARES, or NIGHT_SHARES at night) split evenly over the class's variants,
+    scaled by WEIGHT_SCALE to whole numbers (the game parses weight as an integer).
 The class of a variant is the same at every sun elevation, so a rain does not change type during the day.
 With thunderstorm_probability 1.0 (world/environment.yaml) the storm share is set by the weights alone.
 
@@ -66,6 +67,7 @@ CLASSES = {
 DAY_SHARES = {"light": 40, "medium": 35, "heavy": 18, "storm": 7}     # % of rainy periods (user, 2026-09-30)
 NIGHT_SHARES = {"light": 45, "medium": 35, "heavy": 15, "storm": 5}
 STORM_LIGHTNING_MIN = 0.85
+WEIGHT_SCALE = 6             # weights are integers: share * 6 / variants in class (classes have 2 or 3 variants)
 
 
 def num(v: str) -> float:
@@ -121,6 +123,10 @@ def limits(src: pathlib.Path) -> tuple[dict, list[str]]:
                     new["rain_max_wetness"][i] = min(new["rain_max_wetness"][i], WETNESS_MAX)
             ops = {f"{k}[{i}]": fmt(x) for k in new for i, x in sorted(new[k].items())
                    if fmt(x) != fmt(vals[k][i])}
+            for key, val in ops.items():
+                k, i = INDEXED.match(key).groups()
+                if re.fullmatch(r"-?\d+", a[k][int(i)].strip()) and not re.fullmatch(r"-?\d+", val):
+                    sys.exit(f"{rel} {unit} {key}: the game file has an integer, refusing to write {val}")
             if ops:
                 edits.setdefault(rel, {})[unit] = {"set": ops}
                 changed += len(ops)
@@ -141,7 +147,11 @@ def mix(v: dict[str, dict[int, float]], at_night: bool) -> None:
             v["rain_max_wetness"][i] = min(max(v["rain_max_wetness"][i], w_lo), w_hi)
             v["lightning_intensity"][i] = (max(v["lightning_intensity"][i], STORM_LIGHTNING_MIN)
                                            if name == "storm" else 0.0)
-            v["weight"][i] = round(shares[name] / len(idx), 2)
+            # the game reads weight as an integer ("7.5" fails the whole file, and rain then crashes the game)
+            w = shares[name] * WEIGHT_SCALE / len(idx)
+            if w != int(w):
+                sys.exit(f"{name}: share {shares[name]} * {WEIGHT_SCALE} is not divisible by {len(idx)} variants")
+            v["weight"][i] = int(w)
 
 
 def render(edits: dict) -> str:
