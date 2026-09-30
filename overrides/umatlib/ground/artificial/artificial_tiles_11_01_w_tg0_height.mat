@@ -1,0 +1,22 @@
+effect : "eut2.dif.spec.weight.tg0.heightmap.rfx" {
+	additional_ambient : 0.000000
+	diffuse : { 1.000000 , 1.000000 , 1.000000 }
+	reflection : 1.000000
+	shininess : 40.000000
+	specular : { 1.000000 , 1.000000 , 1.000000 }
+	texgen_0_gen : { 7.000000 , 7.000000 }
+	texgen_0_rot : 0.000000
+	far_color : { 0.198067 , 0.191202 , 0.191202 }
+	far_specular_power : 0.011760
+	heightmap_transition_shape_type : 3
+	heightmap_height_range : { -0.500000 , 0.300000 }
+	heightmap_feather_size : 0.010000
+	texture : "texture_base" {
+		source : "/material/ground/artificial/artificial_tiles_11_01_difspec.tobj"
+		sampler : default
+	}
+	texture : "texture_heightmap" {
+		source : "/material/ground/artificial/artificial_tiles_11_01_height.tobj"
+		sampler : default
+	}
+}

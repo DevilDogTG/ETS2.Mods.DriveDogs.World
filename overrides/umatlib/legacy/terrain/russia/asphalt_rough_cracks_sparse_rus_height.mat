@@ -1,0 +1,23 @@
+effect : "eut2.dif.spec.weight.tg0.heightmap.rfx" {
+	additional_ambient : 0.000000
+	diffuse : { 1.000000 , 1.000000 , 1.000000 }
+	reflection : 1.000000
+	shininess : 12.000000
+	specular : { 0.010023 , 0.010023 , 0.010023 }
+	substance : "road_coarse"
+	texgen_0_gen : { 12.000000 , 12.000000 }
+	texgen_0_rot : 0.000000
+	far_color : { 0.097588 , 0.093056 , 0.095309 }
+	far_specular_power : 0.000000
+	heightmap_transition_shape_type : 3
+	heightmap_height_range : { -5.700000 , 1.900000 }
+	heightmap_feather_size : 0.050000
+	texture : "texture_base" {
+		source : "/material/terrain/russia/asphalt_rough_cracks_sparse_rus.tobj"
+		sampler : default
+	}
+	texture : "texture_heightmap" {
+		source : "/material/terrain/russia/asphalt_rough_cracks_sparse_rus_height.tobj"
+		sampler : default
+	}
+}

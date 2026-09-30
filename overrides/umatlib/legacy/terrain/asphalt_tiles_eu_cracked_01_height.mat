@@ -1,0 +1,23 @@
+effect : "eut2.dif.spec.weight.tg0.heightmap.rfx" {
+	additional_ambient : 0.000000
+	diffuse : { 1.000000 , 1.000000 , 1.000000 }
+	reflection : 1.000000
+	shininess : 20.000000
+	specular : { 1.000000 , 1.000000 , 1.000000 }
+	substance : "road"
+	texgen_0_gen : { 8.000000 , 8.000000 }
+	texgen_0_rot : 0.000000
+	far_color : { 0.107020 , 0.102241 , 0.097588 }
+	far_specular_power : 0.000000
+	heightmap_transition_shape_type : 3
+	heightmap_height_range : { -2.360000 , 0.950000 }
+	heightmap_feather_size : 0.050000
+	texture : "texture_base" {
+		source : "/material/terrain/asphalt_tiles_eu_cracked_01.tobj"
+		sampler : default
+	}
+	texture : "texture_heightmap" {
+		source : "/material/terrain/asphalt_tiles_eu_cracked_01_height.tobj"
+		sampler : default
+	}
+}

@@ -1,0 +1,27 @@
+effect : "eut2.dif.spec.weight.tsnmapcalc.tg0.heightmap.rfx" {
+	additional_ambient : 0.000000
+	diffuse : { 1.000000 , 1.000000 , 1.000000 }
+	reflection : 1.000000
+	shininess : 40.000000
+	specular : { 1.000000 , 1.000000 , 1.000000 }
+	substance : "road"
+	texgen_0_gen : { 8.000000 , 8.000000 }
+	texgen_0_rot : 0.000000
+	far_color : { 0.097588 , 0.095309 , 0.093056 }
+	far_specular_power : 0.043140
+	heightmap_transition_shape_type : 3
+	heightmap_height_range : { -1.000000 , 1.200000 }
+	heightmap_feather_size : 0.100000
+	texture : "texture_base" {
+		source : "/material/ground/artificial/asphalt_parklot_base_dirt.tobj"
+		sampler : default
+	}
+	texture : "texture_nmap" {
+		source : "/material/ground/artificial/asphalt_parklot_base_dirt_nrm.tobj"
+		sampler : default
+	}
+	texture : "texture_heightmap" {
+		source : "/material/ground/artificial/asphalt_parklot_base_dirt_height.tobj"
+		sampler : default
+	}
+}

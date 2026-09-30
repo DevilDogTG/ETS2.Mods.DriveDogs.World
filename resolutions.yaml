@@ -9,4 +9,229 @@
 #     note: why
 schema: 1
 
-resolutions: []
+resolutions:
+- path: material/road/road_template/balt/1_balt_nrm.dds
+  merged: overrides/material/road/road_template/balt/1_balt_nrm.dds
+  inputs:
+    juninho-asphalt: 6d2c765f06e79c3fae6f9c8526f9d34c8a8b9397488590269a38a885606a7c56
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/balt/2_balt_nrm.dds
+  merged: overrides/material/road/road_template/balt/2_balt_nrm.dds
+  inputs:
+    juninho-asphalt: a306d4b16d22dbf735f85801bf584b4e8bdad1d7cc3ae1f0276e8e4647ccdbcb
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/balt/3_balt_nrm.dds
+  merged: overrides/material/road/road_template/balt/3_balt_nrm.dds
+  inputs:
+    juninho-asphalt: 5b9ca70878366ba25156ae520ae3773bf977c890ac148d66108527600b37ec65
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/balt/4_balt_nrm.dds
+  merged: overrides/material/road/road_template/balt/4_balt_nrm.dds
+  inputs:
+    juninho-asphalt: 6c4a5a8f97708dc436fa7877cdf694e1eb9087029ab45ef5f4d88ceeb8935adc
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/balt/5_balt_nrm.dds
+  merged: overrides/material/road/road_template/balt/5_balt_nrm.dds
+  inputs:
+    juninho-asphalt: d43b80ef03089063b4ea343abbb5a5a3bcd17ab83a15999065743c7c4920979d
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/balt/6_balt_nrm.dds
+  merged: overrides/material/road/road_template/balt/6_balt_nrm.dds
+  inputs:
+    juninho-asphalt: fb4a630d69fe4b2b428afa141e6d51d16c36ece47a402080e68b36eccc507921
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/blke/1_blke_nrm.dds
+  merged: overrides/material/road/road_template/blke/1_blke_nrm.dds
+  inputs:
+    juninho-asphalt: f89102957f807ea9a3cfecd448d5112bf6a0ab7ea9735ee9cdd69994f1c9791e
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/blke/2_blke_nrm.dds
+  merged: overrides/material/road/road_template/blke/2_blke_nrm.dds
+  inputs:
+    juninho-asphalt: 398efa2b725127a3d95653aed569cca9d802723e19110635a5a60c5765b7ce94
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/blke/3_blke_nrm.dds
+  merged: overrides/material/road/road_template/blke/3_blke_nrm.dds
+  inputs:
+    juninho-asphalt: 70431c7f8d2c4b789432df1198657bee7b0bda49a73f40e8f4c97fb77c9a19a5
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/blkw/1_blkw_nrm.dds
+  merged: overrides/material/road/road_template/blkw/1_blkw_nrm.dds
+  inputs:
+    juninho-asphalt: c5536a85bdd4ba5c216944a1d39b7e63baee824dd28f3b6420482a360a00c05b
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/blkw/2_blkw_nrm.dds
+  merged: overrides/material/road/road_template/blkw/2_blkw_nrm.dds
+  inputs:
+    juninho-asphalt: 941c5cd9a3245c9f890d453f835f3e5fd51ca46269ab18e83f1d9acf6977c620
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/blkw/3_blkw_nrm.dds
+  merged: overrides/material/road/road_template/blkw/3_blkw_nrm.dds
+  inputs:
+    juninho-asphalt: 7333384f3c7d1a089cf0b1d92815ebb38881190709a3cf5384d2730c015d72b6
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/blkw/4_blkw_nrm.dds
+  merged: overrides/material/road/road_template/blkw/4_blkw_nrm.dds
+  inputs:
+    juninho-asphalt: ff8eba58063cd3be39e644d2a937c6e338cbba957146b092e4cce710b7e79312
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/blkw/5_blkw_nrm.dds
+  merged: overrides/material/road/road_template/blkw/5_blkw_nrm.dds
+  inputs:
+    juninho-asphalt: 03532528c9f46800cd1bd4de8f27f53f5e63c3028350ed98b4e5b1be09118a15
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/blkw/6_blkw_nrm.dds
+  merged: overrides/material/road/road_template/blkw/6_blkw_nrm.dds
+  inputs:
+    juninho-asphalt: 52808352804ca0db4cfc1eeddbeddda02c694e7721439a051bf7e870fa190faf
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/blkw/7_blkw_nrm.dds
+  merged: overrides/material/road/road_template/blkw/7_blkw_nrm.dds
+  inputs:
+    juninho-asphalt: a3a851a03b84bb8cd0ddfab07ccafc00e8beaac4afe674cff497ea14f514735c
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/blkw/8_blkw_nrm.dds
+  merged: overrides/material/road/road_template/blkw/8_blkw_nrm.dds
+  inputs:
+    juninho-asphalt: b4712a52aeab3921dfdde4a3d31be12831682fad9c613183ec06b60b571f1cb4
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/fr/brown_fr_nrm.dds
+  merged: overrides/material/road/road_template/fr/brown_fr_nrm.dds
+  inputs:
+    juninho-asphalt: 15617ce7c5f1c632f779499e13de27ffe3fa7f065cfc583ad1201df6047a9f89
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/fr/dark_fr_nrm.dds
+  merged: overrides/material/road/road_template/fr/dark_fr_nrm.dds
+  inputs:
+    juninho-asphalt: 2118b308451df60b9a7a4285cd661666a15870f06bb06ad5fb7c46faec541763
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/fr/grained_fr_nrm.dds
+  merged: overrides/material/road/road_template/fr/grained_fr_nrm.dds
+  inputs:
+    juninho-asphalt: 8a9455d48421a8a85599cd7ad068b533da9bce64b94143bc7176df0f64a8a956
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/fr/gray_fr_nrm.dds
+  merged: overrides/material/road/road_template/fr/gray_fr_nrm.dds
+  inputs:
+    juninho-asphalt: 66f03129b297a03baadd1160244bcacac2eb63d52ecd832750bdfdff97d59c51
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/ger/ger_01_nrm.dds
+  merged: overrides/material/road/road_template/ger/ger_01_nrm.dds
+  inputs:
+    juninho-asphalt: 9ed7352efbd54fa0c4df6f985511b3c4a9ba6c38f5fdc5a49110361a4fd692e9
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/ger/ger_02_nrm.dds
+  merged: overrides/material/road/road_template/ger/ger_02_nrm.dds
+  inputs:
+    juninho-asphalt: f0b9d932f72724078e11eb69c42e8efecc1ed4c063d97185b9c9c11ba7b202e6
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/ger/ger_03_nrm.dds
+  merged: overrides/material/road/road_template/ger/ger_03_nrm.dds
+  inputs:
+    juninho-asphalt: 4e1a7d42c12c956a9e239d40cc61597518cadc54e99e7a106fe038a0eaea1cbe
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/ger/ger_04_nrm.dds
+  merged: overrides/material/road/road_template/ger/ger_04_nrm.dds
+  inputs:
+    juninho-asphalt: a969d55af9d0714c6dc17ed08689c0bca5520d01f0a19d82c47a83601a2a2ef7
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/ger/ger_05_nrm.dds
+  merged: overrides/material/road/road_template/ger/ger_05_nrm.dds
+  inputs:
+    juninho-asphalt: 1a51d30d13a41c0ddd7c3e41369270f23a6a533da71b638b30e48de8f0748d5c
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/ibe/1_ibe_nrm.dds
+  merged: overrides/material/road/road_template/ibe/1_ibe_nrm.dds
+  inputs:
+    juninho-asphalt: 1cf27fa7dd44d05cfc3c314c0f463a920656e7bde6d678957598a902c8f94ef8
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/ibe/2_ibe_nrm.dds
+  merged: overrides/material/road/road_template/ibe/2_ibe_nrm.dds
+  inputs:
+    juninho-asphalt: 834d2e9d499a5420c2d08b8cc1825af8366c54b9b3bf7cf9fd26f591c947338e
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/ibe/3_ibe_nrm.dds
+  merged: overrides/material/road/road_template/ibe/3_ibe_nrm.dds
+  inputs:
+    juninho-asphalt: 11ab3d35cee03344e61087cd436c4aaf74e1e3f4b1631c9991853772ceee750c
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/it/1_cors_nrm.dds
+  merged: overrides/material/road/road_template/it/1_cors_nrm.dds
+  inputs:
+    juninho-asphalt: ce63a945b34b58ebc40a49d38715ed26282afcfadd573165c355ec36da5a384e
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/it/1_it_nrm.dds
+  merged: overrides/material/road/road_template/it/1_it_nrm.dds
+  inputs:
+    juninho-asphalt: d462bcc5114a0dec534dbf5c5873c8e6c1531dce849573c89455848e535666c7
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/it/2_it_nrm.dds
+  merged: overrides/material/road/road_template/it/2_it_nrm.dds
+  inputs:
+    juninho-asphalt: 61c52fad15c172e83c6949a480032086d162d82b551d56501e882e347fc698ac
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/it/3_it_nrm.dds
+  merged: overrides/material/road/road_template/it/3_it_nrm.dds
+  inputs:
+    juninho-asphalt: 26658d09f7ff9ee2f8776efd9dc32310b3d56142d7ec481ccf0da65eb3de9fcc
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/it/4_it_nrm.dds
+  merged: overrides/material/road/road_template/it/4_it_nrm.dds
+  inputs:
+    juninho-asphalt: 7513abe1e473ea9cf27104a351524dea4e76f177764247dc1b1921de9c0198fb
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/it/5_it_nrm.dds
+  merged: overrides/material/road/road_template/it/5_it_nrm.dds
+  inputs:
+    juninho-asphalt: 2937f52195b80290941f7b90d7a9250e326f2df59b900722bd2b84fa82855bd4
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/un/asp_new_01_nrm.dds
+  merged: overrides/material/road/road_template/un/asp_new_01_nrm.dds
+  inputs:
+    juninho-asphalt: b6e1849ffd1d2c5a6a7e5fd6442e8e1cb3446d5353551b19ae10bfbdb413f0b5
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/un/asp_new_02_nrm.dds
+  merged: overrides/material/road/road_template/un/asp_new_02_nrm.dds
+  inputs:
+    juninho-asphalt: 4ef91142a835f72eb30852d12d97b027ce0608af2776826a5242c17ba9154fb3
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/un/asp_new_03_nrm.dds
+  merged: overrides/material/road/road_template/un/asp_new_03_nrm.dds
+  inputs:
+    juninho-asphalt: 6ffaafa15eb7d6b99e4e74622e9c50bb650eb48ae3f7dc855480f275615f7693
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/un/asp_new_04_nrm.dds
+  merged: overrides/material/road/road_template/un/asp_new_04_nrm.dds
+  inputs:
+    juninho-asphalt: 7706ccdd3878e014a9bb814f908923157c55852ebd0923eab6e0ceebe41aadd8
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/un/asp_red_01_nrm.dds
+  merged: overrides/material/road/road_template/un/asp_red_01_nrm.dds
+  inputs:
+    juninho-asphalt: ec52b3a691a849aa1ed3a0826ab10c7956806755eddc47cdf283f2cbb1b0a9b1
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/un/asp_red_02_nrm.dds
+  merged: overrides/material/road/road_template/un/asp_red_02_nrm.dds
+  inputs:
+    juninho-asphalt: 650a13c126261560285820c7824e30642a795b14ec9c00a71cf3723879af2776
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/un/asp_rough_01_nrm.dds
+  merged: overrides/material/road/road_template/un/asp_rough_01_nrm.dds
+  inputs:
+    juninho-asphalt: 3d7e63ed0639dc31ab15dbdd2996659e6ff4564038a4659e61fd3c993d394d32
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/un/asp_rough_02_nrm.dds
+  merged: overrides/material/road/road_template/un/asp_rough_02_nrm.dds
+  inputs:
+    juninho-asphalt: 18dd31d81ef775bf631d1a051fe80b149ef21a4abf08430619cc9509a272faa4
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/un/asp_rough_03_nrm.dds
+  merged: overrides/material/road/road_template/un/asp_rough_03_nrm.dds
+  inputs:
+    juninho-asphalt: d4aaf4037dbdcc9a430fba3b3ba0bc2644e6e609e1e26f27947638106f2fca9a
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/un/asp_rough_04_nrm.dds
+  merged: overrides/material/road/road_template/un/asp_rough_04_nrm.dds
+  inputs:
+    juninho-asphalt: 1cdd8da16c57973dde9b42ec044bcfbc939870aa29d2bb2905404b7f2fe85f3f
+  note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'

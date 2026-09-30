@@ -1,0 +1,44 @@
+effect : "eut2.dif.spec.weight.weight.dif.spec.weight.tsnmapcalc.heightmap.rfx" {
+	additional_ambient : 0.000000
+	diffuse : { 1.000000 , 1.000000 , 1.000000 }
+	diffuse_secondary : { 1.000000 , 1.000000 , 1.000000 }
+	reflection : 1.000000
+	reflection_secondary : 1.000000
+	shininess : 50.000000
+	shininess_secondary : 50.000000
+	specular : { 2.000000 , 2.000000 , 2.000000 }
+	specular_secondary : { 2.000000 , 2.000000 , 2.000000 }
+	substance : "road"
+	heightmap_transition_shape_type : 0
+	heightmap_height_range : { -1.000000 , 1.000000 }
+	heightmap_feather_size : 0.200000
+	heightmap_transition_shape_type_secondary : 0
+	heightmap_height_range_secondary : { -1.000000 , 1.000000 }
+	heightmap_feather_size_secondary : 0.200000
+	heightmap_world_to_uv_scale : { 16.000000 , 16.000000 }
+	heightmap_world_to_uv_scale_secondary : { 8.000000 , 8.000000 }
+	texture : "texture_base" {
+		source : "/material/road/road_template/un/tiles_rough_01_difspec.tobj"
+		sampler : default
+	}
+	texture : "texture_over" {
+		source : "/material/road/road_template/un/tiles_rough_01_tile_difspec.tobj"
+		sampler : default
+	}
+	texture : "texture_nmap" {
+		source : "/material/road/road_template/un/tiles_rough_01_nrm.tobj"
+		sampler : default
+	}
+	texture : "texture_nmap_over" {
+		source : "/material/road/road_template/un/tiles_rough_01_tile_nrm.tobj"
+		sampler : default
+	}
+	texture : "texture_heightmap" {
+		source : "/material/road/road_template/un/tiles_rough_01_height.tobj"
+		sampler : default
+	}
+	texture : "texture_heightmap_over" {
+		source : "/material/road/road_template/un/tiles_rough_01_tile_height.tobj"
+		sampler : default
+	}
+}

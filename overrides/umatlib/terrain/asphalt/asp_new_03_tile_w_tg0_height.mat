@@ -1,0 +1,28 @@
+effect : "eut2.dif.spec.weight.tsnmapcalc.tg0.heightmap.rfx" {
+	additional_ambient : 0.000000
+	diffuse : { 1.000000 , 1.000000 , 1.000000 }
+	reflection : 1.000000
+	shininess : 40.000000
+	specular : { 1.000000 , 1.000000 , 1.000000 }
+	substance : "road"
+	texgen_0_gen : { 8.000000 , 8.000000 }
+	texgen_0_rot : 0.000000
+	far_color : { 0.045185 , 0.046667 , 0.046667 }
+	far_specular_power : 0.023530
+	heightmap_transition_shape_type : 2
+	heightmap_height_range : { -5.800000 , 4.200000 }
+	heightmap_feather_size : 0.010000
+	lod_switch_distance : 200.000000
+	texture : "texture_base" {
+		source : "/material/road/road_template/un/asp_new_03_tile_difspec.tobj"
+		sampler : default
+	}
+	texture : "texture_nmap" {
+		source : "/material/road/road_template/un/asp_new_03_tile_nrm.tobj"
+		sampler : default
+	}
+	texture : "texture_heightmap" {
+		source : "/material/road/road_template/un/asp_new_02_tile_height.tobj"
+		sampler : default
+	}
+}

@@ -1,0 +1,23 @@
+effect : "eut2.dif.spec.weight.tg0.heightmap.rfx" {
+	additional_ambient : 0.000000
+	diffuse : { 1.000000 , 1.000000 , 1.000000 }
+	reflection : 1.000000
+	shininess : 40.000000
+	specular : { 1.000000 , 1.000000 , 1.000000 }
+	substance : "road_coarse"
+	texgen_0_gen : { 8.000000 , 8.000000 }
+	texgen_0_rot : 0.000000
+	far_color : { 0.165134 , 0.165134 , 0.138429 }
+	far_specular_power : 0.000000
+	heightmap_transition_shape_type : 3
+	heightmap_height_range : { -2.500000 , 5.500000 }
+	heightmap_feather_size : 0.010000
+	texture : "texture_base" {
+		source : "/material/ground/artificial/artificial_concrete_cracks_02_grass_02_difspec.tobj"
+		sampler : default
+	}
+	texture : "texture_heightmap" {
+		source : "/material/ground/artificial/artificial_concrete_cracks_02_grass_02_height.tobj"
+		sampler : default
+	}
+}

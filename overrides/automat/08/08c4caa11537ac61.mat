@@ -1,0 +1,20 @@
+effect : "eut2.dif.spec.weight.weight.dif.spec.weight.rfx" {
+	additional_ambient : 0.000000
+	diffuse : { 1.000000 , 1.000000 , 1.000000 }
+	diffuse_secondary : { 1.000000 , 1.000000 , 1.000000 }
+	reflection : 1.000000
+	reflection_secondary : 1.000000
+	shininess : 12.000000
+	shininess_secondary : 15.000000
+	specular : { 0.033105 , 0.033105 , 0.033105 }
+	specular_secondary : { 1.600000 , 1.600000 , 1.600000 }
+	substance : "road"
+	texture : "texture_base" {
+		source : "/material/road/road_template/it/ter_trans_placeholder.tobj"
+		sampler : default
+	}
+	texture : "texture_over" {
+		source : "/material/road/road_template/it/1_it.tobj"
+		sampler : default
+	}
+}
