@@ -1,0 +1,27 @@
+effect : "eut2.dif.spec.weight.tsnmapcalc.tg0.heightmap.rfx" {
+	additional_ambient : 0.000000
+	diffuse : { 1.000000 , 1.000000 , 1.000000 }
+	reflection : 1.000000
+	shininess : 40.000000
+	specular : { 1.000000 , 1.000000 , 1.000000 }
+	substance : "concrete"
+	texgen_0_gen : { 7.500000 , 7.500000 }
+	texgen_0_rot : 0.000000
+	far_color : { 0.226970 , 0.223224 , 0.212231 }
+	far_specular_power : 0.000000
+	heightmap_transition_shape_type : 3
+	heightmap_height_range : { -0.700000 , 0.500000 }
+	heightmap_feather_size : 0.010000
+	texture : "texture_base" {
+		source : "/material/obsolete/terrain/asphalt_parklot_con2_clear_difspec.tobj"
+		sampler : default
+	}
+	texture : "texture_nmap" {
+		source : "/material/obsolete/terrain/asphalt_parklot_con2_clear_nrm.tobj"
+		sampler : default
+	}
+	texture : "texture_heightmap" {
+		source : "/material/obsolete/terrain/asphalt_parklot_con2_clear_dirty_height.tobj"
+		sampler : default
+	}
+}

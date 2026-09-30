@@ -1,0 +1,23 @@
+effect : "eut2.dif.spec.weight.tg0.heightmap.rfx" {
+	additional_ambient : 0.000000
+	diffuse : { 1.000000 , 1.000000 , 1.000000 }
+	reflection : 1.000000
+	shininess : 40.000000
+	specular : { 1.000000 , 1.000000 , 1.000000 }
+	substance : "road"
+	texgen_0_gen : { 8.000000 , 8.000000 }
+	texgen_0_rot : 0.000000
+	far_color : { 0.223224 , 0.208639 , 0.184478 }
+	far_specular_power : 0.000000
+	heightmap_transition_shape_type : 3
+	heightmap_height_range : { -3.050000 , 1.050000 }
+	heightmap_feather_size : 0.050000
+	texture : "texture_base" {
+		source : "/material/ground/artificial/artificial_cobblestone_old_01_03_difspec.tobj"
+		sampler : default
+	}
+	texture : "texture_heightmap" {
+		source : "/material/ground/artificial/artificial_cobblestone_old_01_03_height.tobj"
+		sampler : default
+	}
+}

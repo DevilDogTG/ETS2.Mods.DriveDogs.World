@@ -1,0 +1,20 @@
+effect : "eut2.dif.spec.weight.tsnmapcalc.tg0.rfx" {
+	additional_ambient : 0.000000
+	diffuse : { 1.000000 , 1.000000 , 1.000000 }
+	reflection : 1.000000
+	shininess : 40.000000
+	specular : { 1.000000 , 1.000000 , 1.000000 }
+	substance : "dirt"
+	texgen_0_gen : { 8.000000 , 8.000000 }
+	texgen_0_rot : 0.000000
+	far_color : { 0.291770 , 0.287442 , 0.287442 }
+	far_specular_power : 0.000000
+	texture : "texture_base" {
+		source : "/material/terrain/blkw/blkw_sidewalk_concrete_cracks_difspec.tobj"
+		sampler : default
+	}
+	texture : "texture_nmap" {
+		source : "/material/terrain/blkw/blkw_sidewalk_concrete_cracks_nrm.tobj"
+		sampler : default
+	}
+}

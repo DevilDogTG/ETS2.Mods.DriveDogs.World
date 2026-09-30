@@ -1,0 +1,23 @@
+effect : "eut2.dif.spec.weight.tg0.heightmap.rfx" {
+	additional_ambient : 0.000000
+	diffuse : { 1.000000 , 1.000000 , 1.000000 }
+	reflection : 1.000000
+	shininess : 8.000000
+	specular : { 1.000000 , 1.000000 , 1.000000 }
+	substance : "road"
+	texgen_0_gen : { 8.000000 , 8.000000 }
+	texgen_0_rot : 0.000000
+	far_color : { 0.078185 , 0.078185 , 0.080222 }
+	far_specular_power : 0.000000
+	heightmap_transition_shape_type : 0
+	heightmap_height_range : { -2.800000 , 3.400000 }
+	heightmap_feather_size : 0.001000
+	texture : "texture_base" {
+		source : "/material/terrain/pavement_old_it.tobj"
+		sampler : default
+	}
+	texture : "texture_heightmap" {
+		source : "/material/terrain/pavement_old_it_height.tobj"
+		sampler : default
+	}
+}

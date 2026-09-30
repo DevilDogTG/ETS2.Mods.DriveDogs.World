@@ -1,0 +1,12 @@
+effect : "eut2.dif.spec.weight.rfx" {
+	additional_ambient : 0.000000
+	diffuse : { 1.000000 , 1.000000 , 1.000000 }
+	reflection : 1.000000
+	shininess : 15.000000
+	specular : { 2.000000 , 2.000000 , 2.000000 }
+	substance : "road"
+	texture : "texture_base" {
+		source : "/material/road/road_template/balt/5_balt.tobj"
+		sampler : default
+	}
+}

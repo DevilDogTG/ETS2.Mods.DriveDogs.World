@@ -1,0 +1,20 @@
+effect : "eut2.dif.spec.weight.tsnmapcalc.tg0.rfx" {
+	additional_ambient : 0.000000
+	diffuse : { 1.000000 , 1.000000 , 1.000000 }
+	reflection : 1.000000
+	shininess : 40.000000
+	specular : { 1.000000 , 1.000000 , 1.000000 }
+	substance : "road"
+	texgen_0_gen : { 8.000000 , 8.000000 }
+	texgen_0_rot : 0.000000
+	far_color : { 0.097588 , 0.090840 , 0.088655 }
+	far_specular_power : 0.031370
+	texture : "texture_base" {
+		source : "/material/road/road_template/un/asp_new_02_tile_difspec.tobj"
+		sampler : default
+	}
+	texture : "texture_nmap" {
+		source : "/material/road/road_template/un/asp_new_02_tile_nrm.tobj"
+		sampler : default
+	}
+}

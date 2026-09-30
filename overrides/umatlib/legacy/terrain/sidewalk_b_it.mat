@@ -1,0 +1,20 @@
+effect : "eut2.dif.spec.weight.tsnmapcalc.tg0.rfx" {
+	additional_ambient : 0.000000
+	diffuse : { 1.000000 , 1.000000 , 1.000000 }
+	reflection : 1.000000
+	shininess : 65.000000
+	specular : { 1.000000 , 1.000000 , 1.000000 }
+	substance : "road"
+	texgen_0_gen : { 8.000000 , 8.000000 }
+	texgen_0_rot : 0.000000
+	far_color : { 0.093056 , 0.093056 , 0.093056 }
+	far_specular_power : 0.000000
+	texture : "texture_base" {
+		source : "/material/terrain/sidewalk_b_it.tobj"
+		sampler : default
+	}
+	texture : "texture_nmap" {
+		source : "/material/terrain/sidewalk_b_it_nrm.tobj"
+		sampler : default
+	}
+}
