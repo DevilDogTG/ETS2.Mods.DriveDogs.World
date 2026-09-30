@@ -11,8 +11,8 @@
 #   exclude    this source's paths dropped from the merge (matched after `renames`)
 #
 # Graphics sources follow the maintainer's load order, lowest to highest: Grass < DIOX < Asphalt < Tree < Weather
-# < Realistic Rain (DIOX is deliberately below Juninho944's set). Each one overrides everything below it, so every
-# shared path goes to the higher layer. Game config files these mods ship as whole copies are excluded here and
+# < Realistic Rain < Kass lightning (DIOX is deliberately below Juninho944's set). Each one overrides everything
+# below it, so every shared path goes to the higher layer. Game config files these mods ship as whole copies are excluded here and
 # carried as edits of the current base game instead (world/graphics.yaml); see docs/adr/ADR-0002-world-graphics.md.
 schema: 1
 
@@ -140,3 +140,22 @@ sources:
       # its sprite textures go too, or vanilla's spray models would draw with them
       - "unit/hookup/vehicle/particle/*"
       - "asset/particles/wheels/w_sprites/*"
+
+  # Lightning look only: bolt and cloud textures (sets 1-6 replace vanilla's and Weather_3.9's bolts, 7-20 are new;
+  # the game loads the whole folder). Its water, rain, spray, windshield, game_data, camera and sounds are not used.
+  - id: kass-thunder
+    name: Realistic Rain & Water & Thunder Sounds
+    author: Kass
+    version: "V10.8"
+    workshop: 3103103198
+    origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=3103103198" }
+    layer: 90
+    overrides: ["juninho-weather"]
+    exclude:
+      - "def/*"
+      - "material/*"
+      - "model/*"
+      - "sound/*"
+      - "unit/*"
+      - "asset/particles/*"
+      - "asset/skybox/lightning*"          # the two lightning models are identical to vanilla's
