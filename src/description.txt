@@ -2,7 +2,7 @@
 
 [normal]The world around the road for ETS2 1.61: weather, rain, roads, grass and trees from Juninho944, DIOX and Realistic Rain in one pack, with wet-road puddles, lightning and thunder, a realistic mix of light and heavy rain, a fixed equinox date for natural day and night, and a fix for poor headlight reach in night rain; realistic train lengths and Cip's real train and level-crossing sounds. Game settings are built on the current game files, so what the game adds in updates keeps working.
 [red]Enable every part. Place ABOVE Sound Fixes Pack (optional) and any other train sound or train length mod.
-[red]Do not load these, they are built in: Weather_3.9, Asphalt_improved, grass_4.0_lite, tree_improved_4k (Juninho944), Beautiful Water, Beautiful Nature (DIOX), Realistic Rain, Realistic Rain Reflections, Realistic Rain & Water & Thunder Sounds (Kass), Realistic Train Lengths, Real Train Sounds ETS2.
+[red]Do not load these, they are built in (disable them, including Workshop subscriptions): Weather_3.9, Asphalt_improved, grass_4.0_lite, tree_improved_4k (Juninho944), Beautiful Water, Beautiful Nature (DIOX), Realistic Rain, Realistic Rain Reflections, Realistic Rain & Water & Thunder Sounds (Kass), Realistic Train Lengths, Real Train Sounds ETS2.
 [red]Also disable any day/night or date mod (e.g. Workshop 1061306287): World sets the date.
 --------------------
 [orange]Included sources:
@@ -22,7 +22,7 @@ Wet-road puddles and surface reflections: Realistic Rain Reflections Standalone 
 - Night rain: less fog and road wetness at night in rain and drizzle, so headlights reach further (Weather_3.9's night rain was far foggier than the game's)
 - Wet-road reflections back to the game's strength
 - Their game settings are carried onto the 1.61 files instead of old full copies: keeps the 11 terrain materials 1.61 added, drops Beautiful Nature's economy and unused sound settings
-- Wheel spray in rain: Realistic Rain's
+- Wheel spray in rain: the game's own
 - Wet roads: Realistic Rain Reflections' puddles in the wheel tracks, blended into Asphalt_improved's road surfaces; wet reflections on sidewalks, tiles, concrete, parking lots and junctions
 - Lightning and thunder: Kass's lightning bolts and flashes (20 kinds) and thunder sounds (40+)
 - Rain mix: mostly light and medium rain, heavy rain less often, thunderstorms rare (Weather_3.9 made nearly all rain heavy)

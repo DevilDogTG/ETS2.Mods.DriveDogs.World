@@ -140,9 +140,10 @@ sources:
       - "sound/world/weather_thunder.soundref"
       - "sound/world/rrthunders.bank*"
       - "sound_fixes_pack/world/thunder.bank*"
-    # Its wheel spray (7 unit/hookup/vehicle/particle/*rain*.sii + w_sprites textures) ships whole (maintainer,
-    # 2026-09-30): its units are auto-named (_nameless.*), so edits pinned to them would break on a re-export.
-    # tools/whole_files.py --check flags a game update that changes the base copies they replace.
+      # wheel spray: the game's own (maintainer, 2026-09-30, after trying Realistic Rain's in 0.2.0-dev.4); its sprite
+      # textures go too, or vanilla's spray models would draw with them
+      - "unit/hookup/vehicle/particle/*"
+      - "asset/particles/wheels/w_sprites/*"
 
   # Lightning look and thunder sound only: bolt and cloud textures (sets 1-6 replace vanilla's and Weather_3.9's
   # bolts, 7-20 are new; the game loads the whole folder) and its thunder bank (40+ thunders). Its water, rain
