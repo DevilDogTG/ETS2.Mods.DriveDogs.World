@@ -6,7 +6,7 @@ package:
   name: drivedog_world                   # archive: <name>_v<version>.scs
   versioned_filenames: true              # DriveDogs convention; each release is a new mod in the mod manager
   display_name: "DriveDogs: World"
-  version: "0.2.0-dev.7"                 # World's own version, independent of sources
+  version: "0.2.0-dev.8"                 # World's own version, independent of sources
   author: "DevilDogTG"
   game: ets2                             # ets2 | ats — sources must be for this game
   manifest_template: src/manifest.sii

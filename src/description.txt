@@ -19,7 +19,7 @@ Wet-road puddles and surface reflections: Realistic Rain Reflections Standalone 
 
 [orange]v0.2.0
 [normal]- Graphics: Weather_3.9, Asphalt_improved 1.5, grass_4.0_lite, tree_improved_4k (Juninho944), Beautiful Nature (DIOX), Realistic Rain; where they overlap, Juninho944's win over DIOX, and Realistic Rain's rain wins over Weather's
-- Night rain: less fog and road wetness at night in rain and drizzle, so headlights reach further (Weather_3.9's night rain was far foggier than the game's)
+- Night and dawn/dusk rain: less fog and road wetness at night, and less fog at dawn and dusk (around 07:00 and 19:00), so headlights reach further; falling rain stays visible at night (Weather_3.9's night rain was far foggier than the game's)
 - Wet-road reflections back to the game's strength
 - Their game settings are carried onto the 1.61 files instead of old full copies: keeps the 11 terrain materials 1.61 added, drops Beautiful Nature's economy and unused sound settings
 - Wheel spray in rain: the game's own
