@@ -27,7 +27,7 @@ material/environment/blobs_rain.tobj	identical	realistic-rain	juninho-weather:1a
 material/environment/blobs_rain_heavy.dds	declared	realistic-rain	juninho-weather:bc7e523a42a4,realistic-rain:fe949cdba0ac
 material/environment/blobs_rain_heavy.tobj	identical	realistic-rain	juninho-weather:4336cbca7e75,realistic-rain:4336cbca7e75
 material/environment/rain.dds	declared	realistic-rain	juninho-weather:7971ec327045,realistic-rain:1980d7320a6a
-material/environment/rain.mat	declared	realistic-rain	juninho-weather:90198f7a05de,realistic-rain:74faa6c85dd8
+material/environment/rain.mat	resolved	overrides/	juninho-weather:90198f7a05de,realistic-rain:74faa6c85dd8
 material/environment/rain.tobj	identical	realistic-rain	juninho-weather:f3e63e38b664,realistic-rain:f3e63e38b664
 material/road/road_template/balt/1_balt_nrm.dds	overridden	overrides/	juninho-asphalt:6d2c765f06e7
 material/road/road_template/balt/2_balt_nrm.dds	overridden	overrides/	juninho-asphalt:a306d4b16d22
