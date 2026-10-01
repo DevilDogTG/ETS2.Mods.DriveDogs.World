@@ -22,8 +22,16 @@ For every sun profile at night (low_elevation <= NIGHT_MAX_ELEVATION) and every 
   fog_density      lowered to FOG_DENSITY_MAX
   fog_offset       (distance where fog starts) raised to FOG_OFFSET_MIN
   rain_max_wetness lowered to WETNESS_MAX
-Dry variants (including pure fog weather) and daytime/twilight profiles are left as Weather made them. The
-starting values are about vanilla 1.61's night rain; tune them after play tests. The limits apply after the mix.
+  rain_additional_ambient (light on the falling rain streaks) raised to NIGHT_RAIN_AMBIENT_MIN, so the streaks
+  still show at night without lightning (round 4: they only appeared in flashes).
+
+3. Twilight limits. At dawn and dusk (NIGHT_MAX_ELEVATION < low_elevation <= TWILIGHT_MAX_ELEVATION, around 07:00 and
+19:00) Weather_3.9's rain fog is 2-10x vanilla's (up to 0.03 from 5 m) under a sky ~10x darker, so morning rain was
+nearly blind (round 4). Raining variants get fog_density <= TWILIGHT_FOG_DENSITY_MAX and fog_offset >=
+TWILIGHT_FOG_OFFSET_MIN (vanilla twilight rain: 0.0013-0.005 from 8.6-43 m).
+
+Dry variants (including pure fog weather) and daytime profiles are left as Weather made them. The starting values
+are about vanilla 1.61's; tune them after play tests. The limits apply after the mix.
 
 usage: python tools/night_climate.py [--check]    (--check: fail if world/climate.yaml would change)
 """
@@ -51,6 +59,10 @@ NIGHT_MAX_ELEVATION = -4.0   # sun at or below 4 degrees under the horizon
 FOG_DENSITY_MAX = 0.0035     # vanilla night rain: ~0.0032-0.0037 (0.005 in dev.1-3; beam a little further)
 FOG_OFFSET_MIN = 30.0        # vanilla night rain: 8.6-37.5 m, mostly 27.5-33 m (25 in dev.1-3)
 WETNESS_MAX = 0.6            # vanilla night rain: 0.16-1.0, weighted average 0.53
+NIGHT_RAIN_AMBIENT_MIN = 30.0  # vanilla night 14-18, Weather 14-34; Realistic Rain's streaks are ~5x fainter than vanilla's
+TWILIGHT_MAX_ELEVATION = 10.0  # dawn/dusk: sun from -4 to +10 degrees
+TWILIGHT_FOG_DENSITY_MAX = 0.004
+TWILIGHT_FOG_OFFSET_MIN = 20.0
 INDEXED = re.compile(r"^(\w+)\[(\d+)\]$")
 
 MIX_FILE = "def/climate/default/bad.sii"
@@ -105,12 +117,15 @@ def limits(src: pathlib.Path) -> tuple[dict, list[str]]:
         sii = SiiFile.read(src / rel)
         profiles = [u for u in sii.order if sii.units[u].type == "sun_profile"]
         # elevations are stored as floats such as -3.9999986 for -4
-        night = {u for u in profiles if round(num(sii.values(u, "low_elevation")[0]), 3) <= NIGHT_MAX_ELEVATION}
+        elev = {u: round(num(sii.values(u, "low_elevation")[0]), 3) for u in profiles}
+        night = {u for u in profiles if elev[u] <= NIGHT_MAX_ELEVATION}
+        twilight = {u for u in profiles if NIGHT_MAX_ELEVATION < elev[u] <= TWILIGHT_MAX_ELEVATION}
         changed = 0
         for unit in profiles:
             a = arrays(sii, unit)
             vals = {k: {i: num(v) for i, v in a[k].items()} for k in
-                    ("rain_intensity", "rain_max_wetness", "lightning_intensity", "weight", "fog_density", "fog_offset")}
+                    ("rain_intensity", "rain_max_wetness", "lightning_intensity", "weight", "fog_density", "fog_offset",
+                     "rain_additional_ambient")}
             new = {k: dict(v) for k, v in vals.items()}
             if rel == MIX_FILE:
                 mix(new, unit in night)
@@ -121,6 +136,13 @@ def limits(src: pathlib.Path) -> tuple[dict, list[str]]:
                     new["fog_density"][i] = min(new["fog_density"][i], FOG_DENSITY_MAX)
                     new["fog_offset"][i] = max(new["fog_offset"][i], FOG_OFFSET_MIN)
                     new["rain_max_wetness"][i] = min(new["rain_max_wetness"][i], WETNESS_MAX)
+                    new["rain_additional_ambient"][i] = max(new["rain_additional_ambient"][i], NIGHT_RAIN_AMBIENT_MIN)
+            if unit in twilight:
+                for i, rain in new["rain_intensity"].items():
+                    if rain <= 0:
+                        continue
+                    new["fog_density"][i] = min(new["fog_density"][i], TWILIGHT_FOG_DENSITY_MAX)
+                    new["fog_offset"][i] = max(new["fog_offset"][i], TWILIGHT_FOG_OFFSET_MIN)
             ops = {f"{k}[{i}]": fmt(x) for k in new for i, x in sorted(new[k].items())
                    if fmt(x) != fmt(vals[k][i])}
             for key, val in ops.items():
@@ -130,7 +152,8 @@ def limits(src: pathlib.Path) -> tuple[dict, list[str]]:
             if ops:
                 edits.setdefault(rel, {})[unit] = {"set": ops}
                 changed += len(ops)
-        report.append(f"{rel}: {len(profiles)} profiles ({len(night)} night), {len(edits.get(rel, {}))} edited, "
+        report.append(f"{rel}: {len(profiles)} profiles ({len(night)} night, {len(twilight)} twilight), "
+                      f"{len(edits.get(rel, {}))} edited, "
                       f"{changed} values")
     return edits, report
 
@@ -160,7 +183,10 @@ def render(edits: dict) -> str:
         f"# Weather mix on bad.sii (% of rainy periods, light/medium/heavy/storm): day "
         f"{'/'.join(str(x) for x in DAY_SHARES.values())}, night {'/'.join(str(x) for x in NIGHT_SHARES.values())}.\n"
         f"# Night rain limits on Weather_3.9's climate (sun <= {NIGHT_MAX_ELEVATION} deg, raining variants only):\n"
-        f"# fog_density <= {FOG_DENSITY_MAX}, fog_offset >= {FOG_OFFSET_MIN} m, rain_max_wetness <= {WETNESS_MAX}.\n")
+        f"# fog_density <= {FOG_DENSITY_MAX}, fog_offset >= {FOG_OFFSET_MIN} m, rain_max_wetness <= {WETNESS_MAX}, "
+        f"rain_additional_ambient >= {NIGHT_RAIN_AMBIENT_MIN}.\n"
+        f"# Twilight rain ({NIGHT_MAX_ELEVATION} < sun <= {TWILIGHT_MAX_ELEVATION} deg): "
+        f"fog_density <= {TWILIGHT_FOG_DENSITY_MAX}, fog_offset >= {TWILIGHT_FOG_OFFSET_MIN} m.\n")
     body = yaml.safe_dump({k: edits[k] for k in sorted(edits)}, sort_keys=False, allow_unicode=True, width=10_000)
     return head + body
 

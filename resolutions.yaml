@@ -22,6 +22,12 @@ resolutions:
     juninho-asphalt: f1950f79916d38117d6043cbe26a966217f1e1a8cee8f54e730a3fd3ca5c5591
     real-companies: 88030d5dbaf90fb705134d46c1826a8694dbdf3ef68567b908f14a6150e799e5
   note: 'gas station price stand: the real gas brands (maintainer chose Real companies & gas stations for gas stations, 2026-10-01)'
+- path: material/environment/rain.mat
+  merged: overrides/material/environment/rain.mat
+  inputs:
+    juninho-weather: 90198f7a05def5ac96e2dbb35cc79555e664a152952a9b9a7ecc433202ddbd76
+    realistic-rain: 74faa6c85dd830e1703d77a2bc6f9401c199675df66963a2f0375fa601dbb68e
+  note: 'Realistic Rain''s falling-rain streaks at the game''s brightness (diffuse 0.6 -> 1.0): at 0.6 they were ~5x fainter than vanilla''s and vanished at night without lightning (playtest round 4, 2026-10-01)'
 - path: material/road/road_template/balt/1_balt_nrm.dds
   merged: overrides/material/road/road_template/balt/1_balt_nrm.dds
   inputs:
