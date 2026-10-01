@@ -1,7 +1,7 @@
 [orange]{{display_name}}{{part_label}}
 
-[normal]The world around the road for ETS2 1.61: weather, rain, roads, grass, trees and water from Juninho944, DIOX, Realistic Rain and Kass, DBM's 4K road signs and markings, and real company and gas station brands in one pack, with wet-road puddles, lightning and thunder, a realistic mix of light and heavy rain, a fixed equinox date for natural day and night, and a fix for poor headlight reach in night rain; realistic train lengths and Cip's real train and level-crossing sounds. Game settings are built on the current game files, so what the game adds in updates keeps working.
-[red]Enable every part. Place ABOVE Sound Fixes Pack (optional) and any other train sound or train length mod.
+[normal]The world around the road for ETS2 1.61: weather, rain, roads, grass, trees and water from Juninho944, DIOX, Realistic Rain and Kass, DBM's 4K road signs and markings, and real company and gas station brands in one pack, with wet-road puddles, lightning and thunder, a realistic mix of light and heavy rain, a fixed late-September date for natural day and night, and a fix for poor headlight reach in night rain; realistic train lengths and Cip's real train and level-crossing sounds. Game settings are built on the current game files, so what the game adds in updates keeps working.
+[red]Place ABOVE Sound Fixes Pack (optional) and any other train sound or train length mod.
 [red]Do not load these, they are built in (disable them, including Workshop subscriptions): Weather_3.9, Asphalt_improved, grass_4.0_lite, tree_improved_4k (Juninho944), Beautiful Water, Beautiful Nature (DIOX), Realistic Rain, Realistic Rain Reflections, Realistic Rain & Water & Thunder Sounds (Kass), DBM Road Signs & Markings 4K, Real companies & gas stations, Realistic Train Lengths, Real Train Sounds ETS2.
 [red]Also disable any day/night or date mod (e.g. Workshop 1061306287): World sets the date.
 --------------------
@@ -17,19 +17,19 @@ Wet-road puddles and surface reflections: Realistic Rain Reflections Standalone 
 --------------------
 [green]Changelogs
 
-[orange]v0.2.0
+[orange]v1.0.0
 [normal]- Graphics: Weather_3.9, Asphalt_improved 1.5, grass_4.0_lite, tree_improved_4k (Juninho944), Beautiful Nature (DIOX), Realistic Rain; where they overlap, Juninho944's win over DIOX, and Realistic Rain's rain wins over Weather's
-- Night and dawn/dusk rain: less fog and road wetness at night, and less fog at dawn and dusk (around 07:00 and 19:00), so headlights reach further; falling rain stays visible at night (Weather_3.9's night rain was far foggier than the game's)
-- Wet-road reflections back to the game's strength
-- Their game settings are carried onto the 1.61 files instead of old full copies: keeps the 11 terrain materials 1.61 added, drops Beautiful Nature's economy and unused sound settings
-- Wheel spray in rain: the game's own
-- Wet roads: Realistic Rain Reflections' puddles in the wheel tracks, blended into Asphalt_improved's road surfaces; wet reflections on sidewalks, tiles, concrete, parking lots and junctions
+- Water: Kass's seas, rivers and lakes, muddy and green water and distant water (beaches stay grass_4.0's)
 - Lightning and thunder: Kass's lightning bolts and flashes (20 kinds) and thunder sounds (40+)
-- Water: Kass's seas, rivers and lakes (wave maps), muddy and green water and distant water
+- Wet roads: Realistic Rain Reflections' puddles in the wheel tracks, blended into Asphalt_improved's road surfaces; wet reflections on sidewalks, tiles, concrete, parking lots and junctions; wet-road reflections at the game's strength
 - Road signs and markings: DBM Road Signs & Markings 4K (DBM's road stripes win over Asphalt_improved's)
-- Real brands: companies, gas stations, trailer liveries, AI van liveries and signs from Real companies & gas stations (MLH82, 4of25); company names carried onto the 1.61 files
+- Real brands: companies, gas stations, trailer liveries, AI van liveries and signs from Real companies & gas stations (MLH82, 4of25); company names carried onto the 1.61 files, trailer liveries kept where the mod points at looks 1.61 no longer has
 - Rain mix: mostly light and medium rain, heavy rain less often, thunderstorms rare (Weather_3.9 made nearly all rain heavy)
+- Rain at night and at dawn/dusk: less fog and road wetness at night, less fog around 07:00 and 19:00, so headlights reach further; falling rain stays visible at night
 - Day and night: a fixed date just after the equinox (27 September): in central Europe light from about 07:00 and dark from about 19:00; no sun at 22:00, no dark mornings
+- Wheel spray in rain: the game's own
+- The mods' game settings are carried onto the 1.61 files instead of old full copies: keeps the 11 terrain materials 1.61 added, drops Beautiful Nature's economy and unused sound settings
+- One archive (no parts)
 
 [orange]v0.1.0
 [normal]- Realistic Train Lengths rebuilt on the 1.61 game files: fixes the missing Dutch Flirt (traffic.frt.nl) error and keeps the new NL, BE and LU trains
