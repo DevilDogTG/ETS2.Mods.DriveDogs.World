@@ -2,28 +2,35 @@
 
 ETS2 mod for the world around the road, built as a local **megapack** with the `megapack` skill of the
 `ets2-mod-developer` agent profile. This repo holds only configuration and tools. The mod is built from the
-extracted base game and from subscribed Workshop items.
+extracted base game, subscribed Workshop items and one local archive. It is never redistributed.
 
-Current content (v0.1.0, ETS2 1.61):
+Current content (v1.0.0, ETS2 1.61):
 
-- **Train lengths** from *Realistic Train Lengths* (Workshop 3209674677): longer `trailer_chains` per country and
-  locomotive, longer `lod_dist`, and the train speeds, power and weights it carries (from Sound Fixes Pack 26.66).
-- **Train and crossing sounds** from *Real Train Sounds ETS2* by Cip (Workshop 2439106226): its FMOD banks and
-  generic train soundrefs, its per-train engine, wheel and horn sounds, lower speeds for M62, CC47E, Class 334
-  and CME3, and per-country level-crossing sounds.
+- **Graphics** from Juninho944 (Weather_3.9, Asphalt_improved, grass_4.0_lite, tree_improved_4k), DIOX (Beautiful
+  Nature) and Darkcaptain (Realistic Rain), in the maintainer's load order.
+- **Water, lightning and thunder** from Kass (Realistic Rain & Water & Thunder Sounds).
+- **Wet roads**: Grimes' Realistic Rain Reflections puddles blended into the winning road normal maps, and its
+  wet reflections on sidewalks, tiles, concrete and junctions.
+- **Road signs and markings** from DBM Road Signs & Markings 4K; **real company and gas station brands** from Real
+  companies & gas stations (MLH82, 4of25).
+- **Weather and time**: a rain mix of mostly light and medium rain, lighter fog at night and at dawn/dusk so
+  headlights reach, and a fixed date (27 September) for natural day and night.
+- **Trains**: Realistic Train Lengths and Cip's Real Train Sounds, rebuilt on the 1.61 game files.
 
-Both mods ship whole copies of game files made for older game versions. Realistic Train Lengths' copies lack
-the trains 1.61 added, which causes `dangling pointer (to 'traffic.frt.nl')`. World carries their changes as
-edits onto the current game files instead (see [ADR-0001](docs/adr/ADR-0001-world-megapack.md)).
+Every game setting these mods change is carried as an edit of the current game files, never as an old whole copy,
+so what a game update adds keeps working. Decisions: [ADR-0001](docs/adr/ADR-0001-world-megapack.md) (megapack,
+trains), [ADR-0002](docs/adr/ADR-0002-world-graphics.md) (graphics, weather, brands).
 
 ## Install
 
-1. Copy `output/local/drivedog_world_v<version>.scs` to `Documents/Euro Truck Simulator 2/mod/`.
+1. Copy `output/local/drivedog_world_v<version>.scs` (one archive, ~7 GB) to `Documents/Euro Truck Simulator 2/mod/`.
 2. In the mod manager, place it **above** Sound Fixes Pack (optional) and any other train sound or length mod.
-3. Remove *Realistic Train Lengths* and *Real Train Sounds ETS2* from the load order: both are built in.
+3. Disable the mods it contains (Workshop subscriptions included): Weather_3.9, Asphalt_improved, grass_4.0_lite,
+   tree_improved_4k, Beautiful Nature, Beautiful Water, Realistic Rain, Realistic Rain Reflections, Realistic Rain &
+   Water & Thunder Sounds, DBM Road Signs & Markings 4K, Real companies & gas stations, Realistic Train Lengths,
+   Real Train Sounds ETS2, and any day/night or date mod (e.g. Workshop 1061306287).
 
-World replaces Sound Fixes Pack's train sound settings (train `.sui` files, generic train soundrefs,
-`semaphore_model.sii` and `.dlc_balkan_e.sii`). The rest of Sound Fixes Pack is unaffected.
+Sound Fixes Pack and Better Flares stay separate mods and work with World.
 
 ## Build
 
@@ -35,9 +42,9 @@ Requires Python 3.10+ with the megapack skill's `scripts/requirements.txt`, Pill
 ```bash
 python tools/harvest_edits.py        # trains -> world/edits.yaml
 python tools/harvest_graphics.py     # graphics sources' game config -> world/graphics.yaml
-python tools/night_climate.py        # weather mix + night rain limits -> world/climate.yaml
-python tools/rain_reflections.py     # puddle normal maps + reflection values -> overrides/ (after a clone too)
 python tools/harvest_brands.py       # Real companies & gas stations' names/paint jobs -> world/brands.yaml, world/units/
+python tools/night_climate.py        # rain mix + night and dawn/dusk rain limits -> world/climate.yaml
+python tools/rain_reflections.py     # puddle normal maps + reflection values -> overrides/ (after a clone too)
 python tools/generate_cover.py
 python ~/.agent-brains/profiles/ets2-mod-developer/skills/megapack/scripts/megapack.py lock
 python ~/.agent-brains/profiles/ets2-mod-developer/skills/megapack/scripts/megapack.py check --strict
@@ -52,19 +59,22 @@ regenerates them.
 
 | Event | What to do |
 |---|---|
-| Game update | Extract the new base, set `base_game.version`, rerun the harvest, bump the version, rebuild. The harvest fails loudly if a train unit or trailer it uses is gone. |
-| Cip update | `megapack updates` reports it. Extract the new version, set its version in `sources.yaml`, then harvest, lock and build. Optional: nothing breaks if you skip it. |
-| Sound Fixes Pack update | Nothing. World does not use its files. |
+| Game update | Extract the new base, set `base_game.version`, rerun every tool, bump the version, rebuild. Tools and `megapack check` fail loudly on units, files or looks that moved. |
+| Source update (Steam re-sync) | `megapack updates` reports it. Re-extract it at the new version, set the version in `sources.yaml`, `megapack lock` (stale `resolutions.yaml` entries need review), rerun the tools, rebuild. |
+| Rain Reflections update | Unzip it to a new `local/rain-reflections/<version>/`, set `RRR_VERSION` in `tools/rain_reflections.py`, rerun it, rebuild. |
+| Sound Fixes Pack / Better Flares update | Nothing. World does not use their files. |
 
 ## Layout
 
 | Path | Purpose |
 |---|---|
-| `megapack.yaml` | package identity, base game version, `references:` (Realistic Train Lengths) |
-| `sources.yaml` | merged sources: Cip's `sound/` only |
-| `world/edits.yaml` | generated base-game edits (do not edit by hand) |
-| `tools/harvest_edits.py` | generates `world/edits.yaml` from the two Workshop mods and validates it |
-| `tools/generate_cover.py` | renders `src/cover.jpg` with the version badge |
+| `megapack.yaml` | package identity, base game version, base-edit files, `references:` (Realistic Train Lengths), one-archive cap |
+| `sources.yaml` | the 10 merged sources: layers, overrides, excludes |
+| `resolutions.yaml` | per-path collision decisions (partly written by `rain_reflections.py`) |
+| `world/*.yaml` | base-game edits: generated by the tools, except `environment.yaml` |
+| `world/units/` | new game definition files (`harvest_brands.py`) |
+| `overrides/` | World's own files: rain streak material, edited materials and blended road normal maps (`rain_reflections.py`) |
+| `tools/` | the generators above and `generate_cover.py` |
 | `src/` | manifest and description templates, cover |
-| `overrides/` | own files laid over the merge: `tools/rain_reflections.py` output (edited materials, blended road normal maps) |
 | `lock/` | generated source hashes and collision report |
+| `docs/adr/` | decision records |
