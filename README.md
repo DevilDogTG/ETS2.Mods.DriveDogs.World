@@ -37,6 +37,7 @@ python tools/harvest_edits.py        # trains -> world/edits.yaml
 python tools/harvest_graphics.py     # graphics sources' game config -> world/graphics.yaml
 python tools/night_climate.py        # weather mix + night rain limits -> world/climate.yaml
 python tools/rain_reflections.py     # puddle normal maps + reflection values -> overrides/ (after a clone too)
+python tools/harvest_brands.py       # Real companies & gas stations' names/paint jobs -> world/brands.yaml, world/units/
 python tools/generate_cover.py
 python ~/.agent-brains/profiles/ets2-mod-developer/skills/megapack/scripts/megapack.py lock
 python ~/.agent-brains/profiles/ets2-mod-developer/skills/megapack/scripts/megapack.py check --strict
