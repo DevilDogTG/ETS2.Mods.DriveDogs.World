@@ -43,15 +43,6 @@ sources:
       - "def/world/terrain_material.sii"
       - "def/world/terrain_material.base_share.sii"
 
-  - id: diox-water
-    name: Beautiful Water
-    author: DIOX
-    version: "1.40"
-    workshop: 2489276751
-    origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=2489276751" }
-    layer: 30
-    overrides: ["juninho-grass"]
-
   - id: diox-nature
     name: Beautiful Nature
     author: DIOX
@@ -59,7 +50,7 @@ sources:
     workshop: 2552800092
     origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=2552800092" }
     layer: 40
-    overrides: ["juninho-grass", "diox-water"]
+    overrides: ["juninho-grass"]
     exclude:
       # carried as edits: its leaves LOD and rain values only (its economy and dead sound keys are dropped)
       - "def/game_data.sii"
@@ -145,9 +136,11 @@ sources:
       - "unit/hookup/vehicle/particle/*"
       - "asset/particles/wheels/w_sprites/*"
 
-  # Lightning look and thunder sound only: bolt and cloud textures (sets 1-6 replace vanilla's and Weather_3.9's
-  # bolts, 7-20 are new; the game loads the whole folder) and its thunder bank (40+ thunders). Its water, rain
-  # sounds and particles, spray, windshield, game_data and camera are not used.
+  # Lightning, thunder and water: bolt and cloud textures (sets 1-6 replace vanilla's and Weather_3.9's bolts, 7-20
+  # are new; the game loads the whole folder), its thunder bank (40+ thunders), and its water textures (the three
+  # wave maps nearly all 1.61 water uses, the river map, muddy/green water, the distant-water panorama, Balkan water
+  # plants; replaces DIOX's Beautiful Water, maintainer 2026-10-01). Its rain sounds and particles, spray,
+  # windshield, game_data and camera are not used.
   - id: kass-thunder
     name: Realistic Rain & Water & Thunder Sounds
     author: Kass
@@ -158,8 +151,26 @@ sources:
     overrides: ["juninho-weather"]
     exclude:
       - "def/*"
-      - "material/*"
-      - "model/*"
+      - "material/decal/*"
+      - "material/environment/*"
+      - "material/terrain/water/*.mat"     # identical to 1.61's
+      # water files 1.61 references nowhere (old paths; foam decals moved to /asset/water/), and the unused ocean map
+      - "material/terrain/water/water_frozen*"
+      - "material/terrain/water/water_lake.*"
+      - "material/terrain/water/waves_lake_4.*"
+      - "material/terrain/water/water_ocean.*"
+      - "model/water/foam_decal_*"
+      - "model/water/foam2_f2.*"
+      - "model/water/foam_f2.*"
+      - "model/water/waves.*"
+      - "model/water/waves2.*"
+      - "model/water/garbage_01.*"
+      - "model/water/beach_black.*"
+      - "model/water/beach_dark.*"
+      - "model/water/dirt_wather1.*"
+      - "model/water/beach.*"              # beaches stay grass_4.0's (Juninho944)
+      - "model/water/beach?.*"
+      - "model/particle/*"
       - "sound/truck/*"                    # its cabin rain sound; Realistic Rain's stays
       - "sound/world/kassrain_out.bank*"
       - "sound/world/weather_rain.soundref"
