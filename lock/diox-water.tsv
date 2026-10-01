@@ -1,9 +1,0 @@
-# source: diox-water
-# version: 1.40
-# files: 5
-path	size	sha256
-material/terrain/water/water_ocean.dds	38158976	9d28ecbf75227a4e2001da19427dc538ab3515df3f1d6f70c39c967b07f133b1
-material/terrain/water/water_river.dds	38158976	9d28ecbf75227a4e2001da19427dc538ab3515df3f1d6f70c39c967b07f133b1
-material/terrain/water/waves_lake.dds	19339691	43ed108ee6d3c0dc8e71347d10fe0dd36310662da9401141935b2fb5290968e7
-material/terrain/water/waves_lake_2.dds	19339691	43ed108ee6d3c0dc8e71347d10fe0dd36310662da9401141935b2fb5290968e7
-material/terrain/water/waves_lake_3.dds	19339691	43ed108ee6d3c0dc8e71347d10fe0dd36310662da9401141935b2fb5290968e7
