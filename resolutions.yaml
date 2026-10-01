@@ -10,6 +10,18 @@
 schema: 1
 
 resolutions:
+- path: prefab/gas_small/price_stand_blue.dds
+  winner: real-companies
+  inputs:
+    juninho-asphalt: b11b0be4624c21ffe9c49734322a797145de179a9072d3b3ef8c56dc7ca424c0
+    real-companies: 2be3835b15d3eddbdc5eeac18722298908d4b1afa6ce4823e4e3c2838e3a313e
+  note: 'gas station price stand: the real gas brands (maintainer chose Real companies & gas stations for gas stations, 2026-10-01)'
+- path: prefab/gas_small/price_stand_blue.tobj
+  winner: real-companies
+  inputs:
+    juninho-asphalt: f1950f79916d38117d6043cbe26a966217f1e1a8cee8f54e730a3fd3ca5c5591
+    real-companies: 88030d5dbaf90fb705134d46c1826a8694dbdf3ef68567b908f14a6150e799e5
+  note: 'gas station price stand: the real gas brands (maintainer chose Real companies & gas stations for gas stations, 2026-10-01)'
 - path: material/road/road_template/balt/1_balt_nrm.dds
   merged: overrides/material/road/road_template/balt/1_balt_nrm.dds
   inputs:

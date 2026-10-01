@@ -177,3 +177,35 @@ sources:
       - "unit/*"
       - "asset/particles/*"
       - "asset/skybox/lightning*"          # the two lightning models are identical to vanilla's
+
+  # Road signs and road markings, textures only. Wins the road marking stripes over Asphalt_improved (it is the
+  # dedicated markings mod); loses the company and gas-station signs it shares with real-companies.
+  - id: dbm-signs
+    name: DBM Road Signs & Markings 4K
+    author: DBM
+    version: "2.1"
+    workshop: 3809180889
+    origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=3809180889" }
+    layer: 55
+    overrides: ["juninho-asphalt"]
+
+  # Real brands for companies and gas stations, plus its trailer company paint jobs, AI van liveries, shop,
+  # landmark and panorama textures and its own sign/gas-station models (maintainer: option a, other content
+  # included, 2026-10-01). Its def/ (company names, paint-job masks) is carried as edits of the base game
+  # (tools/harvest_brands.py -> world/brands.yaml, world/units/). It wins the company and gas signs over DBM.
+  - id: real-companies
+    name: Real companies & gas stations
+    author: MLH82, 4of25
+    version: "2.04.13"
+    workshop: 2933731468
+    origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=2933731468" }
+    layer: 100
+    overrides: ["dbm-signs"]
+    exclude:
+      - "def/*"
+      # incidental pavement/ground/vegetation textures: the Juninho944/DIOX graphics sources keep theirs
+      - "material/road/crossshape_pavement.*"
+      - "material/road/hexagonal_pavement.*"
+      - "material/special/decal_ground_01.*"
+      - "material/terrain/grass_droughty_main.*"
+      - "model2/vegetation/tree_it/oleander_it.*"
