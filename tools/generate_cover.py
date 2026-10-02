@@ -5,8 +5,9 @@ build copies it into the archive, where manifest.sii's `icon:` field references 
 JPEG.
 
 Same layout and gold/amber palette as the other DriveDogs covers (logo left, title block right, road, amber
-version badge); the World motif is a night landscape: stars and a crescent moon, rolling hills, and a train
-with lit windows approaching a level crossing.
+version badge); the World motif is a stormy night: a storm cloud with a lightning bolt, rain, pine treelines
+against a horizon glow, and a train with lit windows approaching a level crossing whose lamps reflect on the
+wet road.
 
 Composited at 4x (1104x648) then downscaled for anti-aliasing. The version badge is read from megapack.yaml's
 package.version, so rerun this before every build that bumps the version.
@@ -34,12 +35,18 @@ BG_BOTTOM = (24, 20, 14)
 TITLE_COLOR = (255, 255, 255)
 SUBTITLE_COLOR = (255, 196, 84)
 STAR_COLOR = (255, 236, 200)
-MOON_COLOR = (255, 214, 140)
+HORIZON_GLOW = (90, 105, 140)
+CLOUD_COLOR = (40, 44, 58)
+CLOUD_RIM = (255, 196, 84)
+BOLT_COLOR = (255, 236, 190)
 HILL_FAR = (30, 30, 40)
 HILL_NEAR = (19, 19, 26)
+TREE_COLOR = (12, 14, 18)
 TRAIN_COLOR = (44, 44, 54)
 WINDOW_COLOR = (255, 196, 84)
 RAIL_COLOR = (255, 170, 70)
+LAMP_COLOR = (255, 150, 60)
+RAIN_COLOR = (180, 190, 210)
 BADGE_COLOR = (255, 196, 84)
 BADGE_TEXT_COLOR = (20, 16, 10)
 
@@ -54,6 +61,13 @@ def read_version():
     return str(version)
 
 
+def composite(img, *layers):
+    base = img.convert("RGBA")
+    for layer in layers:
+        base = Image.alpha_composite(base, layer)
+    return base.convert("RGB")
+
+
 def make_background(size):
     w, h = size
     img = Image.new("RGB", size, BG_BOTTOM)
@@ -65,28 +79,56 @@ def make_background(size):
     return img
 
 
-def add_sky(img):
-    """Stars (fixed seed, so the cover is reproducible) and a glowing crescent moon top-centre, clear of the
-    logo on the left and the version badge on the right."""
+def add_stars(img):
+    """A few stars between the clouds (fixed seed, so the cover is reproducible)."""
     w, h = img.size
     rng = random.Random(1061306287)
     layer = Image.new("RGBA", img.size, (0, 0, 0, 0))
     draw = ImageDraw.Draw(layer)
-    for _ in range(90):
+    for _ in range(40):
         x, y = rng.uniform(0, w), rng.uniform(0, h * HORIZON * 0.8)
         r = rng.choice((1, 1, 1, 2, 2, 3))
-        draw.ellipse([x - r, y - r, x + r, y + r], fill=(*STAR_COLOR, rng.randint(60, 180)))
+        draw.ellipse([x - r, y - r, x + r, y + r], fill=(*STAR_COLOR, rng.randint(50, 150)))
+    return composite(img, layer)
 
-    cx, cy, r = w * 0.62, h * 0.15, h * 0.075
-    moon = Image.new("RGBA", img.size, (0, 0, 0, 0))
-    md = ImageDraw.Draw(moon)
-    md.ellipse([cx - r, cy - r, cx + r, cy + r], fill=(*MOON_COLOR, 235))
-    md.ellipse([cx - r * 0.55, cy - r * 1.1, cx + r * 1.45, cy + r * 0.9], fill=(0, 0, 0, 0))
-    glow = moon.filter(ImageFilter.GaussianBlur(radius=h * 0.03))
-    base = img.convert("RGBA")
-    for part in (layer, glow, moon):
-        base = Image.alpha_composite(base, part)
-    return base.convert("RGB")
+
+def add_horizon_glow(img):
+    """Soft glow along the horizon so the pine silhouettes read against the sky."""
+    w, h = img.size
+    layer = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    ImageDraw.Draw(layer).ellipse([-w * 0.1, h * (HORIZON - 0.16), w * 1.1, h * (HORIZON + 0.06)],
+                                  fill=(*HORIZON_GLOW, 110))
+    return composite(img, layer.filter(ImageFilter.GaussianBlur(radius=h * 0.07)))
+
+
+def puff_layer(size, puffs, color, alpha=255):
+    layer = Image.new("RGBA", size, (0, 0, 0, 0))
+    draw = ImageDraw.Draw(layer)
+    for cx, cy, r in puffs:
+        draw.ellipse([cx - r, cy - r, cx + r, cy + r], fill=(*color, alpha))
+    return layer
+
+
+def add_storm(img):
+    """Storm cloud top-centre, clear of the logo on the left and the version badge on the right, lit amber from
+    below, with a lightning bolt dropping from its right side and the bolt's flash."""
+    w, h = img.size
+    cx, cy, s = w * 0.63, h * 0.10, h * 0.075
+    puffs = [(cx - s * 1.6, cy + s * 0.3, s * 0.8), (cx - s * 0.6, cy - s * 0.2, s * 1.1),
+             (cx + s * 0.7, cy - s * 0.1, s * 1.0), (cx + s * 1.8, cy + s * 0.35, s * 0.75),
+             (cx, cy + s * 0.5, s * 0.9)]
+    rim = puff_layer(img.size, [(x, y + s * 0.12, r) for x, y, r in puffs], CLOUD_RIM, 200)
+    body = puff_layer(img.size, puffs, CLOUD_COLOR)
+
+    bx, by, k = cx + s * 1.5, cy + s * 0.8, s * 1.5
+    bolt = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    ImageDraw.Draw(bolt).polygon([(bx, by), (bx - k * 0.45, by + k * 0.9), (bx + k * 0.05, by + k * 0.95),
+                                  (bx - k * 0.35, by + k * 2.0), (bx + k * 0.55, by + k * 0.7),
+                                  (bx + k * 0.05, by + k * 0.65), (bx + k * 0.4, by)],
+                                 fill=(*BOLT_COLOR, 255))
+    flash = bolt.filter(ImageFilter.GaussianBlur(radius=h * 0.06))
+    return composite(img, flash, flash, rim.filter(ImageFilter.GaussianBlur(radius=h * 0.02)), rim, body,
+                     bolt.filter(ImageFilter.GaussianBlur(radius=h * 0.008)), bolt)
 
 
 def add_hills(img):
@@ -102,6 +144,32 @@ def add_hills(img):
         pts.append((w, h))
         draw.polygon(pts, fill=color)
     return img
+
+
+def draw_pine(draw, x, base_y, height):
+    width = height * 0.42
+    for k in range(3):
+        top = base_y - height * (1 - k * 0.25)
+        bottom = base_y - height * (0.35 - k * 0.12)
+        hw = width * (0.55 + k * 0.22) / 2
+        draw.polygon([(x, top), (x - hw, bottom), (x + hw, bottom)], fill=(*TREE_COLOR, 255))
+    draw.rectangle([x - width * 0.05, base_y - height * 0.15, x + width * 0.05, base_y], fill=(*TREE_COLOR, 255))
+
+
+def add_trees(img):
+    """Pine treelines on both flanks of the road, smaller next to it, standing on the rail line."""
+    w, h = img.size
+    rng = random.Random(4)
+    layer = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    draw = ImageDraw.Draw(layer)
+    base_y = h * (HORIZON + 0.005)
+    for x0, x1 in ((0.0, 0.40), (0.60, 1.02)):
+        x = w * x0
+        while x < w * x1:
+            near_road = min(abs(x - w * 0.40), abs(x - w * 0.60)) < w * 0.04
+            draw_pine(draw, x, base_y, h * rng.uniform(0.15, 0.24) * (0.6 if near_road else 1.0))
+            x += w * rng.uniform(0.022, 0.035)
+    return composite(img, layer)
 
 
 def add_train(img):
@@ -133,13 +201,26 @@ def add_train(img):
                 td.rectangle([wx, top + car_h * 0.25, wx + ww, top + car_h * 0.55], fill=(*WINDOW_COLOR, 230))
         x += car_w + gap
     window_glow = train.filter(ImageFilter.GaussianBlur(radius=h * 0.008))
-    base = img.convert("RGBA")
-    for part in (glow, layer, window_glow, train):
-        base = Image.alpha_composite(base, part)
-    return base.convert("RGB")
+    return composite(img, glow, layer, window_glow, train)
+
+
+def add_crossing_lamps(img):
+    """Two amber level-crossing lamps on posts either side of the road at the rail line."""
+    w, h = img.size
+    rail_y = h * HORIZON
+    posts = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    lamps = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    dp, dl = ImageDraw.Draw(posts), ImageDraw.Draw(lamps)
+    r = h * 0.011
+    for xf in (0.43, 0.57):
+        x, lamp_y = w * xf, rail_y - h * 0.085
+        dp.rectangle([x - w * 0.002, rail_y - h * 0.08, x + w * 0.002, rail_y + h * 0.01], fill=(10, 10, 12, 255))
+        dl.ellipse([x - r, lamp_y - r, x + r, lamp_y + r], fill=(*LAMP_COLOR, 255))
+    return composite(img, posts, lamps.filter(ImageFilter.GaussianBlur(radius=h * 0.02)), lamps)
 
 
 def add_road(img):
+    """Road with a dashed centre line and the crossing lamps' amber reflections on the wet asphalt."""
     w, h = img.size
     draw = ImageDraw.Draw(img)
     road_top_y = int(h * 0.72)
@@ -150,7 +231,25 @@ def add_road(img):
         y0, y1 = int(h - (h - road_top_y) * t0), int(h - (h - road_top_y) * t1)
         x0, x1 = w * 0.50 - dash_w * (1 - t0) * 0.5, w * 0.50 + dash_w * (1 - t0) * 0.5
         draw.rectangle([x0, y1, x1, y0], fill=(120, 110, 90))
-    return img
+
+    layer = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    ld = ImageDraw.Draw(layer)
+    for xf in (0.465, 0.535):
+        ld.rectangle([w * xf - w * 0.004, h * 0.74, w * xf + w * 0.004, h * 0.97], fill=(*RAIL_COLOR, 120))
+    return composite(img, layer.filter(ImageFilter.GaussianBlur(radius=h * 0.012)))
+
+
+def add_rain(img):
+    """Faint slanted rain streaks over the whole scene (under the logo and text)."""
+    w, h = img.size
+    rng = random.Random(270)
+    layer = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    draw = ImageDraw.Draw(layer)
+    for _ in range(160):
+        x, y = rng.uniform(0, w * 1.1), rng.uniform(h * 0.12, h)
+        length = rng.uniform(h * 0.035, h * 0.07)
+        draw.line([(x, y), (x - 0.25 * length, y + length)], fill=(*RAIN_COLOR, rng.randint(35, 80)), width=2)
+    return composite(img, layer)
 
 
 def paste_logo(img):
@@ -195,7 +294,7 @@ def add_text(img):
     x_start = w * 0.40
     max_width = w * 0.97 - x_start
     title_lines = ["DriveDogs:", "World"]
-    subtitle = "Trains, Crossings & Sounds"
+    subtitle = "Graphics, Weather & Trains"
 
     title_size = int(h * 0.135)
     for line in title_lines:
@@ -232,10 +331,15 @@ def add_version_badge(img, version):
 def main():
     version = read_version()
     img = make_background(CANVAS_SIZE)
-    img = add_sky(img)
+    img = add_stars(img)
+    img = add_horizon_glow(img)
+    img = add_storm(img)
     img = add_hills(img)
+    img = add_trees(img)
     img = add_train(img)
+    img = add_crossing_lamps(img)
     img = add_road(img)
+    img = add_rain(img)
     img = paste_logo(img)
     img = add_text(img)
     img = add_version_badge(img, version)

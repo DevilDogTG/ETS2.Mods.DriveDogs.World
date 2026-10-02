@@ -17,6 +17,9 @@ Wet-road puddles and surface reflections: Realistic Rain Reflections Standalone 
 --------------------
 [green]Changelogs
 
+[orange]v1.0.1
+[normal]- New cover showing the graphics, weather and trains World now includes
+
 [orange]v1.0.0
 [normal]- Graphics: Weather_3.9, Asphalt_improved 1.5, grass_4.0_lite, tree_improved_4k (Juninho944), Beautiful Nature (DIOX), Realistic Rain; where they overlap, Juninho944's win over DIOX, and Realistic Rain's rain wins over Weather's
 - Water: Kass's seas, rivers and lakes, muddy and green water and distant water (beaches stay grass_4.0's)
