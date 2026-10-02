@@ -6,7 +6,7 @@ package:
   name: drivedog_world                   # archive: <name>_v<version>.scs
   versioned_filenames: true              # DriveDogs convention; each release is a new mod in the mod manager
   display_name: "DriveDogs: World"
-  version: "1.0.1"                       # World's own version, independent of sources
+  version: "1.1.0-dev.1"                 # World's own version, independent of sources
   author: "DevilDogTG"
   game: ets2                             # ets2 | ats — sources must be for this game
   manifest_template: src/manifest.sii
@@ -45,6 +45,8 @@ base_edits:
 # Mods whose edits world/ carries (never merged). `megapack updates` reports new versions.
 references:
   - { id: train-lengths, name: Realistic Train Lengths, author: Femboy Enthusiast, workshop: 3209674677, version: "1.0" }
+  # its locators carried onto the base bus-stop models and its definitions copied (tools/bus_stop_people.py)
+  - { id: busy-bus-stations, name: Busy Bus Stations, author: d-luX, workshop: 2893480838, version: "1.00" }
 
 parts:
   split_defs: false                      # definitions stay with their source's assets

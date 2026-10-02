@@ -35,6 +35,7 @@ from siiedit import SiiFile  # noqa: E402
 
 OUT = ROOT / "world" / "brands.yaml"
 UNITS = ROOT / "world" / "units"
+OWNED = "def/vehicle/"   # this tool's part of world/units/ (tools/bus_stop_people.py writes other paths there)
 SOURCE = "real-companies"
 INDEXED = re.compile(r"^(\w+)\[(\d*)\]$")
 
@@ -119,7 +120,11 @@ def main() -> int:
     n_units = sum(len(u) for u in edits.values())
     print(f"{len(edits)} files, {n_units} units edited; {len(new_files)} new file(s) to world/units/")
     text = render(edits)
-    have = {p.relative_to(UNITS).as_posix(): p for p in UNITS.rglob("*") if p.is_file()} if UNITS.is_dir() else {}
+    outside = sorted(r for r in new_files if not r.startswith(OWNED))
+    if outside:
+        sys.exit(f"new file(s) outside world/units/{OWNED}: {outside} — widen OWNED, checking no other tool writes there")
+    owned = UNITS / OWNED
+    have = {p.relative_to(UNITS).as_posix(): p for p in owned.rglob("*") if p.is_file()} if owned.is_dir() else {}
     if args.check:
         same = OUT.is_file() and OUT.read_text(encoding="utf-8") == text and set(have) == set(new_files) and all(
             have[r].read_bytes() == f.read_bytes() for r, f in new_files.items())

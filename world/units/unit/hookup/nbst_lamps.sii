@@ -1,0 +1,8 @@
+SiiNunit
+{
+
+	lod_model_hookup : lod_model.nbst_lamp
+	{
+		model[]: "/model/lamp/sellplan_lamp.pmd"
+	}
+}

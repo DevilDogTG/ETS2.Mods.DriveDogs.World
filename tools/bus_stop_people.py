@@ -6,11 +6,12 @@ never merged. They are 2022 re-exports of 28 base-game models: they put back the
 some old geometry, and they drop 1.61's cutscene locators. Its 6 textures are the base game's images in the old
 encoding. So only its locators (people, a parked bus, a lamp) are carried, per part, onto the base model of the
 same path. Base geometry, materials (.pmd) and existing locators stay as they are. The mod's definitions (mover
-groups and hookups, parked bus, lamp) are carried separately as new units in world/units/.
+groups and hookups, parked bus, lamp: new files, unit names unchanged) are copied as they are to world/units/.
 Decisions: plan world-bus-stop-people.
 
-Outputs: overrides/<path>.pmg for each of the mod's models (git-ignored: regenerate with this tool), and the manifest
-world/bus_stop_people.tsv (base and mod sha256, locators added per part, output sha256).
+Outputs: overrides/<path>.pmg for each of the mod's models (git-ignored: regenerate with this tool), world/units/<path>
+for each of its .sii files (committed), and the manifest world/bus_stop_people.tsv (base and mod sha256, locators
+added per part or "new file", output sha256).
 
 usage: python tools/bus_stop_people.py [--check]
   --check: rebuild the models in memory and fail if the manifest or the overrides on disk are out of date.
@@ -36,6 +37,7 @@ from pmg import Locator, Pmg  # noqa: E402
 MOD_ID, MOD_VERSION = "2893480838", "1.00"   # <reference root>/workshop/<id>/<version>/ (extract-reference)
 MANIFEST = ROOT / "world" / "bus_stop_people.tsv"
 OVERRIDES = ROOT / "overrides"
+UNITS = ROOT / "world" / "units"             # shared with tools/harvest_brands.py (def/vehicle/); paths from the manifest
 MODEL_DIRS = ("prefab/", "prefab2/")         # where the mod's models live; stale outputs are looked for here only
 
 
@@ -65,9 +67,21 @@ class Inputs:
                     self.shipped[row[0].lower()] = s["id"]
 
 
+def dest(rel: str) -> pathlib.Path:
+    return (UNITS if rel.endswith(".sii") else OVERRIDES) / rel
+
+
 def build(i: Inputs) -> tuple[list[list[str]], dict[str, bytes], list[str]]:
     """Manifest rows [path, base sha, mod sha, added], output bytes per path, report lines."""
     rows, outs, report = [], {}, []
+    for f in sorted(i.mod.rglob("*.sii")):
+        rel = f.relative_to(i.mod).as_posix()
+        if rel == "manifest.sii":
+            continue
+        if (i.base / rel).is_file() or rel.lower() in i.shipped:
+            sys.exit(f"{rel} is a base or source file — carry the mod's units onto it as edits instead")
+        outs[rel] = f.read_bytes()
+        rows.append([rel, "", sha(outs[rel]), "new file"])
     for f in sorted(i.mod.rglob("*.pmg")):
         rel = f.relative_to(i.mod).as_posix()
         if rel.lower() in i.shipped:
@@ -108,12 +122,14 @@ def write_manifest(rows: list[list[str]], outs: dict[str, bytes]) -> None:
 
 
 def stale(outs: dict[str, bytes]) -> list[pathlib.Path]:
-    """Model overrides this tool wrote before but no longer produces."""
+    """Files this tool wrote before but no longer produces: model overrides, and unit files in the old manifest."""
     found = []
     for top in MODEL_DIRS:
         for f in (OVERRIDES / top).rglob("*.pmg"):
             if f.relative_to(OVERRIDES).as_posix() not in outs:
                 found.append(f)
+    found += [dest(r[0]) for r in read_manifest()[0]
+              if r[0].endswith(".sii") and r[0] not in outs and dest(r[0]).is_file()]
     return found
 
 
@@ -125,8 +141,9 @@ def main() -> int:
     rows, outs, report = build(i)
     for r in report:
         print(r)
-    total = sum(int(n) for r in rows for n in (x.split(":")[1] for x in r[3].split(";") if x))
-    print(f"{len(rows)} models, {total} locators added")
+    models = [r for r in rows if r[0].endswith(".pmg")]
+    total = sum(int(n) for r in models for n in (x.split(":")[1] for x in r[3].split(";") if x))
+    print(f"{len(models)} models, {total} locators added; {len(rows) - len(models)} unit files")
 
     if args.check:
         old_rows, old_outs = read_manifest()
@@ -134,25 +151,25 @@ def main() -> int:
         if old_rows != rows:
             problems.append(f"{MANIFEST.relative_to(ROOT)} inputs changed (base game or the mod)")
         for rel, data in outs.items():
-            f = OVERRIDES / rel
+            f = dest(rel)
             if old_outs.get(rel) != sha(data) or not f.is_file() or sha(f.read_bytes()) != sha(data):
-                problems.append(f"overrides/{rel} missing or changed")
-        problems += [f"overrides/{f.relative_to(OVERRIDES).as_posix()} is not produced by this tool any more"
-                     for f in stale(outs)]
+                problems.append(f"{f.relative_to(ROOT).as_posix()} missing or changed")
+        problems += [f"{f.relative_to(ROOT).as_posix()} is not produced by this tool any more" for f in stale(outs)]
         for p in problems[:20]:
             print("OUT OF DATE  " + p)
         print("up to date" if not problems else f"{len(problems)} problem(s) — rerun tools/bus_stop_people.py")
         return 1 if problems else 0
 
-    for rel, data in outs.items():
-        dest = OVERRIDES / rel
-        dest.parent.mkdir(parents=True, exist_ok=True)
-        dest.write_bytes(data)
     for f in stale(outs):
         f.unlink()
-        print(f"removed stale overrides/{f.relative_to(OVERRIDES).as_posix()}")
+        print(f"removed stale {f.relative_to(ROOT).as_posix()}")
+    for rel, data in outs.items():
+        f = dest(rel)
+        f.parent.mkdir(parents=True, exist_ok=True)
+        f.write_bytes(data)
     write_manifest(rows, outs)
-    print(f"wrote {MANIFEST.relative_to(ROOT)}, {len(outs)} models in overrides/")
+    print(f"wrote {MANIFEST.relative_to(ROOT)}, {len(models)} models to overrides/, "
+          f"{len(rows) - len(models)} unit files to world/units/")
     return 0
 
 

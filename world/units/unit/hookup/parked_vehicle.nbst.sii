@@ -1,0 +1,12 @@
+SiiNunit
+{
+	parked_vehicle : bus.nbst.physics.day
+	{
+		low_poly_only: false
+		probability_day: 0.45
+		probability_night: 0.25
+
+	allowed_vehicle[]: "traffic.opalin"
+	allowed_vehicle[]: "traffic.tourliner"
+	}	
+}

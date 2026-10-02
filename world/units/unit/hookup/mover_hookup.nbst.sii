@@ -1,0 +1,155 @@
+SiiNunit
+{
+####SITTING MAN###################################################	
+	mover_hookup : mover_hookup.nbst_man_sns
+	{
+		mover_suffix:	nbst_man_sit
+
+		active_during_night: true
+		active_during_rain: false
+		active_during_sun: true	
+	}
+
+	mover_hookup : mover_hookup.nbst_man_sds
+	{
+		mover_suffix:	nbst_man_sit
+
+		active_during_night: false
+		active_during_rain: false
+		active_during_sun: true	
+	}
+	
+	mover_hookup : mover_hookup.nbst_man_snr
+	{
+		mover_suffix:	nbst_man_sit
+
+		
+		active_during_day: false
+		active_during_rain: true
+		active_during_sun: false	
+	}
+
+	mover_hookup : mover_hookup.nbst_man_sdr
+	{
+		mover_suffix:	nbst_man_sit
+
+		active_during_night: false
+		active_during_rain: true
+		active_during_sun: false	
+	}
+	
+####IDLE MAN###################################################
+
+	mover_hookup : mover_hookup.nbst_man_ins
+	{
+		mover_suffix:	nbst_man_idl
+
+		active_during_night: true
+		active_during_rain: false
+		active_during_sun: true	
+	}
+
+	mover_hookup : mover_hookup.nbst_man_ids
+	{
+		mover_suffix:	nbst_man_idl
+
+		active_during_night: false
+		active_during_rain: false
+		active_during_sun: true	
+	}
+	
+	mover_hookup : mover_hookup.nbst_man_inr
+	{
+		mover_suffix:	nbst_man_idl
+
+		
+		active_during_day: false
+		active_during_rain: true
+		active_during_sun: false	
+	}
+
+	mover_hookup : mover_hookup.nbst_man_idr
+	{
+		mover_suffix:	nbst_man_idl
+
+		active_during_night: false
+		active_during_rain: true
+		active_during_sun: false	
+	}
+
+####SITTING WOMMAN###################################################
+	mover_hookup : mover_hookup.nbst_wom_sns
+	{
+		mover_suffix:	casu_wom_sit
+
+		active_during_night: true
+		active_during_rain: false
+		active_during_sun: true	
+	}
+
+	mover_hookup : mover_hookup.nbst_wom_sds
+	{
+		mover_suffix:	casu_wom_sit
+
+		active_during_night: false
+		active_during_rain: false
+		active_during_sun: true	
+	}
+	
+	mover_hookup : mover_hookup.nbst_wom_snr
+	{
+		mover_suffix:	casu_wom_sit
+
+		
+		active_during_day: false
+		active_during_rain: true
+		active_during_sun: false	
+	}
+
+	mover_hookup : mover_hookup.nbst_wom_sdr
+	{
+		mover_suffix:	casu_wom_sit
+
+		active_during_night: false
+		active_during_rain: true
+		active_during_sun: false	
+	}
+
+####IDLE WOMMAN###################################################
+	mover_hookup : mover_hookup.nbst_wom_ins
+	{
+		mover_suffix:	nbst_wom_idl
+
+		active_during_night: true
+		active_during_rain: false
+		active_during_sun: true	
+	}
+
+	mover_hookup : mover_hookup.nbst_wom_ids
+	{
+		mover_suffix:	nbst_wom_idl
+
+		active_during_night: false
+		active_during_rain: false
+		active_during_sun: true	
+	}
+	
+	mover_hookup : mover_hookup.nbst_wom_inr
+	{
+		mover_suffix:	nbst_wom_idl
+
+		
+		active_during_day: false
+		active_during_rain: true
+		active_during_sun: false	
+	}
+
+	mover_hookup : mover_hookup.nbst_wom_idr
+	{
+		mover_suffix:	nbst_wom_idl
+
+		active_during_night: false
+		active_during_rain: true
+		active_during_sun: false	
+	}	
+}

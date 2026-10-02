@@ -1,0 +1,42 @@
+SiiNunit
+{
+	mover_model_group : mover.nbst_man_sit
+	{
+		mover_name: "Man sitting"
+		desc_tags[]: man
+		desc_tags[]: casual
+		anim_tags[]: man
+		anim_tags[]: sitting
+		pedestrian: true
+	}
+
+	mover_model_group : mover.nbst_man_idl
+	{
+		mover_name: "Man idles"
+		desc_tags[]: man
+		desc_tags[]: casual
+		anim_tags[]: man
+		anim_tags[]: idle
+		pedestrian: true
+	}
+	
+	mover_model_group : mover.nbst_wom_sit
+	{
+		mover_name: "sitting woman"
+		desc_tags[]: woman
+		desc_tags[]: casual
+		anim_tags[]: woman
+		anim_tags[]: sitting
+		pedestrian: true
+	}
+	
+	mover_model_group : mover.nbst_wom_idl
+	{
+		mover_name: "idle woman"
+		desc_tags[]: woman
+		desc_tags[]: casual
+		anim_tags[]: woman
+		anim_tags[]: idle
+		pedestrian: true
+	}	
+}
