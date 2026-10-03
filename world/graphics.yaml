@@ -27,7 +27,7 @@ def/vehicle/interior_glass_config_rain.sii:
 def/world/detail_vegetation.sii:
   .grass:
     set:
-      density: '26'
+      density: '30'
 def/world/terrain_material.base_share.sii:
   terrain_mat.share_5:
     set:
