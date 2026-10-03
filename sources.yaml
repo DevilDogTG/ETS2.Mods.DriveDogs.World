@@ -178,16 +178,25 @@ sources:
       - "asset/particles/*"
       - "asset/skybox/lightning*"          # the two lightning models are identical to vanilla's
 
-  # Road signs and road markings, textures only. Wins the road marking stripes over Asphalt_improved (it is the
-  # dedicated markings mod); loses the company and gas-station signs it shares with real-companies.
+  # Road signs and road markings. Wins the road marking stripes over Asphalt_improved (it is the dedicated markings
+  # mod); loses the company and gas-station signs it shares with real-companies. Its textures are 4x the game's, and
+  # sign atlas and frame definitions give coordinates in pixels, so its def/sign/{atlas,frame} (from 2.3) must ship
+  # with them: 2.1 had none, and every sign showed the top-left quarter of each image (World 1.0.0-1.2.0-dev.2).
   - id: dbm-signs
     name: DBM Road Signs & Markings 4K
     author: DBM
-    version: "2.1"
+    version: "2.3"
     workshop: 3809180889
     origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=3809180889" }
     layer: 55
     overrides: ["juninho-asphalt"]
+    exclude:
+      # real-companies wins these atlas textures at the game's 128 px, so the base game's atlas defs must stay
+      - "def/sign/atlas/gas_bnlx.sii"
+      - "def/sign/atlas/gas_gazgamel.sii"
+      - "def/sign/atlas/gas_oranje.sii"
+      - "def/sign/atlas/gas_primel.sii"
+      - "def/sign/atlas/gas_company_ini_it.sii"
 
   # Real brands for companies and gas stations, plus its trailer company paint jobs, AI van liveries, shop,
   # landmark and panorama textures and its own sign/gas-station models (maintainer: option a, other content
