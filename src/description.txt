@@ -20,6 +20,7 @@ Wet-road puddles and surface reflections: Realistic Rain Reflections Standalone 
 
 [orange]v1.2.0
 [normal]- Flashing green: standard traffic lights flash green for the last 3 seconds before yellow (108 light models: base game, Nordic, Benelux, Iberia, West Balkans); needs the DriveDogs: Better Flares Traffic Lights add-on
+- Grass slightly less dense than grass_4.0 (still about a third denser than the game): at 26 some fields had more grass than the game can draw in one batch and showed none
 
 [orange]v1.1.0
 [normal]- People at bus stops from Busy Bus Stations (d-luX): people sitting and waiting, by day, at night and in rain, a parked bus some of the time, and a lamp; added to the 1.61 bus-stop models instead of the mod's 2022 copies, so the stops keep their 1.61 look

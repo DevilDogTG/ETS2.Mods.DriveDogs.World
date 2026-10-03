@@ -7,8 +7,6 @@ mod_package : .package_name
 	author: "DevilDogTG"
 	category[]: "graphics"
 	category[]: "weather_setup"
-	category[]: "ai_traffic"
-	category[]: "sound"
 	icon: "cover.jpg"
 	description_file: "description.txt"
 

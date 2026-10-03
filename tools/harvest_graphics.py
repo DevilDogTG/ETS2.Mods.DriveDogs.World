@@ -48,9 +48,14 @@ CARRY = [
     ("juninho-grass", "def/world/terrain_material.base_share.sii", ["color"]),
     ("realistic-rain", "def/vehicle/interior_glass_config_rain.sii", ["*"]),
 ]
-# World's own values: {file: {unit: {key: value}}}. Empty for the first build: the rain reflection strengths
-# (rain_cube/planar/specular_strength) start at the base game's 0.9, which needs no edit.
-OURS: dict[str, dict[str, dict[str, str]]] = {}
+# World's own values: {file: {unit: {key: value}}}. The rain reflection strengths (rain_cube/planar/specular_strength)
+# stay at the base game's 0.9, which needs no edit.
+OURS: dict[str, dict[str, dict[str, str]]] = {
+    # Grass's 26 puts 77,647 grass_green2_2 blades on one terrain item, over the engine's 65,535 per instance
+    # cluster, and that item draws no grass (1.2.0-dev.1 log). Lower is denser (base 35); 30 keeps ~1.35x the
+    # base game's grass with headroom (count scales about with 1/density^2).
+    "def/world/detail_vegetation.sii": {".grass": {"density": "30"}},
+}
 TINT_FILES = {"def/world/terrain_material.sii", "def/world/terrain_material.base_share.sii"}
 TEX_SOURCE = re.compile(r'source\s*:\s*"([^"]+)"')
 NUM = re.compile(r"^-?\d+(\.\d+)?$")
