@@ -271,6 +271,15 @@ def manifest_rows(m: Merge, blends: dict, values: dict) -> list[list[str]]:
     return rows
 
 
+def other_owned() -> set[str]:
+    """overrides/ paths another tool produces (tools/base_material_fixes.py writes automat/ materials too)."""
+    f = ROOT / "world" / "base_material_fixes.tsv"
+    if not f.is_file():
+        return set()
+    return {row[0] for row in csv.reader(f.read_text(encoding="utf-8").splitlines(), delimiter="	")
+            if row and row[0] != "path"}
+
+
 def read_manifest() -> tuple[list[list[str]], dict[str, str]]:
     rows, outs = [], {}
     if MANIFEST.is_file():
@@ -323,7 +332,7 @@ def main() -> int:
                 problems.append(f"overrides/{r[0]} missing or changed")
         if res != RESOLUTIONS.read_text(encoding="utf-8"):
             problems.append("resolutions.yaml entries out of date")
-        known = {r[0] for r in rows}
+        known = {r[0] for r in rows} | other_owned()
         for f in OVERRIDES.rglob("*"):
             rel = f.relative_to(OVERRIDES).as_posix()
             if f.is_file() and rel.startswith(("material/road/", "umatlib/", "automat/")) and rel not in known:

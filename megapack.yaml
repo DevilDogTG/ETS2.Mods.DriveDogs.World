@@ -41,6 +41,7 @@ base_edits:
     - world/environment.yaml             # day/night date and storm chance (hand-written)
     - world/brands.yaml                  # company names, trailer paint jobs (tools/harvest_brands.py)
     - world/traffic_lights.yaml          # flashing-green timing (TrafficLights tools/generate_traffic_lights.py --world-edits)
+    - world/signs.yaml                   # instanced signs without their unused LODs (tools/sign_lods.py)
   units: world/units                     # new def files (tools/harvest_brands.py)
 
 # Mods whose edits world/ carries (never merged). `megapack updates` reports new versions.
