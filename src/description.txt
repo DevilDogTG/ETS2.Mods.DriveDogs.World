@@ -4,6 +4,7 @@
 [red]Place ABOVE Sound Fixes Pack (optional) and any other train sound or train length mod.
 [red]Do not load these, they are built in (disable them, including Workshop subscriptions): Weather_3.9, Asphalt_improved, grass_4.0_lite, tree_improved_4k (Juninho944), Beautiful Water, Beautiful Nature (DIOX), Realistic Rain, Realistic Rain Reflections, Realistic Rain & Water & Thunder Sounds (Kass), DBM Road Signs & Markings 4K, Real companies & gas stations, Busy Bus Stations, Realistic Train Lengths, Real Train Sounds ETS2.
 [red]Also disable any day/night or date mod (e.g. Workshop 1061306287): World sets the date.
+[red]Load DriveDogs: Better Flares Traffic Lights above Better Flares, both above World: World makes green lights flash before yellow, and without that add-on the green lens goes dark for the last 3 seconds instead.
 --------------------
 [orange]Included sources:
 [normal]{{source_list}}
@@ -16,6 +17,9 @@ Wet-road puddles and surface reflections: Realistic Rain Reflections Standalone 
 - Realistic Rain Reflections (Grimes): https://grimesmods.wordpress.com/2017/05/08/realistic-rain-reflections-standalone/
 --------------------
 [green]Changelogs
+
+[orange]v1.2.0
+[normal]- Flashing green: standard traffic lights flash green for the last 3 seconds before yellow (108 light models: base game, Nordic, Benelux, Iberia, West Balkans); needs the DriveDogs: Better Flares Traffic Lights add-on
 
 [orange]v1.1.0
 [normal]- People at bus stops from Busy Bus Stations (d-luX): people sitting and waiting, by day, at night and in rain, a parked bus some of the time, and a lamp; added to the 1.61 bus-stop models instead of the mod's 2022 copies, so the stops keep their 1.61 look
