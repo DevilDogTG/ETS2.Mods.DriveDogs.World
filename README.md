@@ -21,7 +21,8 @@ Current content (v1.1.0, ETS2 1.61):
 
 Every game setting these mods change is carried as an edit of the current game files, never as an old whole copy,
 so what a game update adds keeps working. Decisions: [ADR-0001](docs/adr/ADR-0001-world-megapack.md) (megapack,
-trains), [ADR-0002](docs/adr/ADR-0002-world-graphics.md) (graphics, weather, brands).
+trains), [ADR-0002](docs/adr/ADR-0002-world-graphics.md) (graphics, weather, brands),
+[ADR-0003](docs/adr/ADR-0003-world-bus-stop-people.md) (bus-stop people).
 
 ## Install
 
