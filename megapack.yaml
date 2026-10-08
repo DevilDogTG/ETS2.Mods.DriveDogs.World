@@ -15,7 +15,7 @@ package:
 # No archive sources yet: every source is a subscribed Workshop item. `source_root` is still required, so it
 # points at the Workshop folder and the archive scan ignores everything there.
 source_root: "@steam_workshop"
-workshop_root: "@steam_workshop"         # host file `## MegaPack Roots`
+workshop_root: "@steam_workshop"         # host file `games.<game>.megapack_roots`
 scan:
   ignore:
     - "*"
