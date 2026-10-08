@@ -48,7 +48,7 @@ from PIL import Image
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SKILL = pathlib.Path.home() / ".agent-brains/profiles/ets2-mod-developer/skills/megapack/scripts"
 sys.path.insert(0, str(SKILL))
-from megapack import host_section  # noqa: E402
+from megapack import host_section, ref_path  # noqa: E402
 
 RRR_ID, RRR_VERSION = "rain-reflections", "1.4"   # <reference root>/local/<id>/<version>/, the unzipped .scs
 MANIFEST = ROOT / "world" / "rain_reflections.tsv"
@@ -98,7 +98,7 @@ class Merge:
         if h:
             _, sid, path, _ = max(h)
             return sid, path
-        p = self.base / rel.lstrip("/")
+        p = ref_path(self.base, rel)          # base assets are fetched on demand
         return ("base", p) if p.is_file() else None
 
     def inputs(self, rel: str) -> dict[str, str]:

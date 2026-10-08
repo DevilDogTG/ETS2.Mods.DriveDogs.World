@@ -31,7 +31,7 @@ import yaml
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SKILL = pathlib.Path.home() / ".agent-brains/profiles/ets2-mod-developer/skills/megapack/scripts"
 sys.path.insert(0, str(SKILL))
-from megapack import host_section  # noqa: E402
+from megapack import host_section, ref_fetch, ref_path  # noqa: E402
 from pmg import Locator, Pmg  # noqa: E402
 
 MOD_ID, MOD_VERSION = "2893480838", "1.00"   # <reference root>/workshop/<id>/<version>/ (extract-reference)
@@ -82,11 +82,13 @@ def build(i: Inputs) -> tuple[list[list[str]], dict[str, bytes], list[str]]:
             sys.exit(f"{rel} is a base or source file — carry the mod's units onto it as edits instead")
         outs[rel] = f.read_bytes()
         rows.append([rel, "", sha(outs[rel]), "new file"])
-    for f in sorted(i.mod.rglob("*.pmg")):
+    pmgs = sorted(i.mod.rglob("*.pmg"))
+    ref_fetch(i.base, [f.relative_to(i.mod).as_posix() for f in pmgs])   # base models are fetched on demand
+    for f in pmgs:
         rel = f.relative_to(i.mod).as_posix()
         if rel.lower() in i.shipped:
             sys.exit(f"{rel} is shipped by source {i.shipped[rel.lower()]} — carry the locators onto that winner first")
-        base_file = i.base / rel
+        base_file = ref_path(i.base, rel)
         if not base_file.is_file():
             sys.exit(f"{rel}: the base game ({i.base.name}) has no such model any more")
         mod_data, base_data = f.read_bytes(), base_file.read_bytes()

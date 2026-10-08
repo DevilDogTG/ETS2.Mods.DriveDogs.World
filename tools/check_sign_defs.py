@@ -29,7 +29,7 @@ import yaml
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SKILL = pathlib.Path.home() / ".agent-brains/profiles/ets2-mod-developer/skills/megapack/scripts"
 sys.path.insert(0, str(SKILL))
-from megapack import host_section  # noqa: E402
+from megapack import host_section, ref_path  # noqa: E402
 
 LOCK = ROOT / "lock"
 OVERRIDES = ROOT / "overrides"
@@ -75,7 +75,8 @@ class Tree:
         if rel.lower() in self.owner:
             sid, locked = self.owner[rel.lower()]
             return sid, self.dirs[sid] / locked
-        return ("base", self.base / rel) if (self.base / rel).is_file() else ("base", None)
+        p = ref_path(self.base, rel)          # base assets are fetched on demand
+        return ("base", p) if p.is_file() else ("base", None)
 
     def defs(self) -> list[str]:
         rels = {p.relative_to(self.base).as_posix() for d in DEF_DIRS for p in (self.base / d).glob("*.sii")}
@@ -100,7 +101,7 @@ def texture(tree: Tree, mat_path: str, base_only: bool) -> tuple[str, pathlib.Pa
     """Material -> its .tobj -> the .dds it names, each resolved as the build ships it (or from the base game)."""
     def get(rel: str) -> tuple[str, pathlib.Path | None]:
         if base_only:
-            p = tree.base / rel.lstrip("/")
+            p = ref_path(tree.base, rel)
             return "base", p if p.is_file() else None
         return tree.find(rel)
 
