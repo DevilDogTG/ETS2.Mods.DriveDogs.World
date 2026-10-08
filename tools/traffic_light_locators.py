@@ -33,7 +33,7 @@ import yaml
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SKILL = pathlib.Path.home() / ".agent-brains/profiles/ets2-mod-developer/skills/megapack/scripts"
 sys.path.insert(0, str(SKILL))
-from megapack import host_section  # noqa: E402
+from megapack import host_section, ref_fetch, ref_path  # noqa: E402
 from pmg import Locator, Pmg  # noqa: E402
 from siiedit import SiiFile  # noqa: E402
 
@@ -80,10 +80,11 @@ class Inputs:
 def build(i: Inputs) -> tuple[list[list[str]], dict[str, bytes]]:
     """Manifest rows [path, base sha, added], output bytes per path."""
     rows, outs = [], {}
+    ref_fetch(i.base, i.models())             # base models are fetched on demand, one run per archive
     for rel in i.models():
         if rel.lower() in i.shipped:
             sys.exit(f"{rel} is shipped by source {i.shipped[rel.lower()]} — carry the locators onto that winner first")
-        base_file = i.base / rel
+        base_file = ref_path(i.base, rel)
         if not base_file.is_file():
             sys.exit(f"{rel}: the base game ({i.base.name}) has no such model")
         data = base_file.read_bytes()
