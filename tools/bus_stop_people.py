@@ -29,9 +29,9 @@ import sys
 import yaml
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-SKILL = pathlib.Path.home() / ".agent-brains/profiles/ets2-mod-developer/skills/megapack/scripts"
+SKILL = pathlib.Path.home() / ".agent-brains/profiles/scs-mod-developer/skills/megapack/scripts"
 sys.path.insert(0, str(SKILL))
-from megapack import host_section, ref_fetch, ref_path  # noqa: E402
+from megapack import reference_root, repo_game, ref_fetch, ref_path  # noqa: E402
 from pmg import Locator, Pmg  # noqa: E402
 
 MOD_ID, MOD_VERSION = "2893480838", "1.00"   # <reference root>/workshop/<id>/<version>/ (extract-reference)
@@ -51,7 +51,7 @@ def same(a: Locator, b: Locator) -> bool:
 
 class Inputs:
     def __init__(self) -> None:
-        ref = pathlib.Path(host_section("Extracted Reference Root")["root"])
+        ref = reference_root(repo_game(ROOT))
         mp = yaml.safe_load((ROOT / "megapack.yaml").read_text(encoding="utf-8"))
         self.base = ref / "base" / str(mp["base_game"]["version"])
         self.mod = ref / "workshop" / MOD_ID / MOD_VERSION

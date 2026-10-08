@@ -1,4 +1,4 @@
-# MegaPack build configuration — read by the ets2-mod-developer `megapack` skill.
+# MegaPack build configuration — read by the scs-mod-developer `megapack` skill.
 # See docs/adr/ADR-0001-world-megapack.md for the model.
 schema: 1
 

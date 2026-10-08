@@ -31,9 +31,9 @@ import sys
 import yaml
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-SKILL = pathlib.Path.home() / ".agent-brains/profiles/ets2-mod-developer/skills/megapack/scripts"
+SKILL = pathlib.Path.home() / ".agent-brains/profiles/scs-mod-developer/skills/megapack/scripts"
 sys.path.insert(0, str(SKILL))
-from megapack import host_section, ref_fetch, ref_path  # noqa: E402
+from megapack import reference_root, repo_game, ref_fetch, ref_path  # noqa: E402
 from pmg import Locator, Pmg  # noqa: E402
 from siiedit import SiiFile  # noqa: E402
 
@@ -51,7 +51,7 @@ def sha(data: bytes) -> str:
 
 class Inputs:
     def __init__(self) -> None:
-        ref = pathlib.Path(host_section("Extracted Reference Root")["root"])
+        ref = reference_root(repo_game(ROOT))
         mp = yaml.safe_load((ROOT / "megapack.yaml").read_text(encoding="utf-8"))
         self.base = ref / "base" / str(mp["base_game"]["version"])
         if not self.base.is_dir():
