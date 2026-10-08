@@ -1,7 +1,7 @@
 # DriveDogs: World
 
 ETS2 mod for the world around the road, built as a local **megapack** with the `megapack` skill of the
-`ets2-mod-developer` agent profile. This repo holds only configuration and tools. The mod is built from the
+`scs-mod-developer` agent profile. This repo holds only configuration and tools. The mod is built from the
 extracted base game, subscribed Workshop items and one local archive. It is never redistributed.
 
 Current content (v1.2.0, ETS2 1.61):
@@ -66,10 +66,10 @@ python tools/base_material_fixes.py  # base materials with moved texture paths c
 # in BetterFlaresAddOns/TrafficLights: flashing-green timing -> world/traffic_lights.yaml
 python tools/generate_traffic_lights.py --world-edits <World>/world/traffic_lights.yaml
 python tools/generate_cover.py
-python ~/.agent-brains/profiles/ets2-mod-developer/skills/megapack/scripts/megapack.py lock
+python ~/.agent-brains/profiles/scs-mod-developer/skills/megapack/scripts/megapack.py lock
 python tools/check_sign_defs.py      # sign atlas/frame pixel coords match the textures that win (after lock)
-python ~/.agent-brains/profiles/ets2-mod-developer/skills/megapack/scripts/megapack.py check --strict
-python ~/.agent-brains/profiles/ets2-mod-developer/skills/megapack/scripts/megapack.py build
+python ~/.agent-brains/profiles/scs-mod-developer/skills/megapack/scripts/megapack.py check --strict
+python ~/.agent-brains/profiles/scs-mod-developer/skills/megapack/scripts/megapack.py build
 ```
 
 Each tool's `--check` fails when its output no longer matches its inputs. `world/environment.yaml` (date, storm

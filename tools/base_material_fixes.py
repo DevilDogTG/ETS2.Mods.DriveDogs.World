@@ -29,9 +29,9 @@ import sys
 import yaml
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-SKILL = pathlib.Path.home() / ".agent-brains/profiles/ets2-mod-developer/skills/megapack/scripts"
+SKILL = pathlib.Path.home() / ".agent-brains/profiles/scs-mod-developer/skills/megapack/scripts"
 sys.path.insert(0, str(SKILL))
-from megapack import host_section  # noqa: E402
+from megapack import reference_root, repo_game  # noqa: E402
 
 OVERRIDES = ROOT / "overrides"
 MANIFEST = ROOT / "world" / "base_material_fixes.tsv"
@@ -47,7 +47,7 @@ FIXES: dict[str, dict[str, str]] = {
 
 def base_dir() -> pathlib.Path:
     mp = yaml.safe_load((ROOT / "megapack.yaml").read_text(encoding="utf-8"))
-    base = pathlib.Path(host_section("Extracted Reference Root")["root"]) / "base" / str(mp["base_game"]["version"])
+    base = reference_root(repo_game(ROOT)) / "base" / str(mp["base_game"]["version"])
     if not base.is_dir():
         sys.exit(f"missing extraction {base} — run extract-reference first")
     return base

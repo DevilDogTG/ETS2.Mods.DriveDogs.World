@@ -46,9 +46,9 @@ import yaml
 from PIL import Image
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-SKILL = pathlib.Path.home() / ".agent-brains/profiles/ets2-mod-developer/skills/megapack/scripts"
+SKILL = pathlib.Path.home() / ".agent-brains/profiles/scs-mod-developer/skills/megapack/scripts"
 sys.path.insert(0, str(SKILL))
-from megapack import host_section, ref_path  # noqa: E402
+from megapack import reference_root, repo_game, ref_path  # noqa: E402
 
 RRR_ID, RRR_VERSION = "rain-reflections", "1.4"   # <reference root>/local/<id>/<version>/, the unzipped .scs
 MANIFEST = ROOT / "world" / "rain_reflections.tsv"
@@ -75,7 +75,7 @@ class Merge:
     """Winner lookup over the locked sources (highest layer wins, as every collision in this pack is declared)."""
 
     def __init__(self) -> None:
-        ref = pathlib.Path(host_section("Extracted Reference Root")["root"])
+        ref = reference_root(repo_game(ROOT))
         mp = yaml.safe_load((ROOT / "megapack.yaml").read_text(encoding="utf-8"))
         self.base = ref / "base" / str(mp["base_game"]["version"])
         self.rrr = ref / "local" / RRR_ID / RRR_VERSION

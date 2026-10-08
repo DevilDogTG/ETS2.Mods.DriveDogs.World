@@ -33,9 +33,9 @@ import sys
 import yaml
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-SKILL = pathlib.Path.home() / ".agent-brains/profiles/ets2-mod-developer/skills/megapack/scripts"
+SKILL = pathlib.Path.home() / ".agent-brains/profiles/scs-mod-developer/skills/megapack/scripts"
 sys.path.insert(0, str(SKILL))
-from megapack import host_section  # noqa: E402
+from megapack import reference_root, repo_game  # noqa: E402
 from siiedit import SiiFile  # noqa: E402
 
 OUT = ROOT / "world" / "graphics.yaml"
@@ -72,7 +72,7 @@ def canon(v: str) -> str:
 
 def load() -> tuple[pathlib.Path, dict[str, pathlib.Path], list[str]]:
     """-> (base dir, {source id: extracted dir}, source ids from lowest to highest layer)."""
-    ref_root = pathlib.Path(host_section("Extracted Reference Root")["root"])
+    ref_root = reference_root(repo_game(ROOT))
     mp = yaml.safe_load((ROOT / "megapack.yaml").read_text(encoding="utf-8"))
     src = yaml.safe_load((ROOT / "sources.yaml").read_text(encoding="utf-8"))["sources"]
     base = ref_root / "base" / str(mp["base_game"]["version"])

@@ -27,9 +27,9 @@ import sys
 import yaml
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-SKILL = pathlib.Path.home() / ".agent-brains/profiles/ets2-mod-developer/skills/megapack/scripts"
+SKILL = pathlib.Path.home() / ".agent-brains/profiles/scs-mod-developer/skills/megapack/scripts"
 sys.path.insert(0, str(SKILL))
-from megapack import host_section, ref_path  # noqa: E402
+from megapack import reference_root, repo_game, ref_path  # noqa: E402
 
 LOCK = ROOT / "lock"
 OVERRIDES = ROOT / "overrides"
@@ -45,7 +45,7 @@ class Tree:
     """Which file the build ships at a path: overrides/, else the lock's winner, else the base game."""
 
     def __init__(self) -> None:
-        ref_root = pathlib.Path(host_section("Extracted Reference Root")["root"])
+        ref_root = reference_root(repo_game(ROOT))
         mp = yaml.safe_load((ROOT / "megapack.yaml").read_text(encoding="utf-8"))
         src = yaml.safe_load((ROOT / "sources.yaml").read_text(encoding="utf-8"))["sources"]
         self.base = ref_root / "base" / str(mp["base_game"]["version"])
