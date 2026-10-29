@@ -1,6 +1,6 @@
 # ADR-0005: World adds a flashing-green locator to the timed traffic-light models, so night yellow blinks again
 
-- Status: accepted
+- Status: accepted; decisions 2-3 superseded by [ADR-0006](ADR-0006-world-owns-traffic-lights.md) (no add-on)
 - Date: 2026-10-04
 - Amends: [ADR-0004](ADR-0004-world-base-data-fixes.md) decision 1 (World still owns the timing)
 
