@@ -17,8 +17,8 @@ world/traffic_light_locators.tsv (base sha256, locators added per part, output s
 
 usage: python tools/traffic_light_locators.py [--check]
   --check: rebuild the models in memory and fail if the manifest or the overrides on disk are out of date.
-After a game update: extract the new base, bump base_game.version, regenerate world/traffic_lights.yaml in the
-TrafficLights repo, rerun this tool.
+After a game update: extract the new base, bump base_game.version, rerun tools/traffic_light_timing.py (it writes
+world/traffic_lights.yaml), then this tool.
 """
 from __future__ import annotations
 
