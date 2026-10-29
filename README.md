@@ -22,13 +22,16 @@ Current content (v1.2.0, ETS2 1.61):
   state, and their 91 models get a `flare.traffic.green.trans` locator on every green lens, built like the base game's
   own flashing-green models. World owns this timing because the engine looks semaphore models up by unit id, so it
   needs whole copies of `semaphore_model*.sii`, which World already ships. Night sleep mode keeps its blinking yellow.
+- **Traffic-light lenses** from sasha19990309's Different lenses of traffic lights: country lens textures (their
+  textures only; the glow stays the game's or Better Flares').
 
 Every game setting these mods change is carried as an edit of the current game files, never as an old whole copy,
 so what a game update adds keeps working. Decisions: [ADR-0001](docs/adr/ADR-0001-world-megapack.md) (megapack,
 trains), [ADR-0002](docs/adr/ADR-0002-world-graphics.md) (graphics, weather, brands),
 [ADR-0003](docs/adr/ADR-0003-world-bus-stop-people.md) (bus-stop people),
 [ADR-0004](docs/adr/ADR-0004-world-base-data-fixes.md) (flashing-green timing, sign definitions, base-game data fixes),
-[ADR-0005](docs/adr/ADR-0005-world-flashing-green-locators.md) (flashing-green locators, night yellow blink).
+[ADR-0005](docs/adr/ADR-0005-world-flashing-green-locators.md) (flashing-green locators, night yellow blink),
+[ADR-0006](docs/adr/ADR-0006-world-owns-traffic-lights.md) (flash timing and lenses in World, no add-on).
 
 ## Install
 
@@ -37,14 +40,14 @@ trains), [ADR-0002](docs/adr/ADR-0002-world-graphics.md) (graphics, weather, bra
 3. Disable the mods it contains (Workshop subscriptions included): Weather_3.9, Asphalt_improved, grass_4.0_lite,
    tree_improved_4k, Beautiful Nature, Beautiful Water, Realistic Rain, Realistic Rain Reflections, Realistic Rain &
    Water & Thunder Sounds, DBM Road Signs & Markings 4K, Real companies & gas stations, Busy Bus Stations,
-   Realistic Train Lengths, Real Train Sounds ETS2, and any day/night or date mod (e.g. Workshop 1061306287).
+   Realistic Train Lengths, Real Train Sounds ETS2, Different lenses of traffic lights (2931835197), and any
+   day/night or date mod (e.g. Workshop 1061306287).
+4. Remove the DriveDogs Better Flares Traffic Lights add-on (`BetterFlaresAddOns/TrafficLights`, deprecated): World
+   carries everything it did.
 
 Sound Fixes Pack and Better Flares stay separate mods and work with World.
 
-The flash and the night yellow blink work on their own and take Better Flares' glow when it is loaded. The DriveDogs
-Better Flares Traffic Lights add-on (`BetterFlaresAddOns/TrafficLights`) is optional; if used, it must be 1.1.0 or
-later (1.0.0 turns the night blinker into a second green flash and keeps night yellow steady), above Better Flares,
-both above World.
+The lenses, the flash and the night yellow blink work on their own and take Better Flares' glow when it is loaded.
 
 ## Build
 

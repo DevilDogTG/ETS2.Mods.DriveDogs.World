@@ -1,6 +1,6 @@
 # ADR-0004: World owns the semaphore timing for flashing green and fixes base-game data that floods game.log
 
-- Status: accepted
+- Status: accepted; decision 1 amended by [ADR-0006](ADR-0006-world-owns-traffic-lights.md) (World generates the timing)
 - Date: 2026-10-03
 
 ## Context
