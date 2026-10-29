@@ -198,6 +198,21 @@ sources:
       - "def/sign/atlas/gas_primel.sii"
       - "def/sign/atlas/gas_company_ini_it.sii"
 
+  # Country-specific traffic-light lens textures (40 base model/traffic_light textures replaced; World's own
+  # model/traffic_light/ files are models, so nothing collides). Its unit/hookup/tr_light_flares0.sii re-registers
+  # the 68 traffic flare units, which duplicates Better Flares' units: excluded, World keeps the base or Better Flares
+  # glow (user, 2026-10-28; the TrafficLights add-on that used to cancel that file is deprecated). The package is
+  # 154.zip at the item root (extract-reference workshop.py reads archive packages since 2026-10-29).
+  - id: tl-lenses
+    name: Different lenses of traffic lights
+    author: sasha19990309
+    version: "1.1"
+    workshop: 2931835197
+    origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=2931835197" }
+    layer: 60
+    exclude:
+      - "unit/hookup/tr_light_flares0.sii"
+
   # Real brands for companies and gas stations, plus its trailer company paint jobs, AI van liveries, shop,
   # landmark and panorama textures and its own sign/gas-station models (maintainer: option a, other content
   # included, 2026-10-01). Its def/ (company names, paint-job masks) is carried as edits of the base game
