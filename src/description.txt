@@ -18,6 +18,11 @@ Wet-road puddles and surface reflections: Realistic Rain Reflections Standalone 
 --------------------
 [green]Changelogs
 
+[orange]v1.4.0
+[normal]- Traffic-light lenses: country-specific lens textures from Different lenses of traffic lights (sasha19990309) are built in; disable that mod
+- Traffic lights no longer use the DriveDogs: Better Flares Traffic Lights add-on: remove it; the green flash and the night yellow blink work with or without Better Flares
+- Built on ETS2 1.61.1.9
+
 [orange]v1.3.0
 [normal]- Rain by day: much less rain fog by day and at dawn/dusk (about the game's own), so the road ahead stays in sight; night rain unchanged
 - Traffic lights: yellow blinks again at night (23:30-03:00) and green still flashes before yellow, on every green lens and with Better Flares' glow when loaded; no add-on needed for the flash
