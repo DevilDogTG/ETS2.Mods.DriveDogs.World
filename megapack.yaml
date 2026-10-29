@@ -32,7 +32,7 @@ exclude:
 # After a game update: extract the new base, bump the version, rerun the tools, rebuild, fix what
 # `megapack check` reports. After a source update: rerun its tool and review the `skip` lines.
 base_game:
-  version: "1.61.1.1"
+  version: "1.61.1.9"
 base_edits:
   edits:
     - world/edits.yaml                   # trains + level crossings (tools/harvest_edits.py)
