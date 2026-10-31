@@ -1,0 +1,18 @@
+effect : "eut2.dif.spec.weight.tsnmapcalc.rfx" {
+	substance : "road"
+	
+	specular : { 1, 1, 1 }
+	shininess : 50
+	reflection: 1
+	
+	
+	
+	texture : "texture_base" {
+		source : "hw_new_dk.tobj"
+		sampler : default
+	}
+	texture : "texture_nmap" {
+		source : "hw_new_dk_nrm.tobj"
+		sampler : default
+	}
+}
