@@ -28,6 +28,126 @@ resolutions:
     juninho-weather: 90198f7a05def5ac96e2dbb35cc79555e664a152952a9b9a7ecc433202ddbd76
     realistic-rain: 74faa6c85dd830e1703d77a2bc6f9401c199675df66963a2f0375fa601dbb68e
   note: 'Realistic Rain''s falling-rain streaks at the game''s brightness (diffuse 0.6 -> 1.0): at 0.6 they were ~5x fainter than vanilla''s and vanished at night without lightning (playtest round 4, 2026-10-01)'
+- path: material/road/asphalt10_nrm.dds
+  merged: overrides/material/road/asphalt10_nrm.dds
+  inputs:
+    juninho-asphalt: dd762f17f18fa5cdd919b355ddac4c480ab80646c93e82128b9c77e44216f867
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road normal map with World''s wheel tracks'
+- path: material/road/asphalt11_nrm.dds
+  merged: overrides/material/road/asphalt11_nrm.dds
+  inputs:
+    juninho-asphalt: 6afae9af69b1a0dbcc602e48801e6719a5abafbd2c65eeae72d1aa861aea7f97
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road normal map with World''s wheel tracks'
+- path: material/road/asphalt12_nrm.dds
+  merged: overrides/material/road/asphalt12_nrm.dds
+  inputs:
+    juninho-asphalt: 62a39c7322fce7947e1387b7f0609b2d4c998b8d5b24c2b91b2a9c33188eaee2
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road normal map with World''s wheel tracks'
+- path: material/road/asphalt13_nrm.dds
+  merged: overrides/material/road/asphalt13_nrm.dds
+  inputs:
+    juninho-asphalt: 86b17cdea6f74286a982131114c5a273d4056486c62c582df43d610519f87819
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road normal map with World''s wheel tracks'
+- path: material/road/asphalt2_nrm.dds
+  merged: overrides/material/road/asphalt2_nrm.dds
+  inputs:
+    juninho-asphalt: b7c7fdb539e77d970d054b65bccb230bc77b7c499432c44ac923a713b235b11e
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road normal map with World''s wheel tracks'
+- path: material/road/asphalt2_plates_full_nrm.dds
+  merged: overrides/material/road/asphalt2_plates_full_nrm.dds
+  inputs:
+    juninho-asphalt: 0cac97145a5f22cd0b98805507e3e405183a3228c8049edaea55b1d5a67d7689
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road normal map with World''s wheel tracks'
+- path: material/road/asphalt2_plates_nrm.dds
+  merged: overrides/material/road/asphalt2_plates_nrm.dds
+  inputs:
+    juninho-asphalt: 363839cd5b569b2005fc0f35059483b87485c4e760f0f99a5d984beeb2d9c7d1
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road normal map with World''s wheel tracks'
+- path: material/road/asphalt3_nrm.dds
+  merged: overrides/material/road/asphalt3_nrm.dds
+  inputs:
+    juninho-asphalt: fa8ad3380cd443b4a62b1176b268a22308ec2ebf1f950280cf7f883f44a938dc
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road normal map with World''s wheel tracks'
+- path: material/road/asphalt4_nrm.dds
+  merged: overrides/material/road/asphalt4_nrm.dds
+  inputs:
+    juninho-asphalt: 153323f8248989f522bab5daa81f6ca4e4a85c1da33c382d0ec5ab12099ac024
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road normal map with World''s wheel tracks'
+- path: material/road/asphalt5_nrm.dds
+  merged: overrides/material/road/asphalt5_nrm.dds
+  inputs:
+    juninho-asphalt: 6797c9ce4cdc348839c5664376d3178ac60c4a83c6bd7da70e21b71553032f4a
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road normal map with World''s wheel tracks'
+- path: material/road/asphalt6_nrm.dds
+  merged: overrides/material/road/asphalt6_nrm.dds
+  inputs:
+    juninho-asphalt: 9842e88519c4ddaef600f33cafe1f5a2b61a43b42bcf7bc4a655d7c93e079d42
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road normal map with World''s wheel tracks'
+- path: material/road/asphalt7_nrm.dds
+  merged: overrides/material/road/asphalt7_nrm.dds
+  inputs:
+    juninho-asphalt: 4266d7c6b1fc371eee04093b44131c377363b9b3da4c6baa303fc926a8c0e7e9
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road normal map with World''s wheel tracks'
+- path: material/road/asphalt8_nrm.dds
+  merged: overrides/material/road/asphalt8_nrm.dds
+  inputs:
+    juninho-asphalt: b330a8c4d513eeda6d1fb37970d39c98dbcf4bf0d0708ec23b2a2574567e0ae1
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road normal map with World''s wheel tracks'
+- path: material/road/asphalt9_nrm.dds
+  merged: overrides/material/road/asphalt9_nrm.dds
+  inputs:
+    juninho-asphalt: 28793b95f3aeca8bf3673f1662e915fc9421698690fd548ebd96ccf348e5bcb8
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road normal map with World''s wheel tracks'
+- path: material/road/asphalt_dusty2_nrm.dds
+  merged: overrides/material/road/asphalt_dusty2_nrm.dds
+  inputs:
+    juninho-asphalt: 8172341e24a2af428862651629095f66e4cfd59573f6cbbf83aa8ebd1a46510c
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road normal map with World''s wheel tracks'
+- path: material/road/asphalt_dusty_nrm.dds
+  merged: overrides/material/road/asphalt_dusty_nrm.dds
+  inputs:
+    juninho-asphalt: 93417b81438ac25cf27f6add6c9c567e9ad0d26f8a11c094cf7eb1188b96860e
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road normal map with World''s wheel tracks'
+- path: material/road/asphalt_fr_nrm.dds
+  merged: overrides/material/road/asphalt_fr_nrm.dds
+  inputs:
+    juninho-asphalt: 18ee8f42d7bf36ad3d66f51ff95d39650e71971e64518cff8710176a074b122b
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road normal map with World''s wheel tracks'
+- path: material/road/asphalt_ground_curb_nrm.dds
+  merged: overrides/material/road/asphalt_ground_curb_nrm.dds
+  inputs:
+    juninho-asphalt: 12ab2fa9390f7df3a66b5d01788354d1eedf69e29ef81043d3de03315bcd2dcb
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road normal map with World''s wheel tracks'
+- path: material/road/asphalt_nl_1_nrm.dds
+  merged: overrides/material/road/asphalt_nl_1_nrm.dds
+  inputs:
+    juninho-asphalt: 4e1ab069c330e9821a6a48b607a74718c4a745430a7b73b314c2e820385fd290
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road normal map with World''s wheel tracks'
+- path: material/road/asphalt_nrm.dds
+  merged: overrides/material/road/asphalt_nrm.dds
+  inputs:
+    juninho-asphalt: 0cac97145a5f22cd0b98805507e3e405183a3228c8049edaea55b1d5a67d7689
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road normal map with World''s wheel tracks'
+- path: material/road/asphalt_old_nrm.dds
+  merged: overrides/material/road/asphalt_old_nrm.dds
+  inputs:
+    juninho-asphalt: bdedf7e86e2f25cf25a46cc117e740f32b1ba6e330e7a39068ae1ed29511e04a
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road normal map with World''s wheel tracks'
+- path: material/road/hw_def_dk_nrm.dds
+  merged: overrides/material/road/hw_def_dk_nrm.dds
+  inputs:
+    juninho-asphalt: 1df13fa2c83ea4a51adc6f1e943ff5133f050fd4cb9d4924d09dab9280859856
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road normal map with World''s wheel tracks'
+- path: material/road/hw_def_swe_nrm.dds
+  merged: overrides/material/road/hw_def_swe_nrm.dds
+  inputs:
+    juninho-asphalt: bca1b81f1f058c1e5366a2bd257c0d85142eb464534dbdc70a976b25f9221b11
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road normal map with World''s wheel tracks'
+- path: material/road/hw_new_dk_nrm.dds
+  merged: overrides/material/road/hw_new_dk_nrm.dds
+  inputs:
+    juninho-asphalt: a4832d5f86cc5b706eaf26d00fb11f00678801c2c97739325e489fb3c64e7aa9
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road normal map with World''s wheel tracks'
 - path: material/road/road_template/balt/1_balt_nrm.dds
   merged: overrides/material/road/road_template/balt/1_balt_nrm.dds
   inputs:
@@ -253,3 +373,123 @@ resolutions:
   inputs:
     juninho-asphalt: 1cdd8da16c57973dde9b42ec044bcfbc939870aa29d2bb2905404b7f2fe85f3f
   note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/asphalt.mat
+  merged: overrides/material/road/asphalt.mat
+  inputs:
+    juninho-asphalt: 46506574f9818f89847a3d6f8a6b8d522f3cfddfa152de89798f46baf70323d8
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road material, shininess 50'
+- path: material/road/asphalt10.mat
+  merged: overrides/material/road/asphalt10.mat
+  inputs:
+    juninho-asphalt: a0e1056628be690a2791a4aabaaac9dd8cddd71e944e39b347feccd9b410e2b7
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road material, shininess 50'
+- path: material/road/asphalt11.mat
+  merged: overrides/material/road/asphalt11.mat
+  inputs:
+    juninho-asphalt: 11877414f9ac66cdce8d2d0404442ddd5427d630079fbdd61ad56b82f6c6313b
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road material, shininess 50'
+- path: material/road/asphalt12.mat
+  merged: overrides/material/road/asphalt12.mat
+  inputs:
+    juninho-asphalt: 0c3587ef7ce3b0b0c781dd6baad0387b76438840773265c6093048c44055a46b
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road material, shininess 50'
+- path: material/road/asphalt13.mat
+  merged: overrides/material/road/asphalt13.mat
+  inputs:
+    juninho-asphalt: 43a837b25bc69c69ae5ca9fa82af839e932ae625219d2f6c1df514140a372649
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road material, shininess 50'
+- path: material/road/asphalt2.mat
+  merged: overrides/material/road/asphalt2.mat
+  inputs:
+    juninho-asphalt: aa4aa919a948c03c9a1501baff8718b5ee5811deda10c8a74d3e68181f44956b
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road material, shininess 50'
+- path: material/road/asphalt2_plates.mat
+  merged: overrides/material/road/asphalt2_plates.mat
+  inputs:
+    juninho-asphalt: 4402cdfff056af034029ba1be2911d44ecf251b6d56df972103f1d2bb56a9e56
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road material, shininess 50'
+- path: material/road/asphalt2_plates_full.mat
+  merged: overrides/material/road/asphalt2_plates_full.mat
+  inputs:
+    juninho-asphalt: 444c499fa51ab6600e479487df41c3b60472953182ff4d77b9eb928dbbbdf830
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road material, shininess 50'
+- path: material/road/asphalt3.mat
+  merged: overrides/material/road/asphalt3.mat
+  inputs:
+    juninho-asphalt: df10e73a4cf3e6071c5592cfbfefeed8e29cf213acf0dd436ef1a5dd562945b5
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road material, shininess 50'
+- path: material/road/asphalt4.mat
+  merged: overrides/material/road/asphalt4.mat
+  inputs:
+    juninho-asphalt: 06bc7e1c39edacdc3ca7d0c9d427d228770d91cacb3ba3b1e7017d9ffb2f91f9
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road material, shininess 50'
+- path: material/road/asphalt5.mat
+  merged: overrides/material/road/asphalt5.mat
+  inputs:
+    juninho-asphalt: 295f997b56b5fa5a9655c55ae9fd3ed371d2d744d0506f7e2b91c9d0474a677f
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road material, shininess 50'
+- path: material/road/asphalt6.mat
+  merged: overrides/material/road/asphalt6.mat
+  inputs:
+    juninho-asphalt: b05dc11a2dd501ba099cbf79fa9a2dfddf312e4772548c321a400cefd836f2fe
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road material, shininess 50'
+- path: material/road/asphalt7.mat
+  merged: overrides/material/road/asphalt7.mat
+  inputs:
+    juninho-asphalt: 3cfccd840d0e1db2f0d4c66d6c586199698381dd6337445221836144bd08f6f2
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road material, shininess 50'
+- path: material/road/asphalt8.mat
+  merged: overrides/material/road/asphalt8.mat
+  inputs:
+    juninho-asphalt: a3b480663df9434cff23b77a44bf288ee8fe6274f1afff8dc86d6687b532da6a
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road material, shininess 50'
+- path: material/road/asphalt9.mat
+  merged: overrides/material/road/asphalt9.mat
+  inputs:
+    juninho-asphalt: ffb5b08c5dc58687530139d404cfca9f58412b9d65d282bf09fe375e1691497f
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road material, shininess 50'
+- path: material/road/asphalt_dusty.mat
+  merged: overrides/material/road/asphalt_dusty.mat
+  inputs:
+    juninho-asphalt: 8b3f8a3a97aeacff7cdb64c9d5fcc624c259a29234c637efa1b0a549a37dc412
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road material, shininess 50'
+- path: material/road/asphalt_dusty2.mat
+  merged: overrides/material/road/asphalt_dusty2.mat
+  inputs:
+    juninho-asphalt: a69b7ae292ea594ea3c6a1941011f658c206d0f6b16899ae1688993cfcd79cc8
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road material, shininess 50'
+- path: material/road/asphalt_fr.mat
+  merged: overrides/material/road/asphalt_fr.mat
+  inputs:
+    juninho-asphalt: dac8a2f000f16e3718615b36e080fbab5381e1ca1a0870d1c5d4a14f8ca4af6e
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road material, shininess 50'
+- path: material/road/asphalt_ground_curb.mat
+  merged: overrides/material/road/asphalt_ground_curb.mat
+  inputs:
+    juninho-asphalt: f0e0898e4a7e4382f302f70e8f1cb693e4037ee030ea46b26dc7f4fdd9a39572
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road material, shininess 50'
+- path: material/road/asphalt_nl_1.mat
+  merged: overrides/material/road/asphalt_nl_1.mat
+  inputs:
+    juninho-asphalt: 5650359f53d57c881640238fe25d11aa0a5e42146da434221d318a9898d3f6ad
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road material, shininess 50'
+- path: material/road/asphalt_old.mat
+  merged: overrides/material/road/asphalt_old.mat
+  inputs:
+    juninho-asphalt: 25012bc34455183711ec25850d64bd7cfd8bb576844088867b39eb05da13049d
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road material, shininess 50'
+- path: material/road/hw_def_dk.mat
+  merged: overrides/material/road/hw_def_dk.mat
+  inputs:
+    juninho-asphalt: 6947820d62e68606bf44060116fe5d55f97f870490c2c46ac720788933ed310f
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road material, shininess 50'
+- path: material/road/hw_def_swe.mat
+  merged: overrides/material/road/hw_def_swe.mat
+  inputs:
+    juninho-asphalt: 04759858a127d9812beabc6b7d0309d3bd20cf729cba03b74a166d00494cd345
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road material, shininess 50'
+- path: material/road/hw_new_dk.mat
+  merged: overrides/material/road/hw_new_dk.mat
+  inputs:
+    juninho-asphalt: b9de5baea1d5a8210a9df58b8efa6e841f4792353b15b3026cf959cb0937eee0
+  note: 'tools/rain_reflections.py: juninho-asphalt''s legacy road material, shininess 50'

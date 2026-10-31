@@ -20,6 +20,14 @@ elsewhere. Decisions: plan world-graphics, sub-plan rain-extras; ADR docs/adr/AD
        texture is blended), which also reaches every junction material that uses them.
    Junction materials that have no normal map in 1.61 (RRR gives them its rut maps) get the blended normal map of
    the road template with the same colour texture (JUNCTION_NMAPS), plus `.tsnmapcalc` in their effect.
+   Grain floor (GRAIN_MIN_TILT): a detail map smoother than that (the country templates, the legacy roads) has its
+   fine grain (high-pass) raised until it reaches it, so wet roads sparkle like the rough universal/blkw roads
+   instead of mirroring buildings in patches. Rough maps are left as they are.
+   Legacy roads (LEGACY_ROADS): the pre-template roads (`def/world/road_material.sii`, ~8% of road items, most of
+   the UK) take Asphalt's `material/road/*.mat`, which RRR never touched, so they had no wheel tracks. Their
+   normal maps get World's own tracks: two troughs per lane strip (the legacy textures put a lane in each 0.25 of
+   U, seams at 0.25/0.5/0.752 in every legacy road look; 0.752-0.944 is shoulder), at RRR's large-scale depth, and
+   their shininess goes to the templates' 50 (LEGACY_SHININESS) for the templates' narrower glare.
 2. Values. On base-game `umatlib/**` and `automat/**` materials RRR changes, only the reflection, specular and
    shininess values are carried (sidewalks, tiles, concrete, cobblestone, parking lots, junctions). Its effect
    and texture swaps are not: they drop the 1.61 reflection flavour (`.rfx`) or point at its normal maps.
@@ -70,6 +78,19 @@ JUNCTION_NMAPS = True
 # Blends are written at RRR's rut-map size when the winner's map is smaller (Asphalt's are 1024, RRR's 2048), so
 # RRR's fine water-surface detail is not lost to downscaling.
 KEEP_RUT_SIZE = True
+# Minimum mean tilt (deg) of a blend's surface detail. The country templates (~5 deg detail, ~10.5 blended) and the
+# legacy roads (4-6) mirrored buildings in patches when wet; the universal and blkw roads (20-29 blended) sparkle,
+# the look asked for (Crete, 2026-10-31). Only the fine grain (detail minus its GRAIN_RADIUS px box blur) is raised.
+GRAIN_MIN_TILT = 22.0
+GRAIN_RADIUS = 16
+# Legacy road materials that get wheel tracks and the shininess value: asphalt surfaces only (not cobbles, dirt
+# paths or the snow road).
+LEGACY_ROADS = re.compile(r"^material/road/(asphalt[\w]*|hw_\w+|gray_old_map_fr)\.mat$")
+LEGACY_LANES = ((0.0, 0.25), (0.25, 0.5), (0.5, 0.752))   # U strips, one lane each
+LEGACY_TRACKS = (0.25, 0.70)      # wheel-track centres across a lane strip (a truck's ~2 m track in a 4.5 m strip)
+LEGACY_TRACK_WIDTH = 0.07         # trough sigma, fraction of the strip (~0.3 m)
+LEGACY_RUT_SLOPE = 0.18           # peak slope of a trough flank (~10 deg; mean over the lane ~RRR's 5 deg)
+LEGACY_SHININESS = "50"
 VALUE_KEYS = ["reflection", "reflection_secondary", "specular", "specular_secondary", "shininess",
               "shininess_secondary"]
 DDS_PATH = re.compile(rb"/[\w/.\-]+\.dds")
@@ -186,6 +207,25 @@ def plan(m: Merge) -> tuple[dict[str, dict], dict[str, dict], list[str]]:
 
     road_nmaps = road_nmap_index(m, blends) if JUNCTION_NMAPS else {}
     values: dict[str, dict] = {}
+    legacy = re.findall(r'^\s*path\s*:\s*"/([^"]+)"', (m.base / "def/world/road_material.sii").read_text(encoding="utf-8"),
+                        re.M)
+    for rel in sorted(set(p for p in legacy if LEGACY_ROADS.match(p))):
+        w = m.winner(rel)
+        own = nmap_of(w[1].read_text(encoding="utf-8", errors="ignore")) if w else None
+        if own is None:
+            report.append(f"skip  {rel}: the winning material has no normal map (legacy road)")
+            continue
+        nw = m.winner(resolve(rel.rsplit("/", 1)[0], own))
+        target = tobj_dds(nw[1]).lstrip("/") if nw else None
+        dw = m.winner(target) if target else None
+        if dw is None:
+            report.append(f"skip  {rel}: normal map {own} missing")
+            continue
+        blends.setdefault(target, {"detail_src": dw[0], "detail": dw[1], "ruts": None, "via": rel})
+        text = w[1].read_text(encoding="utf-8", errors="ignore")
+        cur = re.search(VALUE_LINE.format(key="shininess"), text, re.M)
+        if cur and canon(cur.group(2)) != canon(LEGACY_SHININESS):
+            values[rel] = {"base": w[1], "src": w[0], "ops": {"shininess": LEGACY_SHININESS}, "nmaps": {}, "effect": ""}
     for top in ("umatlib", "automat"):
         for mat in sorted((m.rrr / top).rglob("*.mat")):
             rel = mat.relative_to(m.rrr).as_posix()
@@ -296,10 +336,54 @@ def rut_strength(target: str) -> float:
     return RUT_STRENGTH.get(folder, RUT_STRENGTH_DEFAULT)
 
 
-def out_size(detail: pathlib.Path, ruts: pathlib.Path) -> tuple[int, int]:
+def mean_tilt(xy: np.ndarray) -> float:
+    return float(np.degrees(np.arccos(np.clip(to_normal(xy)[..., 2], -1.0, 1.0))).mean())
+
+
+def box_blur(a: np.ndarray, r: int) -> np.ndarray:
+    """Wrapping (tiling) box blur of an (h, w, c) array, radius r."""
+    for axis in (0, 1):
+        n = a.shape[axis]
+        idx = np.arange(n)
+        c = np.cumsum(np.concatenate([np.take(a, idx[-r - 1:], axis), a, np.take(a, idx[:r], axis)], axis), axis)
+        a = (np.take(c, np.arange(2 * r + 1, n + 2 * r + 1), axis) - np.take(c, np.arange(n), axis)) / (2 * r + 1)
+    return a
+
+
+def grain_floor(xy: np.ndarray) -> tuple[np.ndarray, float]:
+    """(detail xy with its high-pass raised to GRAIN_MIN_TILT mean tilt, gain); unchanged (gain 1) if rough enough."""
+    if mean_tilt(xy) >= GRAIN_MIN_TILT:
+        return xy, 1.0
+    low = box_blur(xy, GRAIN_RADIUS)
+    high = xy - low
+    lo, hi = 1.0, 12.0
+    for _ in range(14):
+        g = (lo + hi) / 2
+        lo, hi = (g, hi) if mean_tilt(low + g * high) < GRAIN_MIN_TILT else (lo, g)
+    g = (lo + hi) / 2
+    return low + g * high, g
+
+
+def legacy_ruts(w: int, h: int) -> np.ndarray:
+    """World's wheel tracks for a legacy road texture (U across the road): two Gaussian troughs per lane strip,
+    constant along V, as tangent-space xy."""
+    u = (np.arange(w) + 0.5) / w
+    height = np.zeros(w)
+    for a, b in LEGACY_LANES:
+        for c in LEGACY_TRACKS:
+            centre, sigma = a + c * (b - a), LEGACY_TRACK_WIDTH * (b - a)
+            height -= np.exp(-((u - centre) ** 2) / (2 * sigma ** 2))
+    slope = np.gradient(height)
+    x = -slope / np.abs(slope).max() * LEGACY_RUT_SLOPE
+    xy = np.zeros((h, w, 2), np.float32)
+    xy[..., 0] = x[None, :]
+    return xy
+
+
+def out_size(detail: pathlib.Path, ruts: pathlib.Path | None) -> tuple[int, int]:
     """(width, height) of a blend: the winner's, or RRR's rut map's where that is larger (KEEP_RUT_SIZE)."""
     dw, dh = struct.unpack("<II", detail.read_bytes()[12:20])[::-1]
-    if not KEEP_RUT_SIZE:
+    if not KEEP_RUT_SIZE or ruts is None:
         return dw, dh
     with Image.open(ruts) as im:
         rw, rh = im.size
@@ -377,11 +461,14 @@ def edit_mat(text: str, ops: dict[str, str], nmaps: dict[str, str] | None = None
 def manifest_rows(m: Merge, blends: dict, values: dict) -> list[list[str]]:
     rows = []
     for target, b in sorted(blends.items()):
-        w, h = out_size(b["detail"], m.rrr / b["ruts"])
-        rows.append([target, "blend", f"{b['detail_src']}:{sha(b['detail'])}", f"rrr:{sha(m.rrr / b['ruts'])}",
-                     f"{rut_strength(target):g}@{w}x{h}"])
+        ruts = m.rrr / b["ruts"] if b["ruts"] else None
+        w, h = out_size(b["detail"], ruts)
+        puddles = f"rrr:{sha(ruts)}" if ruts else "world:legacy-lanes"
+        strength = f"{rut_strength(target):g}" if ruts else f"{LEGACY_RUT_SLOPE:g}"
+        rows.append([target, "blend", f"{b['detail_src']}:{sha(b['detail'])}", puddles,
+                     f"{strength}@{w}x{h} grain>={GRAIN_MIN_TILT:g}"])
     for rel, v in sorted(values.items()):
-        rows.append([rel, "values", f"base:{sha(v['base'])}",
+        rows.append([rel, "values", f"{v.get('src', 'base')}:{sha(v['base'])}",
                      ";".join([f"{k}={canon(x)}" for k, x in v["ops"].items()]
                               + [f"{k}={x}" for k, x in v["nmaps"].items()]), ""])
     return rows
@@ -413,14 +500,18 @@ def write_manifest(rows: list[list[str]], outs: dict[str, str]) -> None:
     MANIFEST.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
 
 
-def resolutions_text(m: Merge, blends: dict) -> str:
+def resolutions_text(m: Merge, blends: dict, values: dict) -> str:
     text = RESOLUTIONS.read_text(encoding="utf-8")
     head, _, _ = text.partition("\nresolutions:")
     doc = yaml.safe_load(text) or {}
     keep = [r for r in (doc.get("resolutions") or []) if not str(r.get("note", "")).startswith(NOTE)]
     ours = [{"path": t, "merged": f"overrides/{t}", "inputs": m.inputs(t),
-             "note": f"{NOTE}: {b['detail_src']}'s normal map blended with Realistic Rain Reflections' puddles"}
+             "note": (f"{NOTE}: {b['detail_src']}'s normal map blended with Realistic Rain Reflections' puddles"
+                      if b["ruts"] else f"{NOTE}: {b['detail_src']}'s legacy road normal map with World's wheel tracks")}
             for t, b in sorted(blends.items()) if m.inputs(t)]
+    ours += [{"path": rel, "merged": f"overrides/{rel}", "inputs": m.inputs(rel),
+              "note": f"{NOTE}: {v['src']}'s legacy road material, shininess {LEGACY_SHININESS}"}
+             for rel, v in sorted(values.items()) if v.get("src", "base") != "base" and m.inputs(rel)]
     body = yaml.safe_dump({"resolutions": keep + ours}, sort_keys=False, allow_unicode=True, width=10_000)
     return head + "\n" + body
 
@@ -434,7 +525,7 @@ def main() -> int:
     for r in report:
         print(r)
     rows = manifest_rows(m, blends, values)
-    res = resolutions_text(m, blends)
+    res = resolutions_text(m, blends, values)
     print(f"{len(blends)} normal maps to blend, {len(values)} materials with value edits")
 
     if args.check:
@@ -461,16 +552,19 @@ def main() -> int:
     outs = {}
     for i, (target, b) in enumerate(sorted(blends.items()), 1):
         template = b["detail"].read_bytes()
-        w, h = out_size(b["detail"], m.rrr / b["ruts"])
-        detail = to_normal(load_xy(b["detail"], (w, h)))
-        ruts = load_xy(m.rrr / b["ruts"], (w, h)) * rut_strength(target)
-        data = encode_like(blend(detail, to_normal(ruts)), template)
+        rut_map = m.rrr / b["ruts"] if b["ruts"] else None
+        w, h = out_size(b["detail"], rut_map)
+        detail_xy, gain = grain_floor(load_xy(b["detail"], (w, h)))
+        if rut_map:
+            ruts, what = load_xy(rut_map, (w, h)) * rut_strength(target), f"{rut_map.name} x{rut_strength(target):g}"
+        else:
+            ruts, what = legacy_ruts(w, h), "World's legacy lane tracks"
+        data = encode_like(blend(to_normal(detail_xy), to_normal(ruts)), template)
         dest = OVERRIDES / target
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_bytes(data)
         outs[target] = hashlib.sha256(data).hexdigest()
-        print(f"[{i}/{len(blends)}] blend {target} ({b['detail_src']}, {w}x{h}) + {b['ruts'].rsplit('/', 1)[1]}"
-              f" x{rut_strength(target):g}")
+        print(f"[{i}/{len(blends)}] blend {target} ({b['detail_src']}, {w}x{h}, grain x{gain:.2f}) + {what}")
     for rel, v in sorted(values.items()):
         text = edit_mat(v["base"].read_text(encoding="utf-8", newline=""), v["ops"], v["nmaps"], v["effect"])
         dest = OVERRIDES / rel
