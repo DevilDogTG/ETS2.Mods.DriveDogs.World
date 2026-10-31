@@ -10,7 +10,7 @@ Current content (v1.4.0, ETS2 1.61.1.9):
   Nature) and Darkcaptain (Realistic Rain), in the maintainer's load order.
 - **Water, lightning and thunder** from Kass (Realistic Rain & Water & Thunder Sounds).
 - **Wet roads**: Grimes' Realistic Rain Reflections wheel tracks blended into the winning road normal maps and
-  junctions, its wet reflections on sidewalks, tiles and concrete, and a softer sky mirror so the asphalt shows
+  junctions (World's own on the older roads), a rough wet grain on every asphalt, its wet reflections on sidewalks, tiles and concrete, and a softer sky mirror so the asphalt shows
   through. Needs the game's rain reflections and reflection quality set high.
 - **Road signs and markings** from DBM Road Signs & Markings 4K; **real company and gas station brands** from Real
   companies & gas stations (MLH82, 4of25).
