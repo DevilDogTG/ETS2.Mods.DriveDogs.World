@@ -18,6 +18,13 @@ Wet-road puddles and surface reflections: Realistic Rain Reflections Standalone 
 --------------------
 [green]Changelogs
 
+[orange]v1.4.1
+[normal]- Wet roads in rain look like wet asphalt again, not a mirror or a lake: the sky reflection is softer so the dark road shows through, and the glare along the wheel tracks stays
+- Deeper wheel tracks from Realistic Rain Reflections on the common road surfaces, at its full texture size
+- Junctions (crossings, roundabouts, slip-road joins) get the same wheel tracks as the road next to them
+- Heavy rain and thunderstorms leave the road a bit less wet
+- Wet roads need the game's rain reflections and reflection quality set high (Graphics settings); at their lowest the road looks dry
+
 [orange]v1.4.0
 [normal]- Traffic-light lenses: country-specific lens textures from Different lenses of traffic lights (sasha19990309) are built in; disable that mod
 - Traffic lights no longer use the DriveDogs: Better Flares Traffic Lights add-on: remove it; the green flash and the night yellow blink work with or without Better Flares

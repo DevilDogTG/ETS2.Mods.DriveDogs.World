@@ -9,8 +9,9 @@ Current content (v1.4.0, ETS2 1.61.1.9):
 - **Graphics** from Juninho944 (Weather_3.9, Asphalt_improved, grass_4.0_lite, tree_improved_4k), DIOX (Beautiful
   Nature) and Darkcaptain (Realistic Rain), in the maintainer's load order.
 - **Water, lightning and thunder** from Kass (Realistic Rain & Water & Thunder Sounds).
-- **Wet roads**: Grimes' Realistic Rain Reflections puddles blended into the winning road normal maps, and its
-  wet reflections on sidewalks, tiles, concrete and junctions.
+- **Wet roads**: Grimes' Realistic Rain Reflections wheel tracks blended into the winning road normal maps and
+  junctions, its wet reflections on sidewalks, tiles and concrete, and a softer sky mirror so the asphalt shows
+  through. Needs the game's rain reflections and reflection quality set high.
 - **Road signs and markings** from DBM Road Signs & Markings 4K; **real company and gas station brands** from Real
   companies & gas stations (MLH82, 4of25).
 - **Weather and time**: a rain mix of mostly light and medium rain, lighter rain fog at night so headlights reach and
@@ -83,7 +84,7 @@ them.
 
 | Event | What to do |
 |---|---|
-| Game update | Extract the new base, set `base_game.version`, rerun every tool in the order above (`rain_reflections.py` removes `base_material_fixes.py`'s file from the shared `overrides/automat/` until that one reruns), bump the version, rebuild. Tools and `megapack check` fail loudly on units, files or looks that moved (`base_material_fixes.py` also when SCS fixed a path itself: drop that entry). |
+| Game update | Extract the new base, set `base_game.version`, rerun every tool in the order above, bump the version, rebuild. Tools and `megapack check` fail loudly on units, files or looks that moved (`base_material_fixes.py` also when SCS fixed a path itself: drop that entry). |
 | Source update (Steam re-sync) | `megapack updates` reports it. Re-extract it at the new version, set the version in `sources.yaml`, `megapack lock` (stale `resolutions.yaml` entries need review), rerun the tools and `check_sign_defs.py`, rebuild. |
 | Rain Reflections update | Unzip it to a new `local/rain-reflections/<version>/`, set `RRR_VERSION` in `tools/rain_reflections.py`, rerun it, rebuild. |
 | Bus-stop people (2893480838) update | Extract it with `extract-reference` to `workshop/2893480838/<version>/`, set `MOD_VERSION` in `tools/bus_stop_people.py`, rerun it, compare its definitions with `world/units/`, rebuild. |
