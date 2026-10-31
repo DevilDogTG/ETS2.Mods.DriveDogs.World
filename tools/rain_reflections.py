@@ -18,7 +18,8 @@ elsewhere. Decisions: plan world-graphics, sub-plan rain-extras; ADR docs/adr/AD
        material's own normal map is blended)
      - `road_template/un/*_nrm.tobj` (RRR points the universal roads' normal maps at its own; the winning
        texture is blended), which also reaches every junction material that uses them.
-   Materials that have no normal map in the winner (some junction pieces RRR gave one) stay without puddles.
+   Junction materials that have no normal map in 1.61 (RRR gives them its rut maps) get the blended normal map of
+   the road template with the same colour texture (JUNCTION_NMAPS), plus `.tsnmapcalc` in their effect.
 2. Values. On base-game `umatlib/**` and `automat/**` materials RRR changes, only the reflection, specular and
    shininess values are carried (sidewalks, tiles, concrete, cobblestone, parking lots, junctions). Its effect
    and texture swaps are not: they drop the 1.61 reflection flavour (`.rfx`) or point at its normal maps.
@@ -62,6 +63,10 @@ NOTE = "tools/rain_reflections.py"
 # large-scale tilt in 1.0.0-1.4.0; the country templates (~5 deg) kept ~90% at 1.0.
 RUT_STRENGTH = {"un": 1.6, "blkw": 1.4}
 RUT_STRENGTH_DEFAULT = 1.0
+# Junction materials RRR gives a rut map where the base game has no normal map get the blended normal map of the
+# road template that uses the same colour texture (so the junction matches the road next to it), with the effect's
+# `.tsnmapcalc` flavour added before `.rfx`. RRR's own rut maps are never shipped.
+JUNCTION_NMAPS = True
 # Blends are written at RRR's rut-map size when the winner's map is smaller (Asphalt's are 1024, RRR's 2048), so
 # RRR's fine water-surface detail is not lost to downscaling.
 KEEP_RUT_SIZE = True
@@ -140,7 +145,7 @@ def nmap_of(mat_text: str) -> str | None:
 # --- plan -------------------------------------------------------------------------------------------------------
 
 def plan(m: Merge) -> tuple[dict[str, dict], dict[str, dict], list[str]]:
-    """blends {target dds: {detail, detail_src, ruts, via}}, values {mat: {base, ops}}, report lines."""
+    """blends {target dds: {detail, detail_src, ruts, via}}, values {mat: {base, ops, nmaps, effect}}, report lines."""
     blends: dict[str, dict] = {}
     report: list[str] = []
 
@@ -179,6 +184,7 @@ def plan(m: Merge) -> tuple[dict[str, dict], dict[str, dict], list[str]]:
         rel = tobj.relative_to(m.rrr).as_posix()
         want(rel, tobj, rel)
 
+    road_nmaps = road_nmap_index(m, blends) if JUNCTION_NMAPS else {}
     values: dict[str, dict] = {}
     for top in ("umatlib", "automat"):
         for mat in sorted((m.rrr / top).rglob("*.mat")):
@@ -196,9 +202,63 @@ def plan(m: Merge) -> tuple[dict[str, dict], dict[str, dict], list[str]]:
                     ops[key] = a.group(2)
                 elif a and not b:
                     report.append(f"skip  {rel}: {key} not in the base material")
-            if ops:
-                values[rel] = {"base": base, "ops": ops}
+            nmaps, effect = junction_nmaps(rel, theirs, ours, road_nmaps, report)
+            if ops or nmaps:
+                values[rel] = {"base": base, "ops": ops, "nmaps": nmaps, "effect": effect}
     return blends, values, report
+
+
+def mat_textures(text: str) -> dict[str, str]:
+    """{texture name: source} of a material, either format."""
+    out = dict(TEX.findall(text))
+    names = dict(LEGACY_NAME.findall(text))
+    for i, src in LEGACY_TEX.findall(text):
+        out.setdefault(names.get(i, ""), src)
+    return out
+
+
+def road_nmap_index(m: Merge, blends: dict) -> dict[str, str]:
+    """{colour texture .tobj game path (lower case): normal-map .tobj game path} from every winning road-template
+    material whose normal map World blends."""
+    mats = {h for h in m.holders if h.startswith("material/road/road_template/") and h.endswith(".mat")}
+    mats |= {p.relative_to(m.base).as_posix().lower() for p in (m.base / "material/road/road_template").rglob("*.mat")}
+    index: dict[str, str] = {}
+    for rel in sorted(mats):
+        w = m.winner(rel)
+        if w is None:
+            continue
+        tex, rel_dir = mat_textures(w[1].read_text(encoding="utf-8", errors="ignore")), rel.rsplit("/", 1)[0]
+        if "texture_base" not in tex or "texture_nmap" not in tex:
+            continue
+        nmap = resolve(rel_dir, tex["texture_nmap"])
+        nw = m.winner(nmap)
+        if nw and tobj_dds(nw[1]).lstrip("/") in blends:
+            index.setdefault(resolve(rel_dir, tex["texture_base"]).lower(), "/" + nmap)
+    return index
+
+
+def junction_nmaps(rel: str, theirs: str, ours: str, road_nmaps: dict[str, str],
+                   report: list[str]) -> tuple[dict[str, str], str]:
+    """({texture_nmap[_over]: .tobj}, new effect) for a junction material RRR gives a rut map and 1.61 none."""
+    rrr_nmap = nmap_of(theirs)
+    if not road_nmaps or rrr_nmap is None or "road_ntex" not in rrr_nmap or nmap_of(ours) is not None:
+        return {}, ""
+    tex = mat_textures(ours)
+    nmaps = {}
+    for layer, name in (("texture_base", "texture_nmap"), ("texture_over", "texture_nmap_over")):
+        if layer not in tex:
+            continue
+        nmap = road_nmaps.get(tex[layer].lstrip("/").lower())
+        if nmap is None:
+            report.append(f"skip  {rel}: no blended road normal map for {tex[layer]}")
+            return {}, ""
+        nmaps[name] = nmap
+    effect = re.search(r'^\s*effect\s*:\s*"([^"]+)"', ours, re.M)
+    if not nmaps or effect is None or ".tsnmapcalc" in effect.group(1):
+        report.append(f"skip  {rel}: unexpected effect or textures")
+        return {}, ""
+    e = effect.group(1)
+    return nmaps, (e[: -len(".rfx")] + ".tsnmapcalc.rfx" if e.endswith(".rfx") else e + ".tsnmapcalc")
 
 
 def canon(v: str) -> str:
@@ -299,10 +359,18 @@ def encode_like(n: np.ndarray, template: bytes) -> bytes:
 
 # --- outputs ----------------------------------------------------------------------------------------------------
 
-def edit_mat(text: str, ops: dict[str, str]) -> str:
+def edit_mat(text: str, ops: dict[str, str], nmaps: dict[str, str] | None = None, effect: str = "") -> str:
     for key, val in ops.items():
         text, n = re.subn(VALUE_LINE.format(key=key), lambda m: m.group(1) + val, text, count=1, flags=re.M)
         assert n == 1, key
+    if nmaps:
+        nl = "\r\n" if "\r\n" in text else "\n"
+        text, n = re.subn(r'^(\s*effect\s*:\s*)"[^"]+"', lambda m: f'{m.group(1)}"{effect}"', text, count=1, flags=re.M)
+        assert n == 1, "effect"
+        blocks = "".join(f'\ttexture : "{name}" {{{nl}\t\tsource : "{src}"{nl}\t\tsampler : default{nl}\t}}{nl}'
+                         for name, src in nmaps.items())
+        end = text.rstrip().rfind("}")
+        text = text[:end] + blocks + text[end:]
     return text
 
 
@@ -314,7 +382,8 @@ def manifest_rows(m: Merge, blends: dict, values: dict) -> list[list[str]]:
                      f"{rut_strength(target):g}@{w}x{h}"])
     for rel, v in sorted(values.items()):
         rows.append([rel, "values", f"base:{sha(v['base'])}",
-                     ";".join(f"{k}={canon(x)}" for k, x in v["ops"].items()), ""])
+                     ";".join([f"{k}={canon(x)}" for k, x in v["ops"].items()]
+                              + [f"{k}={x}" for k, x in v["nmaps"].items()]), ""])
     return rows
 
 
@@ -403,7 +472,7 @@ def main() -> int:
         print(f"[{i}/{len(blends)}] blend {target} ({b['detail_src']}, {w}x{h}) + {b['ruts'].rsplit('/', 1)[1]}"
               f" x{rut_strength(target):g}")
     for rel, v in sorted(values.items()):
-        text = edit_mat(v["base"].read_text(encoding="utf-8", newline=""), v["ops"])
+        text = edit_mat(v["base"].read_text(encoding="utf-8", newline=""), v["ops"], v["nmaps"], v["effect"])
         dest = OVERRIDES / rel
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_text(text, encoding="utf-8", newline="")

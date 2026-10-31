@@ -82,8 +82,9 @@ MIX_FILE = "def/climate/default/bad.sii"
 CLASSES = {
     "light": ((0.15, 0.30), (0.20, 0.45), [1, 3, 7]),
     "medium": ((0.35, 0.55), (0.40, 0.60), [5, 6]),
-    "heavy": ((0.70, 0.85), (0.60, 0.85), [0, 9]),
-    "storm": ((0.90, 0.95), (0.80, 0.95), [2, 4, 8]),
+    # heavy/storm wetness was 0.60-0.85 / 0.80-0.95 to 1.4.0: near-mirror roads, "a big lake" (2026-10-31 report)
+    "heavy": ((0.70, 0.85), (0.55, 0.70), [0, 9]),
+    "storm": ((0.90, 0.95), (0.70, 0.80), [2, 4, 8]),
 }
 DAY_SHARES = {"light": 40, "medium": 35, "heavy": 18, "storm": 7}     # % of rainy periods (user, 2026-09-30)
 NIGHT_SHARES = {"light": 45, "medium": 35, "heavy": 15, "storm": 5}
