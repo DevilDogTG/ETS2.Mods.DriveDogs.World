@@ -6,6 +6,8 @@ def/game_data.sii:
     set:
       leaves_lod_end: (990.0, 990.0, 990.0)
       leaves_lod_start: (980.0, 980.0, 980.0)
+      rain_cube_strength: '0.5'
+      rain_planar_strength: '0.5'
 def/vehicle/interior_glass_config_rain.sii:
   .glass.config.rain:
     set:

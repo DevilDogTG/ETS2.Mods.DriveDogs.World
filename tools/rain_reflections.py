@@ -10,7 +10,9 @@ elsewhere. Decisions: plan world-graphics, sub-plan rain-extras; ADR docs/adr/AD
    wheel tracks tilted so water and reflections collect in them), replacing the road's own normal map. Asphalt
    ships its own normal maps on the same materials, and a material takes one normal map. So each winning normal
    map RRR would replace is rewritten as a blend: Asphalt's (or the base game's) surface detail reoriented onto
-   RRR's wheel tracks (Reoriented Normal Mapping), same size, format (BC5) and mip count as the winner's file.
+   RRR's wheel tracks (Reoriented Normal Mapping), same format (BC5) and mip chain as the winner's file, at RRR's
+   size where that is larger (KEEP_RUT_SIZE). The rut tilt is scaled per folder (RUT_STRENGTH): Asphalt's
+   universal and blkw maps are rough enough to bury the ruts at RRR's own strength.
    Both maps are sampled with the same UVs, since RRR swapped them on the same materials. Covered:
      - country road templates `material/road/road_template/<c>/*.mat` (RRR adds a normal map; the winning
        material's own normal map is blended)
@@ -55,7 +57,14 @@ MANIFEST = ROOT / "world" / "rain_reflections.tsv"
 OVERRIDES = ROOT / "overrides"
 RESOLUTIONS = ROOT / "resolutions.yaml"
 NOTE = "tools/rain_reflections.py"
-RUT_STRENGTH = 1.0      # scale of RRR's wheel-track tilt in the blend (1.0 = as RRR made it)
+# Scale of RRR's wheel-track tilt in the blend (1.0 = as RRR made it), by road-texture folder. Asphalt's universal
+# (un/) and blkw maps are rough (~33-38 deg mean tilt vs RRR's 11.6), which buried the ruts at ~60% of RRR's
+# large-scale tilt in 1.0.0-1.4.0; the country templates (~5 deg) kept ~90% at 1.0.
+RUT_STRENGTH = {"un": 1.6, "blkw": 1.4}
+RUT_STRENGTH_DEFAULT = 1.0
+# Blends are written at RRR's rut-map size when the winner's map is smaller (Asphalt's are 1024, RRR's 2048), so
+# RRR's fine water-surface detail is not lost to downscaling.
+KEEP_RUT_SIZE = True
 VALUE_KEYS = ["reflection", "reflection_secondary", "specular", "specular_secondary", "shininess",
               "shininess_secondary"]
 DDS_PATH = re.compile(rb"/[\w/.\-]+\.dds")
@@ -222,12 +231,48 @@ def blend(detail: np.ndarray, ruts: np.ndarray) -> np.ndarray:
     return r / np.linalg.norm(r, axis=-1, keepdims=True)
 
 
+def rut_strength(target: str) -> float:
+    folder = target.split("road_template/", 1)[-1].split("/", 1)[0]
+    return RUT_STRENGTH.get(folder, RUT_STRENGTH_DEFAULT)
+
+
+def out_size(detail: pathlib.Path, ruts: pathlib.Path) -> tuple[int, int]:
+    """(width, height) of a blend: the winner's, or RRR's rut map's where that is larger (KEEP_RUT_SIZE)."""
+    dw, dh = struct.unpack("<II", detail.read_bytes()[12:20])[::-1]
+    if not KEEP_RUT_SIZE:
+        return dw, dh
+    with Image.open(ruts) as im:
+        rw, rh = im.size
+    return max(dw, rw), max(dh, rh)
+
+
+def full_chain(w: int, h: int) -> int:
+    return max(w, h).bit_length()
+
+
+def bc_size(w: int, h: int, mips: int) -> int:
+    total = 0
+    for _ in range(mips):
+        total += max(1, (w + 3) // 4) * max(1, (h + 3) // 4) * 16
+        w, h = max(1, w // 2), max(1, h // 2)
+    return total
+
+
 def encode_like(n: np.ndarray, template: bytes) -> bytes:
-    """BC5 DDS with the template file's header (size, DXGI format, mip count); mips by box filter."""
+    """BC5 DDS with the template file's header (DXGI format, flags); size from `n`, mip count as the template's
+    (a full chain stays a full chain at a new size); mips by box filter."""
     if template[84:88] != b"DX10" or struct.unpack("<I", template[128:132])[0] not in (83, 84):
         raise ValueError("winner normal map is not BC5 (DXGI 83/84)")
+    th, tw = struct.unpack("<II", template[12:20])
     mips = max(1, struct.unpack("<I", template[28:32])[0])
-    out = [template[:148]]
+    h, w = n.shape[:2]
+    head = bytearray(template[:148])
+    if (h, w) != (th, tw):
+        if mips == full_chain(tw, th):
+            mips = full_chain(w, h)
+        struct.pack_into("<III", head, 12, h, w, bc_size(w, h, 1))   # height, width, linear size of the top level
+        struct.pack_into("<I", head, 28, mips)
+    out = [bytes(head)]
     level = n
     for i in range(mips):
         if i:
@@ -246,8 +291,9 @@ def encode_like(n: np.ndarray, template: bytes) -> bytes:
         Image.fromarray(rgb, "RGB").save(buf, "DDS", pixel_format="BC5")
         out.append(buf.getvalue()[148:])
     data = b"".join(out)
-    if len(data) != len(template):
-        raise ValueError(f"encoded {len(data)} bytes, winner has {len(template)}")
+    want = 148 + bc_size(n.shape[1], n.shape[0], mips)
+    if len(data) != want:
+        raise ValueError(f"encoded {len(data)} bytes, expected {want}")
     return data
 
 
@@ -263,8 +309,9 @@ def edit_mat(text: str, ops: dict[str, str]) -> str:
 def manifest_rows(m: Merge, blends: dict, values: dict) -> list[list[str]]:
     rows = []
     for target, b in sorted(blends.items()):
+        w, h = out_size(b["detail"], m.rrr / b["ruts"])
         rows.append([target, "blend", f"{b['detail_src']}:{sha(b['detail'])}", f"rrr:{sha(m.rrr / b['ruts'])}",
-                     f"{RUT_STRENGTH:g}"])
+                     f"{rut_strength(target):g}@{w}x{h}"])
     for rel, v in sorted(values.items()):
         rows.append([rel, "values", f"base:{sha(v['base'])}",
                      ";".join(f"{k}={canon(x)}" for k, x in v["ops"].items()), ""])
@@ -292,7 +339,7 @@ def read_manifest() -> tuple[list[list[str]], dict[str, str]]:
 
 def write_manifest(rows: list[list[str]], outs: dict[str, str]) -> None:
     lines = ["# GENERATED by tools/rain_reflections.py — do not edit by hand.",
-             "path\tkind\tinput\tpuddles_or_values\trut_strength\toutput_sha256"]
+             "path\tkind\tinput\tpuddles_or_values\trut_strength@size\toutput_sha256"]
     lines += ["\t".join(r + [outs[r[0]]]) for r in rows]
     MANIFEST.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
 
@@ -345,24 +392,26 @@ def main() -> int:
     outs = {}
     for i, (target, b) in enumerate(sorted(blends.items()), 1):
         template = b["detail"].read_bytes()
-        detail = to_normal(load_xy(b["detail"]))
-        h, w = detail.shape[:2]
-        ruts = load_xy(m.rrr / b["ruts"], (w, h)) * RUT_STRENGTH
+        w, h = out_size(b["detail"], m.rrr / b["ruts"])
+        detail = to_normal(load_xy(b["detail"], (w, h)))
+        ruts = load_xy(m.rrr / b["ruts"], (w, h)) * rut_strength(target)
         data = encode_like(blend(detail, to_normal(ruts)), template)
         dest = OVERRIDES / target
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_bytes(data)
         outs[target] = hashlib.sha256(data).hexdigest()
-        print(f"[{i}/{len(blends)}] blend {target} ({b['detail_src']}, {w}x{h}) + {b['ruts'].rsplit('/', 1)[1]}")
+        print(f"[{i}/{len(blends)}] blend {target} ({b['detail_src']}, {w}x{h}) + {b['ruts'].rsplit('/', 1)[1]}"
+              f" x{rut_strength(target):g}")
     for rel, v in sorted(values.items()):
         text = edit_mat(v["base"].read_text(encoding="utf-8", newline=""), v["ops"])
         dest = OVERRIDES / rel
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_text(text, encoding="utf-8", newline="")
         outs[rel] = sha(dest)
+    keep = set(outs) | other_owned()
     for f in OVERRIDES.rglob("*"):
         rel = f.relative_to(OVERRIDES).as_posix()
-        if f.is_file() and rel.startswith(("material/road/", "umatlib/", "automat/")) and rel not in outs:
+        if f.is_file() and rel.startswith(("material/road/", "umatlib/", "automat/")) and rel not in keep:
             f.unlink()
             print(f"removed stale overrides/{rel}")
     write_manifest(rows, outs)
