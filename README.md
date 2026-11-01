@@ -4,14 +4,14 @@ ETS2 mod for the world around the road, built as a local **megapack** with the `
 `scs-mod-developer` agent profile. This repo holds only configuration and tools. The mod is built from the
 extracted base game, subscribed Workshop items and one local archive. It is never redistributed.
 
-Current content (v1.4.0, ETS2 1.61.1.9):
+Current content (v1.4.2, ETS2 1.61.1.9):
 
 - **Graphics** from Juninho944 (Weather_3.9, Asphalt_improved, grass_4.0_lite, tree_improved_4k), DIOX (Beautiful
   Nature) and Darkcaptain (Realistic Rain), in the maintainer's load order.
 - **Water, lightning and thunder** from Kass (Realistic Rain & Water & Thunder Sounds).
 - **Wet roads**: Grimes' Realistic Rain Reflections wheel tracks blended into the winning road normal maps and
-  junctions (World's own on the older roads), a rough wet grain on every asphalt, its wet reflections on sidewalks, tiles and concrete, and a softer sky mirror so the asphalt shows
-  through. Needs the game's rain reflections and reflection quality set high.
+  junctions (World's own on the older roads, UK junctions and yards), a rough wet grain on every asphalt, its wet
+  reflections on sidewalks, tiles and concrete, and a softer sky mirror so the asphalt shows through. Needs the game's rain reflections and reflection quality set high.
 - **Road signs and markings** from DBM Road Signs & Markings 4K; **real company and gas station brands** from Real
   companies & gas stations (MLH82, 4of25).
 - **Weather and time**: a rain mix of mostly light and medium rain, lighter rain fog at night so headlights reach and
