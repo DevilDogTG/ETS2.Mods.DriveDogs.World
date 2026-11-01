@@ -27,7 +27,8 @@ elsewhere. Decisions: plan world-graphics, sub-plan rain-extras; ADR docs/adr/AD
    the UK) take Asphalt's `material/road/*.mat`, which RRR never touched, so they had no wheel tracks. Their
    normal maps get World's own tracks: two troughs per lane strip (the legacy textures put a lane in each 0.25 of
    U, seams at 0.25/0.5/0.752 in every legacy road look; 0.752-0.944 is shoulder), at RRR's large-scale depth, and
-   their shininess goes to the templates' 50 (LEGACY_SHININESS) for the templates' narrower glare.
+   their shininess goes to the templates' 50 (LEGACY_SHININESS) for the templates' narrower glare. Base
+   junction/yard materials with a legacy asphalt layer and no normal map get the same map (LEGACY_JUNCTIONS).
 2. Values. On base-game `umatlib/**` and `automat/**` materials RRR changes, only the reflection, specular and
    shininess values are carried (sidewalks, tiles, concrete, cobblestone, parking lots, junctions). Its effect
    and texture swaps are not: they drop the 1.61 reflection flavour (`.rfx`) or point at its normal maps.
@@ -91,6 +92,10 @@ LEGACY_TRACKS = (0.25, 0.70)      # wheel-track centres across a lane strip (a t
 LEGACY_TRACK_WIDTH = 0.07         # trough sigma, fraction of the strip (~0.3 m)
 LEGACY_RUT_SLOPE = 0.18           # peak slope of a trough flank (~10 deg; mean over the lane ~RRR's 5 deg)
 LEGACY_SHININESS = "50"
+# Base junction, yard and parking materials whose colour layer is a legacy asphalt texture (the UK prefabs: ~300, only
+# 18 with a normal map in 1.61) get that legacy road's normal map, as JUNCTION_NMAPS does for the template junctions.
+LEGACY_JUNCTIONS = True
+FLAT_NMAP = "/system/special/flat_nrm.tobj"    # what SCS's own two-layer materials use on a layer without one
 VALUE_KEYS = ["reflection", "reflection_secondary", "specular", "specular_secondary", "shininess",
               "shininess_secondary"]
 DDS_PATH = re.compile(rb"/[\w/.\-]+\.dds")
@@ -207,6 +212,7 @@ def plan(m: Merge) -> tuple[dict[str, dict], dict[str, dict], list[str]]:
 
     road_nmaps = road_nmap_index(m, blends) if JUNCTION_NMAPS else {}
     values: dict[str, dict] = {}
+    legacy_nmaps: dict[str, str] = {}
     legacy = re.findall(r'^\s*path\s*:\s*"/([^"]+)"', (m.base / "def/world/road_material.sii").read_text(encoding="utf-8"),
                         re.M)
     for rel in sorted(set(p for p in legacy if LEGACY_ROADS.match(p))):
@@ -223,6 +229,9 @@ def plan(m: Merge) -> tuple[dict[str, dict], dict[str, dict], list[str]]:
             continue
         blends.setdefault(target, {"detail_src": dw[0], "detail": dw[1], "ruts": None, "via": rel})
         text = w[1].read_text(encoding="utf-8", errors="ignore")
+        colour = mat_textures(text).get("texture_base")
+        if colour:
+            legacy_nmaps[resolve(rel.rsplit("/", 1)[0], colour).lower()] = "/" + resolve(rel.rsplit("/", 1)[0], own)
         cur = re.search(VALUE_LINE.format(key="shininess"), text, re.M)
         if cur and canon(cur.group(2)) != canon(LEGACY_SHININESS):
             values[rel] = {"base": w[1], "src": w[0], "ops": {"shininess": LEGACY_SHININESS}, "nmaps": {}, "effect": ""}
@@ -245,7 +254,61 @@ def plan(m: Merge) -> tuple[dict[str, dict], dict[str, dict], list[str]]:
             nmaps, effect = junction_nmaps(rel, theirs, ours, road_nmaps, report)
             if ops or nmaps:
                 values[rel] = {"base": base, "ops": ops, "nmaps": nmaps, "effect": effect}
+    if LEGACY_JUNCTIONS and legacy_nmaps:
+        legacy_junctions(m, legacy_nmaps, road_nmaps, values, report)
     return blends, values, report
+
+
+def with_nmapcalc(effect: str) -> str | None:
+    """The effect with `.tsnmapcalc` where the base game puts it (before `.tgN` and `.rfx`)."""
+    t = re.search(r"(\.tg\d)*\.rfx$", effect)
+    return None if t is None or ".tsnmapcalc" in effect else effect[: t.start()] + ".tsnmapcalc" + effect[t.start():]
+
+
+def legacy_junctions(m: Merge, legacy_nmaps: dict[str, str], road_nmaps: dict[str, str], values: dict,
+                     report: list[str]) -> None:
+    """Base junction/yard/parking materials with a legacy asphalt colour layer and no normal map get the legacy road's
+    normal map on that layer (the other layer: a blended road-template map, else the base game's flat map, as SCS's
+    own two-layer materials do), `.tsnmapcalc` (only into an effect the base game already uses) and the legacy
+    shininess on that layer. Merged into `values`; a material R3 already gave normal maps is left as it is."""
+    effects, cands = set(), []
+    for top in ("automat", "umatlib"):
+        for p in sorted((m.base / top).rglob("*.mat")):
+            t = p.read_text(encoding="utf-8", errors="ignore")
+            e = re.search(r'^\s*effect\s*:\s*"([^"]+)"', t, re.M)
+            if e:
+                effects.add(e.group(1))
+            if "/material/road/" in t:
+                cands.append((p, t, e.group(1) if e else ""))
+    for p, text, effect in cands:
+        rel = p.relative_to(m.base).as_posix()
+        tex = mat_textures(text)
+        layers = [(layer, name, key) for layer, name, key in (("texture_base", "texture_nmap", "shininess"),
+                                                               ("texture_over", "texture_nmap_over", "shininess_secondary"))
+                  if layer in tex]
+        legacy = [layer for layer, _, _ in layers if tex[layer].lstrip("/").lower() in legacy_nmaps]
+        if not legacy or nmap_of(text) is not None or "texture_nmap_over" in tex:
+            continue
+        if rel.lower() in m.holders:
+            report.append(f"skip  {rel}: shipped by {m.inputs(rel)} (legacy junction)")
+            continue
+        new = with_nmapcalc(effect)
+        if new is None or new not in effects:
+            report.append(f"skip  {rel}: no base-game effect {new or effect + ' + .tsnmapcalc'} (legacy junction)")
+            continue
+        nmaps, ops = {}, {}
+        for layer, name, key in layers:
+            src = tex[layer].lstrip("/").lower()
+            nmaps[name] = legacy_nmaps.get(src) or road_nmaps.get(src) or FLAT_NMAP
+            cur = re.search(VALUE_LINE.format(key=key), text, re.M)
+            if layer in legacy and cur and canon(cur.group(2)) != canon(LEGACY_SHININESS):
+                ops[key] = LEGACY_SHININESS
+        if rel in values:
+            if values[rel]["nmaps"]:
+                continue
+            values[rel].update(nmaps=nmaps, effect=new, ops={**ops, **values[rel]["ops"]})
+        else:
+            values[rel] = {"base": p, "ops": ops, "nmaps": nmaps, "effect": new}
 
 
 def mat_textures(text: str) -> dict[str, str]:
