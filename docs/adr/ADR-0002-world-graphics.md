@@ -59,6 +59,9 @@
    buildings in patches. The legacy (pre-template) roads, ~8% of road items and most of the UK, which RRR never
    covered, get World's own wheel tracks (two troughs in each 0.25-U lane strip of their textures) and the templates'
    shininess 50 instead of Asphalt's 15.
+   Base junction, yard and parking materials whose colour layer is a legacy asphalt texture (~230, the UK prefabs)
+   get that legacy road's normal map on the layer (a template road map or the base game's flat map on the other), as
+   SCS's own two-layer materials do, `.tsnmapcalc` only where the base game already uses that effect, and shininess 50.
 7. **Kass:** lightning (20 bolt/cloud sets), thunder bank, and the water textures 1.61 uses (wave maps, river, muddy
    and green water, panorama, Balkan water plants), replacing Beautiful Water; beaches stay grass_4.0's. Its rain
    sounds, particles, spray, windshield, `game_data` and camera are not used.

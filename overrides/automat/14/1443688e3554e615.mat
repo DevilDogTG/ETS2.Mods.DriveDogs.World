@@ -1,0 +1,30 @@
+effect : "eut2.dif.spec.weight.weight.dif.spec.weight.tsnmapcalc.tg0.rfx" {
+	additional_ambient : 0.000000
+	diffuse : { 1.000000 , 1.000000 , 1.000000 }
+	diffuse_secondary : { 1.000000 , 1.000000 , 1.000000 }
+	reflection : 0.000000
+	reflection_secondary : 1.000000
+	shininess : 12.000000
+	shininess_secondary : 50
+	specular : { 0.010023 , 0.010023 , 0.010023 }
+	specular_secondary : { 1.600000 , 1.600000 , 1.600000 }
+	texgen_0_gen : { 13.000000 , 13.000000 }
+	texgen_0_rot : 0.000000
+	lod_switch_distance : 0.000000
+	texture : "texture_base" {
+		source : "/material/terrain/grass_green_main_sc.tobj"
+		sampler : default
+	}
+	texture : "texture_over" {
+		source : "/material/road/asphalt7.tobj"
+		sampler : default
+	}
+	texture : "texture_nmap" {
+		source : "/system/special/flat_nrm.tobj"
+		sampler : default
+	}
+	texture : "texture_nmap_over" {
+		source : "/material/road/asphalt7_nrm.tobj"
+		sampler : default
+	}
+}

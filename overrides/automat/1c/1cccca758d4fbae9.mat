@@ -1,0 +1,15 @@
+effect : "eut2.dif.spec.weight.tsnmapcalc.rfx" {
+	additional_ambient : 0.000000
+	diffuse : { 1.000000 , 1.000000 , 1.000000 }
+	reflection : 0.000000
+	shininess : 50
+	specular : { 1.600000 , 1.600000 , 1.600000 }
+	texture : "texture_base" {
+		source : "/material/road/asphalt10.tobj"
+		sampler : default
+	}
+	texture : "texture_nmap" {
+		source : "/material/road/asphalt10_nrm.tobj"
+		sampler : default
+	}
+}
