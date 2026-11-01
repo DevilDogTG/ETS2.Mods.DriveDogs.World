@@ -18,6 +18,11 @@ Wet-road puddles and surface reflections: Realistic Rain Reflections Standalone 
 --------------------
 [green]Changelogs
 
+[orange]v1.4.2
+[normal]- Every asphalt looks wet like the newer roads in rain: a rough wet grain that sparkles instead of a smooth, patchy mirror (most visible on Spanish, French, German, Italian, Baltic and UK roads)
+- Older roads (most of the UK) get wheel tracks in each lane and the same wet glare as the newer roads
+- UK junctions, company yards and parking lots get the same wet look as the road next to them
+
 [orange]v1.4.1
 [normal]- Wet roads in rain look like wet asphalt again, not a mirror or a lake: the sky reflection is softer so the dark road shows through, and the glare along the wheel tracks stays
 - Deeper wheel tracks from Realistic Rain Reflections on the common road surfaces, at its full texture size
