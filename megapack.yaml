@@ -12,10 +12,10 @@ package:
   manifest_template: src/manifest.sii
   description_template: src/description.txt
 
-# No archive sources yet: every source is a subscribed Workshop item. `source_root` is still required, so it
-# points at the Workshop folder and the archive scan ignores everything there.
-source_root: "@steam_workshop"
-workshop_root: "@steam_workshop"         # host file `games.<game>.megapack_roots`
+# No archive sources yet: every source is a Workshop item downloaded with SteamCMD (not subscribed). `source_root`
+# is still required, so it points at the Workshop folder and the archive scan ignores everything there.
+source_root: "@steamcmd_workshop"
+workshop_root: "@steamcmd_workshop"      # host file `games.<game>.megapack_roots`
 scan:
   ignore:
     - "*"
