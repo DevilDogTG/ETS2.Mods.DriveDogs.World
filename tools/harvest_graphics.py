@@ -13,6 +13,9 @@ plan world-graphics `assets/config-decisions.md`; the ADR is docs/adr/ADR-0002-w
                                                              DIOX supplies alone (tuned for Grass's textures)
   realistic-rain   def/vehicle/interior_glass_config_rain.sii windshield drops (every value)
 
+dbm-vegetation's def/world/detail_vegetation.sii is the exception: it is merged whole (it matches 1.61's unit), so
+the density edit lands on its file and its other grass values stay (ADR-0002 decision 10).
+
 OURS holds World's own values (tuning after play tests); they replace a carried value of the same key.
 
 Every value a source changes but World does not take is printed as `skip`, so a source update that adds a
