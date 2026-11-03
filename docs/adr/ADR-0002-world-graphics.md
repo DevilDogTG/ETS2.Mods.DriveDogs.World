@@ -82,6 +82,12 @@
     `def/world/detail_vegetation.sii` is merged rather than excluded: World's density 30 (ADR-0004) is edited onto it,
     and its draw distance 125, `model_scale_tweak_coef` 1.08 and `density_tweak_coef` 1.25 stay. Its .pmd files ship
     without .pmg for models whose geometry it keeps, so they must follow the game's .pmg after a game update.
+    Sources are trimmed by **excluding only their unused files** (maintainer, 2026-11-03): a reference trace (every
+    winning .pmd/.sii/.sui -> .mat -> .tobj -> .dds over base, DLC, sources and `overrides/`) found 1,004 files no
+    1.61 model, def or material names: tree_improved 799 (3.2 GB; pre-1.61 folders, renamed textures, ATS-only
+    base_share trees; dead since World 1.0, not made dead by DBM), grass_4.0 157 (terrain normal maps 1.61's terrain
+    materials never sample), Beautiful Nature 48. They are excluded with the 766 copies a higher source overrides
+    whole; every file still in use stays (tree_improved keeps 20 textures). Rerun the trace after a source add/update.
 11. **Not merged:** Sound Fixes Pack (its value is the author's per-version rework of ~480 definition files) and
     Better Flares (City Lights ships ~780 whole street-lamp models that cannot be edits); both stay separate mods.
 
