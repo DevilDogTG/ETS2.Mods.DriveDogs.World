@@ -10,7 +10,8 @@ plan world-graphics `assets/config-decisions.md`; the ADR is docs/adr/ADR-0002-w
                                                              ambient-sound keys and rain strengths are not taken)
   juninho-grass    def/world/detail_vegetation.sii           .grass density
   juninho-grass    def/world/terrain_material*.sii           color tints, except on materials whose textures
-                                                             DIOX supplies alone (tuned for Grass's textures)
+                                                             DIOX or DBM Terrain supply alone (tuned for Grass's
+                                                             textures; DBM's are colour-matched to the base game)
   realistic-rain   def/vehicle/interior_glass_config_rain.sii windshield drops (every value)
 
 dbm-vegetation's def/world/detail_vegetation.sii is the exception: it is merged whole (it matches 1.61's unit), so
@@ -65,7 +66,8 @@ OURS: dict[str, dict[str, dict[str, str]]] = {
     "def/world/detail_vegetation.sii": {".grass": {"density": "30"}},
 }
 TINT_FILES = {"def/world/terrain_material.sii", "def/world/terrain_material.base_share.sii"}
-TEX_SOURCE = re.compile(r'source\s*:\s*"([^"]+)"')
+TEX_SOURCE = re.compile(r'texture\s*:\s*"(\w+)"\s*\{[^}]*?source\s*:\s*"([^"]+)"', re.S)
+TINT_UNTOUCHED = ("texture_heightmap", "texture_nmap")   # slots a colour tint does not colour
 NUM = re.compile(r"^-?\d+(\.\d+)?$")
 
 
@@ -109,17 +111,20 @@ def texture_owner(stem: str, base: pathlib.Path, dirs: dict, order: list[str], e
 
 
 def tint_kept(mat_path: str, base: pathlib.Path, dirs: dict, order: list[str], excludes: dict) -> tuple[bool, str]:
-    """Grass tuned its tints for its own textures: drop the tint when DIOX supplies every non-vanilla texture."""
+    """Grass tuned its tints for its own textures: drop the tint when DIOX or DBM Terrain supply every non-vanilla
+    colour texture (DBM colour-matched its textures to the base game's). Height and normal maps don't count."""
     mat = base / mat_path.lstrip("/")
     if not mat.is_file():
         return True, "material not in base"
     owners = set()
-    for tex in TEX_SOURCE.findall(mat.read_text(encoding="utf-8", errors="replace")):
+    for slot, tex in TEX_SOURCE.findall(mat.read_text(encoding="utf-8", errors="replace")):
+        if slot.startswith(TINT_UNTOUCHED):
+            continue
         path = tex if tex.startswith("/") else str(pathlib.PurePosixPath(mat_path).parent / tex)
         owners.add(texture_owner(re.sub(r"\.(tobj|dds)$", "", path.lstrip("/")), base, dirs, order, excludes))
     modded = owners - {"base", "missing"}
-    diox_only = bool(modded) and all(o.startswith("diox-") for o in modded)
-    return not diox_only, "+".join(sorted(owners))
+    retextured = bool(modded) and all(o.startswith("diox-") or o == "dbm-terrain" for o in modded)
+    return not retextured, "+".join(sorted(owners))
 
 
 def harvest(base: pathlib.Path, dirs: dict, order: list[str], excludes: dict) -> tuple[dict, list[str], list[str]]:
@@ -156,7 +161,7 @@ def harvest(base: pathlib.Path, dirs: dict, order: list[str], excludes: dict) ->
                     keep, owners = tint_kept(b.values(unit, "path")[0].strip('"'), base, dirs, order, excludes)
                     tint_counts["kept" if keep else "dropped"] += 1
                     if not keep:
-                        skipped.append(f"{sid}: {rel}: {unit} color {mv[0]}: textures from {owners} (DIOX only)")
+                        skipped.append(f"{sid}: {rel}: {unit} color {mv[0]}: textures from {owners} (DIOX/DBM only)")
                         continue
                 ops = edits.setdefault(rel, {}).setdefault(unit, {}).setdefault("set", {})
                 ops[key] = mv if key.endswith("[]") else mv[0]
@@ -167,7 +172,7 @@ def harvest(base: pathlib.Path, dirs: dict, order: list[str], excludes: dict) ->
                 errors.append(f"OURS: {rel}: unit {unit} not in base game")
                 continue
             edits.setdefault(rel, {}).setdefault(unit, {}).setdefault("set", {}).update(kv)
-    skipped.append(f"terrain tints: {tint_counts['kept']} kept, {tint_counts['dropped']} dropped (DIOX textures)")
+    skipped.append(f"terrain tints: {tint_counts['kept']} kept, {tint_counts['dropped']} dropped (DIOX/DBM textures)")
     return edits, skipped, errors
 
 
