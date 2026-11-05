@@ -383,6 +383,12 @@ sources:
     layer: 50
     overrides: ["juninho-grass", "diox-*"]
     exclude:
+      # overridden by dbm-guardrails (2026-11-05): its W-beam guard-rail textures (crash_barrier_f and the concrete
+      # and fence textures beside them stay)
+      - "model/railing/crash_barrier.*"
+      - "model/railing/crash_barrier1*"
+      - "model/railing/crash_barrier2_uk.*"
+      - "model/railing/crash_barrier_fr.*"
       # overridden whole by dbm-terrain (2026-11-05; maintainer: DBM above Asphalt_improved): its material/terrain
       # asphalt, dirt and parking-lot set. Its material/road surfaces are not shared.
       - "material/t*.mat"
@@ -1377,6 +1383,37 @@ sources:
       - "material/terrain/violet_fl_nrm.tobj"
       - "material/terrain/yellow_fl.dds"
       - "material/terrain/yellow_fl.tobj"
+
+  # Guard rails rebuilt from a galvanized-steel scan at 4096 px (textures only, base game and DLC paths under
+  # model/ and model2/); above Asphalt_improved's crash-barrier textures (2026-11-05).
+  - id: dbm-guardrails
+    name: DBM Guard Rails 4K
+    author: DBM
+    version: "1.2"
+    workshop: 3807968324
+    origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=3807968324" }
+    layer: 67
+    overrides: ["juninho-asphalt"]
+    exclude:
+      # unused in 1.61 (2026-11-05 reference trace): 19 textures at map-mod paths 1.61 does not have (Russian,
+      # Czech, Swedish, Norwegian, Italian and German variants, x1-x5, bridge, sign, hixopl) and 3 base model2
+      # textures no 1.61 model names. Every texture still in use stays.
+      - "model/bridge/*"
+      - "model/hixopl/*"
+      - "model/norway/*"
+      - "model/sign/*"
+      - "model/sweden/*"
+      - "model/railing/crash_barrier1_ru.*"
+      - "model/railing/crash_barrier1_x*"
+      - "model/railing/crash_barrier_cz.*"
+      - "model/railing/crash_barrier_se.*"
+      - "model/railing/crash_barrier_rus/*"
+      - "model/railing/germany/*"
+      - "model/railing/igf14/*"
+      - "model/railing/italy/*"
+      - "model2/barrier/crash_barrier_profile2_01_be_nl_lux_lod2_baked_dif.*"
+      - "model2/railing/barrier/barrier_metal_01_be_lux_lod1_baked_dif.*"
+      - "model2/railing/barrier/crash_barrier_01_fi_poc_lod1_baked_dif.*"
 
   - id: juninho-weather
     name: Weather_3.9_2K
