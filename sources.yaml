@@ -38,6 +38,8 @@ sources:
     origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=2937314261" }
     layer: 20
     exclude:
+      # beaches overridden by dbm-water (2026-11-05)
+      - "model/water/beach*"
       # carried as edits (grass density, terrain colour tints) so the 11 terrain materials 1.61 added survive
       - "def/world/detail_vegetation.sii"
       - "def/world/terrain_material.sii"
@@ -344,6 +346,25 @@ sources:
     layer: 40
     overrides: ["juninho-grass"]
     exclude:
+      # rock textures overridden by dbm-buildings (2026-11-05)
+      - "model/rock/f*"
+      - "model/rock/cliff1.dds"
+      - "model/rock/edinburgh_hill.dds"
+      - "model/rock/rock01_brown.dds"
+      - "model/rock/rock01_grey.dds"
+      - "model/rock/rock02_grey.dds"
+      - "model/rock/rock03_grey.dds"
+      - "model/rock/rock05_dark.dds"
+      - "model/rock/rock06_dark.dds"
+      - "model/rock/rock07_dark.dds"
+      - "model/rock/rock_grey_big.dds"
+      - "model/rock/rock_layered1.dds"
+      - "model/rock/rock_layered2.dds"
+      - "model/rock/rock_layered3.dds"
+      - "model/rock/rock_layered4.dds"
+      - "model/rock/rock_layered5.dds"
+      - "model/rock/rock_layered6.dds"
+      - "model/rock/stone_cliff1.dds"
       # carried as edits: its leaves LOD and rain values only (its economy and dead sound keys are dropped)
       - "def/game_data.sii"
       # unused in 1.61 (2026-11-03 reference trace, as juninho-grass) or overridden whole by a higher source
@@ -383,6 +404,23 @@ sources:
     layer: 50
     overrides: ["juninho-grass", "diox-*"]
     exclude:
+      # overridden by dbm-buildings (2026-11-05): its rocks, walls, construction barriers, fences, a tollgate
+      - "prefab/t*"
+      - "model/railing/f*"
+      - "model/railing/w*"
+      - "model/rock/*"
+      - "model/wall/a*"
+      - "model/wall/s*"
+      - "model/wall/w*"
+      - "model/wall/city_barriers/*"
+      - "model/wall/construction/c*"
+      - "model/wall/construction/r*"
+      - "model/railing/concrete_barrier.*"
+      - "model/wall/concrete_wall_czech.*"
+      - "model/wall/construction/bra_concrete_barrier2.*"
+      - "model/wall/pillar_brick.*"
+      - "model/wall/pillar_plaster.*"
+      - "model/wall/rail_redwhite.*"
       # overridden by dbm-guardrails (2026-11-05): its W-beam guard-rail textures (crash_barrier_f and the concrete
       # and fence textures beside them stay)
       - "model/railing/crash_barrier.*"
@@ -1415,6 +1453,256 @@ sources:
       - "model2/railing/barrier/barrier_metal_01_be_lux_lod1_baked_dif.*"
       - "model2/railing/barrier/crash_barrier_01_fi_poc_lod1_baked_dif.*"
 
+  # Building and world textures (houses, flats, shops, depots, docks, rocks, walls, fences, borders) upscaled to at most
+  # 1024 px; above Asphalt_improved's walls/rocks/barriers and DIOX's rocks, below Real companies (its branded gas
+  # stations, ferries and shops stay) (2026-11-05).
+  - id: dbm-buildings
+    name: DBM World & Buildings HD
+    author: DBM
+    version: "1.0"
+    workshop: 3811324458
+    origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=3811324458" }
+    layer: 68
+    overrides: ["juninho-asphalt", "diox-*"]
+    exclude:
+      # unused in 1.61 (2026-11-05 reference trace): 1,229 ProMods textures at paths 1.61 does not have and 127 base
+      # textures nothing names; and the 44 gas-station, ferry and shop files real-companies overrides (10 identical).
+      # Every texture still in use stays.
+      - "m0d3l/*"
+      - "model/c*"
+      - "model/e*"
+      - "model/f*"
+      - "model/g*"
+      - "model/h*"
+      - "model/l*"
+      - "model/s*"
+      - "model/v*"
+      - "model2/l*"
+      - "model2/s*"
+      - "prefab/m*"
+      - "prefab/_*"
+      - "model/bridge/b*"
+      - "model/bridge/p*"
+      - "model/bridge/s*"
+      - "model/building/c*"
+      - "model/building/d*"
+      - "model/building/i*"
+      - "model/building/u*"
+      - "model/rock/m*"
+      - "model/warehouse/n*"
+      - "model/wojtek/*"
+      - "model2/rock/o*"
+      - "prefab/bridge/f*"
+      - "prefab2/gas_station/p*"
+      - "model/bridge/construction/*"
+      - "model/building/administration/b*"
+      - "model/building/market/m*"
+      - "model/building/mid_city_buildings/t*"
+      - "model/dock/share/g*"
+      - "model/dock/silo/t*"
+      - "model/warehouse/services/*"
+      - "prefab2/depot/supermarket/g*"
+      - "prefab2/depot/wind_tower/c*"
+      - "prefab2/depot/wind_tower/n*"
+      - "model2/building/village_close/village_poc/*"
+      - "model2/building/village_mid/ch/a*"
+      - "material/tiled/bricks/generic_bricks_02_difspec.*"
+      - "material/tiled/bricks/generic_bricks_04_trim_difspec.*"
+      - "material/tiled/bricks/generic_bricks_07_trim_difspec.*"
+      - "material/tiled/concrete/generic_concrete_01_trim_difspec.*"
+      - "material/tiled/curb_black_red_dmg.*"
+      - "material/tiled/curb_black_white_var2_dmg.*"
+      - "material/tiled/curb_black_yellow_dmg.*"
+      - "material/tiled/curb_blue_yl_dmg.*"
+      - "material/tiled/curb_white_red_dmg.*"
+      - "material/tiled/curb_white_yellow_dmg.*"
+      - "material/tiled/curb_yellow_dmg.*"
+      - "material/tiled/paint/generic_paint_03_difspec.*"
+      - "material/tiled/plaster/generic_plaster_01_shape_02_trim_difspec.*"
+      - "material/tiled/plaster/generic_plaster_02_difspec.*"
+      - "material/tiled/roof/generic_roof_04_difspec.*"
+      - "material/tiled/wood/generic_wood_01_difspec.*"
+      - "material/tiled/wood/generic_wood_02_difspec.*"
+      - "material/tiled/wood/generic_woodpaint_03_difspec.*"
+      - "model/building/administration/low_long4.*"
+      - "model/building/administration/wurthb.*"
+      - "model/building/mid_city_buildings/mid_city_b_slate_01.*"
+      - "model/building/mid_city_buildings/mid_city_b_slate_02.*"
+      - "model/building/mid_city_buildings/mid_city_b_slate_03.*"
+      - "model/dock/container_brown.*"
+      - "model/dock/container_color.*"
+      - "model/dock/port_hall_1a.*"
+      - "model/dock/port_hall_1b.*"
+      - "model/dock/port_hall_1c.*"
+      - "model/dock/port_hall_open_1a.*"
+      - "model/dock/port_hall_open_1b.*"
+      - "model/dock/port_hall_open_1c.*"
+      - "model/rock/rock_white_big.*"
+      - "model/warehouse/warehouse_01a.*"
+      - "model/warehouse/warehouse_01b.*"
+      - "model/warehouse/warehouse_01c.*"
+      - "model/warehouse/warehouse_02a.*"
+      - "model/warehouse/warehouse_02b.*"
+      - "model/warehouse/warehouse_02c.*"
+      - "model/warehouse/warehouse_03a.*"
+      - "model/warehouse/warehouse_03b.*"
+      - "model/warehouse/warehouse_03c.*"
+      - "model/warehouse/warehouse_04a.*"
+      - "model/warehouse/warehouse_04b.*"
+      - "model/warehouse/warehouse_04c.*"
+      - "model/warehouse/warehouse_05a.*"
+      - "model/warehouse/warehouse_05b.*"
+      - "model/warehouse/warehouse_05c.*"
+      - "model/warehouse/warehouse_06a.*"
+      - "model/warehouse/warehouse_06b.*"
+      - "model/warehouse/warehouse_06c.*"
+      - "model/warehouse/warehouse_07a.*"
+      - "model/warehouse/warehouse_07b.*"
+      - "model/warehouse/warehouse_07c.*"
+      - "model/warehouse/warehouse_07d.*"
+      - "model/warehouse/warehouse_07e.*"
+      - "model/warehouse/warehouse_08a.*"
+      - "model/warehouse/warehouse_08b.*"
+      - "model/warehouse/warehouse_08c.*"
+      - "model/warehouse/warehouse_09a.*"
+      - "model/warehouse/warehouse_09b.*"
+      - "model/warehouse/warehouse_09c.*"
+      - "model/warehouse/warehouse_09d.*"
+      - "model/warehouse/warehouse_09e.*"
+      - "model/warehouse/warehouse_09f.*"
+      - "model/warehouse/warehouse_17a.*"
+      - "model/warehouse/warehouse_17b.*"
+      - "model/warehouse/warehouse_17c.*"
+      - "model/warehouse/warehouse_18a.*"
+      - "model/warehouse/warehouse_18b.*"
+      - "model/warehouse/warehouse_18c.*"
+      - "model/warehouse/warehouse_19a.*"
+      - "model/warehouse/warehouse_19b.*"
+      - "model/warehouse/warehouse_19c.*"
+      - "model/warehouse/warehouse_20a.*"
+      - "model/warehouse/warehouse_20b.*"
+      - "model/warehouse/warehouse_20c.*"
+      - "model/warehouse/warehouse_21a.*"
+      - "model/warehouse/warehouse_22a.*"
+      - "model/warehouse/warehouse_large_green.*"
+      - "model2/barrier/plastic/barrier_plastic_02_blkw_baked_dif.*"
+      - "model2/barrier/water/wharf_block_01_blkw.*"
+      - "model2/building/administration/admin_generic_new_01_rus.*"
+      - "model2/building/administration/admin_generic_new_02_rus.*"
+      - "model2/building/administration/admin_tower_01_lux_baked_dif.*"
+      - "model2/building/church/church_01_be_lux_baked_dif.*"
+      - "model2/building/farm/farm_garage_atlas_baked_full_gray_dif.*"
+      - "model2/building/farm/farm_garage_atlas_baked_full_red_dif.*"
+      - "model2/building/farm/farm_garage_atlas_baked_red_grey_dif.*"
+      - "model2/building/farm/farm_garage_atlas_baked_white_black_dif.*"
+      - "model2/building/farm/farm_garage_atlas_baked_white_green_dif.*"
+      - "model2/building/farm/farm_garage_atlas_baked_white_red_dif.*"
+      - "model2/building/flats/block_of_flats_01_ch.*"
+      - "model2/building/flats/block_of_flats_02_ch.*"
+      - "model2/building/flats/block_of_flats_06_ch.*"
+      - "model2/building/flats/block_of_flats_11_blkw_baked_difspec.*"
+      - "model2/building/flats/block_of_flats_old_02_corner_at.*"
+      - "model2/building/flats/flats_ba/block_of_flats_03_ba_blkw_baked_difspec.*"
+      - "model2/building/flats/flats_lux/flats_close_09_lu_lux_baked_dif.*"
+      - "model2/building/flats_mid/flats_mid_01_nl_lux_low_baked_beige_dif.*"
+      - "model2/building/flats_mid/flats_mid_01_nl_lux_low_baked_brown_dif.*"
+      - "model2/building/flats_mid/flats_mid_01_nl_lux_low_baked_grey_dif.*"
+      - "model2/building/flats_mid/flats_mid_01_nl_lux_low_baked_red_dif.*"
+      - "model2/building/flats_mid/flats_mid_01_nl_lux_low_baked_white_dif.*"
+      - "model2/building/flats_mid/flats_mid_01_poc_est_baked_default_dif.*"
+      - "model2/building/flats_mid/flats_mid_01_poc_est_baked_gray_dif.*"
+      - "model2/building/flats_mid/flats_mid_01_poc_est_baked_red_dif.*"
+      - "model2/building/flats_mid/flats_mid_01_poc_est_baked_terracotta_dif.*"
+      - "model2/building/flats_mid/flats_mid_01_poc_est_baked_white_dif.*"
+      - "model2/building/mid_city_buildings/flats/flats_mid_old_04_hr_blkw.*"
+      - "model2/building/mid_city_buildings/flats/flats_mid_old_05_hr_blkw.*"
+      - "model2/building/mid_city_buildings/flats/gr/generic_city_street_01_gr.*"
+      - "model2/building/mid_city_buildings/flats/mid_flat_02_de_est_baked_color_dif.*"
+      - "model2/building/mid_city_buildings/flats/mid_flat_02_de_est_baked_dif.*"
+      - "model2/building/mid_city_buildings/houses_waterfront_01_de.*"
+      - "model2/building/shop/facade.*"
+      - "model2/building/shop/facade1.*"
+      - "model2/building/shop/facade2.*"
+      - "model2/building/shop/facade3.*"
+      - "model2/building/shop/facade4.*"
+      - "model2/building/shop/shop_comapny_01_blke.*"
+      - "model2/building/shop/shop_comapny_02_blke.*"
+      - "model2/building/village_mid/al/village_mid_01_al_blkw.*"
+      - "model2/building/village_mid/ch/village_mid_03_ch.*"
+      - "model2/building/village_mid/ch/village_mid_06_ch_baked_dif.*"
+      - "model2/building/village_mid/ch/village_mid_06_ch_ph_test.*"
+      - "model2/building/village_mid/de/village_mid_10_de.*"
+      - "model2/building/village_mid/de/village_mid_10_de_baked_dif.*"
+      - "model2/building/village_mid/hr/village_mid_01_hr_blkw.*"
+      - "model2/building/village_mid/hr/village_mid_03_hr_blkw.*"
+      - "model2/building/village_mid/village_mid_01_blkw.*"
+      - "model2/building/village_mid/village_nl/village_mid_01_nl_lux.*"
+      - "model2/building/village_mid/village_nl/village_mid_04_nl_lux_baked_difspec.*"
+      - "model2/distribution/cdu_big_pipe_at.*"
+      - "model2/fences/fence_cattle_01_poc_baked_blue_dif.*"
+      - "model2/fences/fence_cattle_01_poc_baked_default_dif.*"
+      - "model2/fences/fence_cattle_01_poc_baked_dif.*"
+      - "model2/fences/fence_cattle_01_poc_baked_red_dif.*"
+      - "model2/gas_station/brand_charger_02_poc.*"
+      - "model2/gas_station/charger_display_01.*"
+      - "model2/hill/rock_formation_layered1/rock_formation_layered2_dark2_mult.*"
+      - "model2/railing/barrier/barrier_antinoise_wooden_01_at.*"
+      - "model2/rock/balt_hillside1_mult_beige.*"
+      - "model2/rock/balt_hillside1_mult_grey.*"
+      - "model2/rock/balt_hillside1_mult_red.*"
+      - "model2/rock/ibe_marble_mine_mult.*"
+      - "model2/rock/ibe_rock_blocky_mult.*"
+      - "model2/rock/ibe_rock_chunky_2_mult.*"
+      - "model2/rock/ibe_rock_jagged_sand_mult.*"
+      - "model2/rock/ibe_rock_smooth_layered_mult.*"
+      - "model2/rock/rill_mult_balt.*"
+      - "model2/rock/rock_carved_mult_balt.*"
+      - "model2/rock/rock_jagged_beige_mult_balt.*"
+      - "model2/rock/rock_jagged_brown_balt.*"
+      - "model2/rock/rock_jagged_brown_mult_balt.*"
+      - "model2/rock/rock_jagged_dark_balt.*"
+      - "model2/rock/rock_jagged_dark_mult_balt.*"
+      - "model2/rock/soil_stones_mult_balt.*"
+      - "model2/rock/stones/stones_sharp_red_mult.*"
+      - "model2/rock/stones/stones_sharp_reddark_mult.*"
+      - "model2/walls/barrier_concrete_wall_02_blkw_baked_dif.*"
+      - "model2/walls/wall_brick_02_at.*"
+      - "model2/walls/wall_concrete_01_ibe.*"
+      - "prefab/tollgate/large_it_fr_tollgate/toll_big.*"
+      - "prefab2/border_crossing/gr/border_evzoni_truck_gate_01_gr.*"
+      - "prefab2/border_crossing/mk/border_tabanovtse_gate_01_mk_blkw.*"
+      - "prefab2/border_crossing/terechova/border_terechova_main_building_lat_rus.*"
+      - "prefab2/depot/krone_factory/generic_tiles_02_difspec.*"
+      - "prefab2/depot/tire_factory/ok_huge_tires_1.*"
+      - "prefab2/depot/tire_factory/ok_huge_tires_3.*"
+      - "prefab2/depot/tire_factory/ok_huge_tires_5.*"
+      - "prefab2/depot/tire_factory/ok_huge_tires_6.*"
+      - "prefab2/depot/tire_factory/ok_huge_tires_7.*"
+      - "prefab2/gas_station/gas_enz_oel.*"
+      - "prefab2/gas_station/gas_primel.*"
+      - "prefab2/gas_station/gas_station_01_it.*"
+      - "prefab2/gas_station/gas_station_apus_modern_blkw.*"
+      - "prefab2/gas_station/gas_station_bts_modern_blkw.*"
+      - "prefab2/gas_station/gas_station_fuelin_modern_ch.*"
+      - "prefab2/gas_station/gas_station_nada_modern_blkw.*"
+      - "prefab2/gas_station/gas_station_pegi_modern_ch.*"
+      - "prefab2/gas_station/gas_station_primel_modern_gr.*"
+      - "prefab2/gas_station/gas_station_vrmoil_wave_rus.*"
+      - "prefab2/gas_station/generic_metal_gasstation_01_difspec.*"
+      - "prefab2/gas_station/generic_metal_gasstation_02_difspec.*"
+      - "prefab2/gas_station/generic_paint_02_alpha_dis.*"
+      - "prefab2/gas_station/generic_tiles_001_difspec.*"
+      - "prefab2/gas_station/metal_aluminium_gas_statioin_difspec.*"
+      - "prefab2/gas_station/metal_brushed_alpha.*"
+      - "prefab2/ports/ferry1_fr.*"
+      - "prefab2/ports/ferry1_it.*"
+      - "prefab2/ports/ferry1_sc.*"
+      - "prefab2/ports/ferry_medium_01_gr_low_baked_difspecat.*"
+      - "prefab2/ports/ferry_medium_01_poc_low_baked_dif.*"
+      - "prefab2/ports/ferry_small_01_poc.*"
+      - "prefab2/tollgate/tollgate_hw2_symetric_mk_blkw.*"
+      - "prefab2/truck_dealer/iveco/iveco_typo.*"
+
   - id: juninho-weather
     name: Weather_3.9_2K
     author: Juninho944
@@ -1477,9 +1765,9 @@ sources:
 
   # Lightning, thunder and water: bolt and cloud textures (sets 1-6 replace vanilla's and Weather_3.9's bolts, 7-20
   # are new; the game loads the whole folder), its thunder bank (40+ thunders), and its water textures (the three
-  # wave maps nearly all 1.61 water uses, the river map, muddy/green water, the distant-water panorama, Balkan water
-  # plants; replaces DIOX's Beautiful Water, maintainer 2026-10-01). Its rain sounds and particles, spray,
-  # windshield, game_data and camera are not used.
+  # river map, muddy/green water, the distant-water panorama, Balkan water plants; replaces DIOX's Beautiful Water,
+  # maintainer 2026-10-01; the three lake wave maps and muddy water plants are DBM Water's since 2026-11-05). Its rain
+  # sounds and particles, spray, windshield, game_data and camera are not used.
   - id: kass-thunder
     name: Realistic Rain & Water & Thunder Sounds
     author: Kass
@@ -1489,6 +1777,14 @@ sources:
     layer: 90
     overrides: ["juninho-weather"]
     exclude:
+      # overridden by dbm-water (maintainer 2026-11-05: DBM Water above Kass): the three lake wave maps,
+      # muddy water plants and dirty water
+      - "model/water/dirt_wather.*"
+      - "material/terrain/water/waterplants_muddy2_blke.*"
+      - "material/terrain/water/waterplants_muddy_blke.*"
+      - "material/terrain/water/waves_lake.*"
+      - "material/terrain/water/waves_lake_2.*"
+      - "material/terrain/water/waves_lake_3.*"
       - "def/*"
       - "material/decal/*"
       - "material/environment/*"
@@ -1516,6 +1812,39 @@ sources:
       - "unit/*"
       - "asset/particles/*"
       - "asset/skybox/lightning*"          # the two lightning models are identical to vanilla's
+
+  # Water: wave normal maps from an ocean wave spectrum, foam, shores and beaches, and recoloured water materials
+  # (deep/horizon colour of the umatlib water); above Kass's lake waves and muddy water plants (maintainer, 2026-11-05)
+  # and grass_4.0's beaches. Kass keeps its river map, distant-water panorama and Balkan plants.
+  - id: dbm-water
+    name: DBM Water
+    author: DBM
+    version: "1.0"
+    workshop: 3822329153
+    origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=3822329153" }
+    layer: 95
+    overrides: ["juninho-grass", "kass-thunder"]
+    exclude:
+      # unused in 1.61 (2026-11-05 reference trace and a byte scan of every base material/model/def/map file): the
+      # material/terrain/water and umatlib/aliased water .mat (1.61's terrain names umatlib/legacy only), legacy
+      # water_calm2, and foam/fog/wave textures at paths nothing names. Every file still in use stays.
+      - "material/terrain/water/*.mat"
+      - "umatlib/aliased/*"
+      - "asset/water/c*"
+      - "asset/water/w*"
+      - "model/water/f*"
+      - "model/water/w*"
+      - "asset/water/falling_water_difopa.*"
+      - "asset/water/foam0.*"
+      - "asset/water/foam6.*"
+      - "asset/water/foam_decal_01.*"
+      - "asset/water/foam_decal_01_f2.*"
+      - "asset/water/fog1_difopa.*"
+      - "asset/water/fog2_difopa.*"
+      - "material/terrain/water/waves_lake_4.*"
+      - "model/water/beach_black.*"
+      - "model/water/beach_dark.*"
+      - "umatlib/legacy/terrain/water/water_calm2.mat"
 
   # Road signs and road markings. Wins the road marking stripes over Asphalt_improved (it is the dedicated markings
   # mod); loses the company and gas-station signs it shares with real-companies. Its textures are 4x the game's, and

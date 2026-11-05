@@ -198,13 +198,6 @@ model/hedge_rggreen.dds	declared	diox-nature	juninho-grass:0543009f11ad,diox-nat
 model/hedge_ygreen.dds	declared	diox-nature	juninho-grass:6f8c2cc4538d,diox-nature:0c66945f6869
 model/particle/water.dds	declared	realistic-rain	juninho-weather:a51986bd5445,realistic-rain:bbc7fa7bf76c
 model/particle/water.tobj	identical	realistic-rain	juninho-weather:c74e1e2d8b54,realistic-rain:c74e1e2d8b54
-model/rock/rock_grey_big.dds	declared	juninho-asphalt	diox-nature:e5dce4722e4d,juninho-asphalt:05c2b1b2d0ef
-model/rock/rock_layered1.dds	declared	juninho-asphalt	diox-nature:9656820d1f77,juninho-asphalt:04457ba78132
-model/rock/rock_layered2.dds	declared	juninho-asphalt	diox-nature:2e4104ae0ec0,juninho-asphalt:d6dddad5ab45
-model/rock/rock_layered3.dds	declared	juninho-asphalt	diox-nature:7ec331eaf279,juninho-asphalt:b8f6c8955562
-model/rock/rock_layered4.dds	declared	juninho-asphalt	diox-nature:07797a8fb63c,juninho-asphalt:97eda47e350e
-model/rock/rock_layered5.dds	declared	juninho-asphalt	diox-nature:0ce7c2d65c2f,juninho-asphalt:9f929d3c73b7
-model/rock/rock_layered6.dds	declared	juninho-asphalt	diox-nature:0f8b9f09742f,juninho-asphalt:7715f2e362fc
 model/sign/gas/gas_austria.dds	declared	real-companies	dbm-signs:cf2807ac2b6b,real-companies:a62e3dfe189b
 model/sign/gas/gas_austria.tobj	identical	real-companies	dbm-signs:f7cc66baf93a,real-companies:f7cc66baf93a
 model/sign/gas/gas_belgium.dds	declared	real-companies	dbm-signs:e5521a460bee,real-companies:c593a7de25a2
