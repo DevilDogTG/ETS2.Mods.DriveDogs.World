@@ -30,7 +30,7 @@ import yaml
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SKILL = pathlib.Path.home() / ".agent-brains/profiles/scs-mod-developer/skills/megapack/scripts"
 sys.path.insert(0, str(SKILL))
-from megapack import reference_root, repo_game  # noqa: E402
+from megapack import base_dir as base_ref_dir, reference_root, repo_game  # noqa: E402
 from siiedit import SiiFile  # noqa: E402
 
 OUT = ROOT / "world" / "brands.yaml"
@@ -45,7 +45,7 @@ def dirs() -> tuple[pathlib.Path, pathlib.Path]:
     mp = yaml.safe_load((ROOT / "megapack.yaml").read_text(encoding="utf-8"))
     src = next(s for s in yaml.safe_load((ROOT / "sources.yaml").read_text(encoding="utf-8"))["sources"]
                if s["id"] == SOURCE)
-    base = ref / "base" / str(mp["base_game"]["version"])
+    base = base_ref_dir(ref, mp["base_game"]["version"])
     mod = ref / "workshop" / str(src["workshop"]) / str(src["version"])
     for d in (base, mod):
         if not d.is_dir():

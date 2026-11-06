@@ -32,7 +32,7 @@ import yaml
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SKILL = pathlib.Path.home() / ".agent-brains/profiles/scs-mod-developer/skills/megapack/scripts"
 sys.path.insert(0, str(SKILL))
-from megapack import reference_root, repo_game  # noqa: E402
+from megapack import base_dir as base_ref_dir, reference_root, repo_game  # noqa: E402
 from siiedit import SiiFile  # noqa: E402
 
 OUT = ROOT / "world" / "edits.yaml"
@@ -68,7 +68,7 @@ def paths() -> tuple[pathlib.Path, pathlib.Path, pathlib.Path]:
     ref_root = reference_root(repo_game(ROOT))
     mp = yaml.safe_load((ROOT / "megapack.yaml").read_text(encoding="utf-8"))
     src = yaml.safe_load((ROOT / "sources.yaml").read_text(encoding="utf-8"))
-    base = ref_root / "base" / str(mp["base_game"]["version"])
+    base = base_ref_dir(ref_root, mp["base_game"]["version"])
     lver = next(str(r["version"]) for r in mp["references"] if r["workshop"] == LENGTHS_ID)
     cver = next(str(s["version"]) for s in src["sources"] if s.get("workshop") == CIP_ID)
     # Train Lengths keeps its content under base/ inside the package (the game mounts that folder).

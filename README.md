@@ -4,7 +4,7 @@ ETS2 mod for the world around the road, built as a local **megapack** with the `
 `scs-mod-developer` agent profile. This repo holds only configuration and tools. The mod is built from the
 extracted base game, subscribed Workshop items and one local archive. It is never redistributed.
 
-Current content (v1.4.2, ETS2 1.61.1.9):
+Current content (v1.4.3, ETS2 1.62.1.0):
 
 - **Graphics** from Juninho944 (Weather_3.9, Asphalt_improved, grass_4.0_lite, tree_improved_4k), DIOX (Beautiful
   Nature) and Darkcaptain (Realistic Rain), in the maintainer's load order.
@@ -16,9 +16,9 @@ Current content (v1.4.2, ETS2 1.61.1.9):
   companies & gas stations (MLH82, 4of25).
 - **Weather and time**: a rain mix of mostly light and medium rain, lighter rain fog at night so headlights reach and
   by day and at dawn/dusk so the road ahead stays in sight, and a fixed date (27 September) for natural day and night.
-- **People at bus stops** from d-luX's Busy Bus Stations: its people, parked bus and lamp placed on the 1.61
+- **People at bus stops** from d-luX's Busy Bus Stations: its people, parked bus and lamp placed on the 1.62
   bus-stop models (not its 2022 copies of them).
-- **Trains**: Realistic Train Lengths and Cip's Real Train Sounds, rebuilt on the 1.61 game files.
+- **Trains**: Realistic Train Lengths and Cip's Real Train Sounds, rebuilt on the 1.62 game files.
 - **Flashing green**: the last 3 s of green on 108 standard traffic-light models become the engine's `green_trans`
   state, and their 91 models get a `flare.traffic.green.trans` locator on every green lens, built like the base game's
   own flashing-green models. World owns this timing because the engine looks semaphore models up by unit id, so it
@@ -70,6 +70,7 @@ python tools/sign_lods.py            # instanced base signs without their unused
 python tools/base_material_fixes.py  # base materials with moved texture paths corrected -> overrides/automat/ (after rain_reflections.py)
 python tools/generate_cover.py
 python ~/.agent-brains/profiles/scs-mod-developer/skills/megapack/scripts/megapack.py lock
+python tools/sign_frames.py          # base sign frames scaled to the winning texture -> world/sign_frames.yaml (after lock)
 python tools/check_sign_defs.py      # sign atlas/frame pixel coords match the textures that win (after lock)
 python ~/.agent-brains/profiles/scs-mod-developer/skills/megapack/scripts/megapack.py check --strict
 python ~/.agent-brains/profiles/scs-mod-developer/skills/megapack/scripts/megapack.py build

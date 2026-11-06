@@ -32,7 +32,7 @@ import yaml
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SKILL = pathlib.Path.home() / ".agent-brains/profiles/scs-mod-developer/skills/megapack/scripts"
 sys.path.insert(0, str(SKILL))
-from megapack import reference_root, ref_fetch, ref_path, repo_game  # noqa: E402
+from megapack import base_dir as base_ref_dir, reference_root, ref_fetch, ref_path, repo_game  # noqa: E402
 
 OUT = ROOT / "world" / "traffic_lights.yaml"
 FLASH_SECONDS = 3.0          # green_trans length at the end of green
@@ -59,7 +59,7 @@ HOOKUP_NAME_RE = re.compile(rb"flare\.traffic[\w.]*")
 
 def base_dir() -> pathlib.Path:
     mp = yaml.safe_load((ROOT / "megapack.yaml").read_text(encoding="utf-8"))
-    base = reference_root(repo_game(ROOT)) / "base" / str(mp["base_game"]["version"])
+    base = base_ref_dir(reference_root(repo_game(ROOT)), mp["base_game"]["version"])
     if not base.is_dir():
         sys.exit(f"missing extraction {base} — run extract-reference first")
     return base

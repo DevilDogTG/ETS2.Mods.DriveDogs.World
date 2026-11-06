@@ -33,7 +33,7 @@ import yaml
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SKILL = pathlib.Path.home() / ".agent-brains/profiles/scs-mod-developer/skills/megapack/scripts"
 sys.path.insert(0, str(SKILL))
-from megapack import reference_root, repo_game, ref_fetch, ref_path  # noqa: E402
+from megapack import base_dir as base_ref_dir, reference_root, repo_game, ref_fetch, ref_path  # noqa: E402
 from pmg import Locator, Pmg  # noqa: E402
 from siiedit import SiiFile  # noqa: E402
 
@@ -53,7 +53,7 @@ class Inputs:
     def __init__(self) -> None:
         ref = reference_root(repo_game(ROOT))
         mp = yaml.safe_load((ROOT / "megapack.yaml").read_text(encoding="utf-8"))
-        self.base = ref / "base" / str(mp["base_game"]["version"])
+        self.base = base_ref_dir(ref, mp["base_game"]["version"])
         if not self.base.is_dir():
             sys.exit(f"missing {self.base} — extract-reference base")
         # a model a merged source also ships would need its locators carried onto that winner instead

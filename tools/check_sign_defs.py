@@ -11,7 +11,8 @@ scaled to them, and a definition must follow whichever texture wins. Otherwise t
 For each definition whose definition or texture is not the base game's, the expected coordinates are the base
 game's scaled by (winning texture size / base texture size), +-1 px. A definition the base game lacks is checked
 against its texture's bounds. Winners are read from the lock (lock/<source>.tsv, lock/collisions.tsv) and
-overrides/, as the build resolves them, so rerun `megapack lock` first.
+overrides/, as the build resolves them, so rerun `megapack lock` first. A base-game definition World edits
+(`set` keys in a megapack.yaml `base_edits` file, e.g. world/sign_frames.yaml) is checked with those values.
 
 usage: python tools/check_sign_defs.py
 Read-only: writes nothing. Exits 1 and lists each mismatch. Run before every build (see README).
@@ -29,7 +30,7 @@ import yaml
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SKILL = pathlib.Path.home() / ".agent-brains/profiles/scs-mod-developer/skills/megapack/scripts"
 sys.path.insert(0, str(SKILL))
-from megapack import reference_root, repo_game, ref_path  # noqa: E402
+from megapack import base_dir as base_ref_dir, reference_root, repo_game, ref_path  # noqa: E402
 
 LOCK = ROOT / "lock"
 OVERRIDES = ROOT / "overrides"
@@ -48,7 +49,7 @@ class Tree:
         ref_root = reference_root(repo_game(ROOT))
         mp = yaml.safe_load((ROOT / "megapack.yaml").read_text(encoding="utf-8"))
         src = yaml.safe_load((ROOT / "sources.yaml").read_text(encoding="utf-8"))["sources"]
-        self.base = ref_root / "base" / str(mp["base_game"]["version"])
+        self.base = base_ref_dir(ref_root, mp["base_game"]["version"])
         self.dirs = {s["id"]: ref_root / "workshop" / str(s["workshop"]) / str(s["version"]) for s in src}
         for p in [self.base, *self.dirs.values()]:
             if not p.is_dir():
@@ -66,6 +67,12 @@ class Tree:
             for row in csv.DictReader(f, delimiter="\t"):
                 if row["winner"] in self.dirs:
                     self.owner[row["path"].lower()] = (row["winner"], row["path"])
+        self.edits: dict[str, dict[str, str]] = {}    # def path -> {key: value} World's base edits set
+        for name in mp["base_edits"]["edits"]:
+            for rel, units in (yaml.safe_load((ROOT / name).read_text(encoding="utf-8")) or {}).items():
+                if rel.startswith(DEF_DIRS):
+                    for job in units.values():
+                        self.edits.setdefault(rel, {}).update(job.get("set") or {})
 
     def find(self, rel: str) -> tuple[str, pathlib.Path | None]:
         """-> (owner: 'overrides' | source id | 'base', file or None when nobody ships it)."""
@@ -138,6 +145,10 @@ def check(tree: Tree, rel: str) -> str | None:
     if def_file is None:
         return None
     text = read(def_file)
+    if def_owner == "base" and rel in tree.edits:     # as World's base edits render it
+        for key, value in tree.edits[rel].items():
+            text = re.sub(rf"^(\s*{re.escape(key)}\s*:\s*)\S+", rf"\g<1>{value}", text, flags=re.M)
+        def_owner = "base + World edits"
     mat = MATERIAL.search(text)
     if not mat:
         return f"{rel} ({def_owner}): no material"
