@@ -1,0 +1,87 @@
+# Read by tools/model_variants.py: merged models that lack look / variant names the base game's copy has.
+# Per model (path as locked): `source`, then `looks: {missing: copy of}` and `variants: {missing: copy of}` for a .pmd,
+# `base_copy: true` for a .pmc (the base game's own file, written when the source's collision shape is the base
+# game's), or `ignore: <reason>`. Every mismatch must be listed; --check fails on a new one.
+#
+# Real companies 2.04.13 supports ETS2 up to 1.61. When it ships a 1.62 update, rerun the tool: it reports entries
+# the update makes unnecessary ("no longer needed") and fails on new mismatches. Revisit the look choices then too.
+# `bi` is Bosnia and Herzegovina (West Balkans); Real companies' West Balkans gas stations are a work in progress, so
+# each `bi` look copies the source's nearest Balkan look (`blkw_rs` Serbia, `bg` Bulgaria) or the model's own (`gr`).
+
+models:
+  # --- new in ETS2 1.62: the playtest log (2026-11-07) shows `Unknown variant name 'price2'` on the Primel sign ---
+  model2/gas_station/gas_price_primel_01_gr.pmd:
+    source: real-companies
+    looks: {bi: bg}
+    variants: {price2: default, price3: default}   # its own 2-part sign has one price board
+  model2/gas_station/gas_price_primel_01_gr_lod1.pmd:
+    source: real-companies
+    looks: {bi: bg}
+    variants: {price2: default, price3: default}
+  model2/gas_station/gas_price_primel_01_gr.pmc:
+    source: real-companies
+    base_copy: true
+  model2/gas_station/gas_price_pegi_01_de.pmd:
+    source: real-companies
+    looks: {bi: blkw_rs}
+  model2/gas_station/gas_price_pegi_01_de_lod1.pmd:
+    source: real-companies
+    looks: {bi: blkw_rs}
+  model2/gas_station/gas_price_pegi_01_de.pmc:
+    source: real-companies
+    base_copy: true
+  prefab2/gas_station/gas_station_modern_01_global_gr.pmd:
+    source: real-companies
+    looks: {primel_bi: primel_bg, pegi_bi: pegi_gr}
+  prefab2/gas_station/gas_station_modern_01_global_gr_lod1.pmd:
+    source: real-companies
+    looks: {primel_bi: primel_bg, pegi_bi: pegi_gr}
+  prefab2/gas_station/gas_station_modern_02_global_gr.pmd:
+    source: real-companies
+    looks: {primel_bi: primel_bg, pegi_bi: pegi_gr}
+  prefab2/gas_station/gas_station_modern_02_global_gr_lod1.pmd:
+    source: real-companies
+    looks: {primel_bi: primel_bg, pegi_bi: pegi_gr}
+
+  # --- the source's lod1 lacks a name its own lod0 (and the base lod0) has ---
+  model2/shop/pizzahouse_totem_lod1.pmd:
+    source: real-companies
+    variants: {default: var1}
+
+  # --- left as they are ---
+  prefab2/gas_station/gas_station_01_at_lod1.pmd:
+    ignore: the base lod1 names its variants gota_ps_sp/mirosol_sp, but the base lod0 (what the prefab asks for) has primel/enz_oel, which this copy matches
+  prefab2/gas_station/gas_station_02_at_lod1.pmd:
+    ignore: the base lod1 names its variants gota_ps_sp/mirosol_sp, but the base lod0 (what the prefab asks for) has primel/enz_oel, which this copy matches
+  model2/gas_station/gas_roof_gazgamel_modern_02_lux_lod1.pmd:
+    ignore: the base lod1 says br_no_light, the base lod0 brl_no_light, which this copy matches
+  model2/sign/company_logos/ika_bohag/entrance_sign_sc.pmd:
+    ignore: Real companies' own sign design (6 logo layouts, no default); not seen in a log
+  model2/sign/company_logos/ika_bohag/entrance_sign_sc.pmc:
+    ignore: collision of Real companies' own sign design; not seen in a log
+  model2/sign/company_logos/ika_bohag_ru/entrance_sign_balt.pmd:
+    ignore: Real companies' own sign design (6 logo layouts, no default); not seen in a log
+  model2/sign/company_logos/ika_bohag_ru/entrance_sign_balt.pmc:
+    ignore: collision of Real companies' own sign design; not seen in a log
+  model2/sign/company_logos/vrmoil/gas_logo_small_01_balt.pmd:
+    ignore: Real companies' own wall-mounted logo (variant wall); not seen in a log
+  model2/sign/company_logos/vrmoil/gas_logo_small_01_balt.pmc:
+    ignore: collision of Real companies' own wall-mounted logo; not seen in a log
+  asset/vegetation/decorative/city_flowers/petunia_flower_red1.pmd:
+    ignore: DBM Vegetation has one look; vegetation definitions do not pick looks; not seen in a log
+  asset/vegetation/decorative/city_flowers/petunia_flower_red2.pmd:
+    ignore: DBM Vegetation has one look; vegetation definitions do not pick looks; not seen in a log
+  asset/vegetation/decorative/city_flowers/petunia_flower_red3.pmd:
+    ignore: DBM Vegetation has one look; vegetation definitions do not pick looks; not seen in a log
+  asset/vegetation/decorative/city_flowers/petunia_flower_violet1.pmd:
+    ignore: DBM Vegetation has one look; vegetation definitions do not pick looks; not seen in a log
+  asset/vegetation/decorative/city_flowers/petunia_flower_violet2.pmd:
+    ignore: DBM Vegetation has one look; vegetation definitions do not pick looks; not seen in a log
+  asset/vegetation/decorative/city_flowers/petunia_flower_violet3.pmd:
+    ignore: DBM Vegetation has one look; vegetation definitions do not pick looks; not seen in a log
+  asset/vegetation/decorative/city_flowers/petunia_flower_white1.pmd:
+    ignore: DBM Vegetation has one look; vegetation definitions do not pick looks; not seen in a log
+  asset/vegetation/decorative/city_flowers/petunia_flower_white2.pmd:
+    ignore: DBM Vegetation has one look; vegetation definitions do not pick looks; not seen in a log
+  asset/vegetation/decorative/city_flowers/petunia_flower_white3.pmd:
+    ignore: DBM Vegetation has one look; vegetation definitions do not pick looks; not seen in a log

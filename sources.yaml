@@ -1884,6 +1884,10 @@ sources:
   # landmark and panorama textures and its own sign/gas-station models (maintainer: option a, other content
   # included, 2026-10-01). Its def/ (company names, paint-job masks) is carried as edits of the base game
   # (tools/harvest_brands.py -> world/brands.yaml, world/units/). It wins the company and gas signs over DBM.
+  # 2.04.13 supports ETS2 up to 1.61: its Primel/Pegi price signs and Greek gas-station prefabs lack the looks and
+  # variants 1.62 added (`Unknown variant name 'price2'`, playtest 2026-11-07). tools/model_variants.py patches them
+  # (world/model_variants.yaml). REVISIT when Real companies updates for 1.62: rerun that tool and drop the entries it
+  # reports as no longer needed.
   - id: real-companies
     name: Real companies & gas stations
     author: MLH82, 4of25
