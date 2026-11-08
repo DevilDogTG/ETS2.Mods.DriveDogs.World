@@ -23,7 +23,7 @@ sources:
   - id: cip-train-sounds
     name: Real Train Sounds ETS2
     author: Cip
-    version: "1.61"
+    version: "1.62"
     workshop: 2439106226
     origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=2439106226" }
     layer: 10
@@ -1748,7 +1748,7 @@ sources:
     author: Darkcaptain
     version: "5.2.1"
     workshop: 1787041596
-    package: 160_content                 # 1.60/1.61 package; re-pin after a game update
+    package: 160_content                 # 1.60-1.62 package; re-pin after a game update
     origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=1787041596" }
     layer: 80
     overrides: ["juninho-weather"]
@@ -1772,7 +1772,7 @@ sources:
   - id: kass-thunder
     name: Realistic Rain & Water & Thunder Sounds
     author: Kass
-    version: "V10.8"
+    version: "V10.9"
     workshop: 3103103198
     origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=3103103198" }
     layer: 90

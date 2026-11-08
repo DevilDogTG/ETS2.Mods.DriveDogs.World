@@ -18,6 +18,9 @@ Wet-road puddles and surface reflections: Realistic Rain Reflections Standalone 
 --------------------
 [green]Changelogs
 
+[orange]v1.5.1
+[normal]- Takes the ETS2 1.62 updates of Real Train Sounds ETS2 (Cip, 1.62), Realistic Rain & Water & Thunder Sounds (Kass, V10.9) and Realistic Rain (5.2.1, re-released for 1.62). None of them changes a file World uses, so trains, thunder, rain and water look and sound as in 1.5.0
+
 [orange]v1.5.0
 [normal]- DBM's world graphics are built in (disable these mods): DBM Vegetation (3D leaves and grass, scanned bark), DBM Terrain Textures (scanned ground, dirt and parking-lot textures), DBM Guard Rails 4K, DBM World & Buildings HD (rocks, walls, fences, barriers) and DBM Water (lake waves, foam, shores and beaches); where they overlap, DBM's win over Juninho944's and DIOX's, and DBM's lake waves over Kass's (Kass keeps the rivers and distant water)
 - Grass reaches further (125 m, the game's is 105) with slightly fuller tufts, at World's density
