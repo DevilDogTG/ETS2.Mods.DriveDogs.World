@@ -28,6 +28,61 @@ resolutions:
     juninho-weather: 90198f7a05def5ac96e2dbb35cc79555e664a152952a9b9a7ecc433202ddbd76
     realistic-rain: 74faa6c85dd830e1703d77a2bc6f9401c199675df66963a2f0375fa601dbb68e
   note: 'Realistic Rain''s falling-rain streaks at the game''s brightness (diffuse 0.6 -> 1.0): at 0.6 they were ~5x fainter than vanilla''s and vanished at night without lightning (playtest round 4, 2026-10-01)'
+- path: model2/gas_station/gas_price_pegi_01_de.pmc
+  merged: overrides/model2/gas_station/gas_price_pegi_01_de.pmc
+  inputs:
+    real-companies: 8ae1c57848df4951808e7330cea5fe80e3b8f28b495fb45b3b33233a14b1835c
+  note: 'tools/model_variants.py: the real-companies model given the base game''s newer names (base copy (same shape): looks [''bi''] variants [])'
+- path: model2/gas_station/gas_price_pegi_01_de.pmd
+  merged: overrides/model2/gas_station/gas_price_pegi_01_de.pmd
+  inputs:
+    real-companies: d4f721c771ed4cdd667553bfa424882a3f5860535d4607f43167b833083f1861
+  note: 'tools/model_variants.py: the real-companies model given the base game''s newer names (look bi<-blkw_rs)'
+- path: model2/gas_station/gas_price_pegi_01_de_lod1.pmd
+  merged: overrides/model2/gas_station/gas_price_pegi_01_de_lod1.pmd
+  inputs:
+    real-companies: d4f721c771ed4cdd667553bfa424882a3f5860535d4607f43167b833083f1861
+  note: 'tools/model_variants.py: the real-companies model given the base game''s newer names (look bi<-blkw_rs)'
+- path: model2/gas_station/gas_price_primel_01_gr.pmc
+  merged: overrides/model2/gas_station/gas_price_primel_01_gr.pmc
+  inputs:
+    real-companies: 2f4dbe49f72924ced08c0d1f0e814e855866857e38bf18c776361dcd0c3804e6
+  note: 'tools/model_variants.py: the real-companies model given the base game''s newer names (base copy (same shape): looks [''bi''] variants [''price2'', ''price3''])'
+- path: model2/gas_station/gas_price_primel_01_gr.pmd
+  merged: overrides/model2/gas_station/gas_price_primel_01_gr.pmd
+  inputs:
+    real-companies: 4f6889b7ff07d6f2230cb24af2d58f836d81d18ee32503bfae007b593f77f1c0
+  note: 'tools/model_variants.py: the real-companies model given the base game''s newer names (look bi<-bg;variant price2<-default;variant price3<-default)'
+- path: model2/gas_station/gas_price_primel_01_gr_lod1.pmd
+  merged: overrides/model2/gas_station/gas_price_primel_01_gr_lod1.pmd
+  inputs:
+    real-companies: 4f6889b7ff07d6f2230cb24af2d58f836d81d18ee32503bfae007b593f77f1c0
+  note: 'tools/model_variants.py: the real-companies model given the base game''s newer names (look bi<-bg;variant price2<-default;variant price3<-default)'
+- path: model2/shop/pizzahouse_totem_lod1.pmd
+  merged: overrides/model2/shop/pizzahouse_totem_lod1.pmd
+  inputs:
+    real-companies: 05f04eaae6dc6e15a2250502f271fad1592a9835c2efbd11eb61ed1700d7acee
+  note: 'tools/model_variants.py: the real-companies model given the base game''s newer names (variant default<-var1)'
+- path: prefab2/gas_station/gas_station_modern_01_global_gr.pmd
+  merged: overrides/prefab2/gas_station/gas_station_modern_01_global_gr.pmd
+  inputs:
+    real-companies: fbb48bf3f15519ca5df46c1ff95ff390ca1707635de3a91f04e8566fa391b49a
+  note: 'tools/model_variants.py: the real-companies model given the base game''s newer names (look primel_bi<-primel_bg;look pegi_bi<-pegi_gr)'
+- path: prefab2/gas_station/gas_station_modern_01_global_gr_lod1.pmd
+  merged: overrides/prefab2/gas_station/gas_station_modern_01_global_gr_lod1.pmd
+  inputs:
+    real-companies: fbb48bf3f15519ca5df46c1ff95ff390ca1707635de3a91f04e8566fa391b49a
+  note: 'tools/model_variants.py: the real-companies model given the base game''s newer names (look primel_bi<-primel_bg;look pegi_bi<-pegi_gr)'
+- path: prefab2/gas_station/gas_station_modern_02_global_gr.pmd
+  merged: overrides/prefab2/gas_station/gas_station_modern_02_global_gr.pmd
+  inputs:
+    real-companies: ff7d7ee542301e38e351c00f1e42bac40326e2d9b9c0d9b9b2a6e5ec14798b4e
+  note: 'tools/model_variants.py: the real-companies model given the base game''s newer names (look primel_bi<-primel_bg;look pegi_bi<-pegi_gr)'
+- path: prefab2/gas_station/gas_station_modern_02_global_gr_lod1.pmd
+  merged: overrides/prefab2/gas_station/gas_station_modern_02_global_gr_lod1.pmd
+  inputs:
+    real-companies: ff7d7ee542301e38e351c00f1e42bac40326e2d9b9c0d9b9b2a6e5ec14798b4e
+  note: 'tools/model_variants.py: the real-companies model given the base game''s newer names (look primel_bi<-primel_bg;look pegi_bi<-pegi_gr)'
 - path: material/road/asphalt10_nrm.dds
   merged: overrides/material/road/asphalt10_nrm.dds
   inputs:

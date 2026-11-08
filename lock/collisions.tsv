@@ -234,6 +234,13 @@ model/sign/traffic/quarry.dds	declared	real-companies	dbm-signs:47e1797b63ce,rea
 model/sign/traffic/quarry.tobj	declared	real-companies	dbm-signs:c8ed68848faa,real-companies:26d3fa576d64
 model/sign/traffic/tree_et.dds	declared	real-companies	dbm-signs:2a555d3fcb69,real-companies:7b4b62a6b801
 model/sign/traffic/tree_et.tobj	declared	real-companies	dbm-signs:da576cce367a,real-companies:b21d57e6e035
+model2/gas_station/gas_price_pegi_01_de.pmc	overridden-new	overrides/	real-companies:8ae1c57848df
+model2/gas_station/gas_price_pegi_01_de.pmd	overridden-new	overrides/	real-companies:d4f721c771ed
+model2/gas_station/gas_price_pegi_01_de_lod1.pmd	overridden-new	overrides/	real-companies:d4f721c771ed
+model2/gas_station/gas_price_primel_01_gr.pmc	overridden-new	overrides/	real-companies:2f4dbe49f729
+model2/gas_station/gas_price_primel_01_gr.pmd	overridden-new	overrides/	real-companies:4f6889b7ff07
+model2/gas_station/gas_price_primel_01_gr_lod1.pmd	overridden-new	overrides/	real-companies:4f6889b7ff07
+model2/shop/pizzahouse_totem_lod1.pmd	overridden-new	overrides/	real-companies:05f04eaae6dc
 model2/vegetation/bush/spanish_broom/spanish_broom_difopa.dds	declared	dbm-vegetation	juninho-tree:85cc3e273aae,dbm-vegetation:fc731d11c227
 model2/vegetation/bush/spanish_broom/spanish_broom_difopa.tobj	declared	dbm-vegetation	juninho-tree:520e35480266,dbm-vegetation:d9555da53d04
 model2/vegetation/coniferous/scott_pine/scott_pine_difopa.dds	declared	dbm-vegetation	juninho-tree:0f35206981c2,dbm-vegetation:8f2a0a8f31a6
@@ -260,3 +267,7 @@ model2/vegetation/tree_it/acacia_it.dds	declared	dbm-vegetation	juninho-tree:aee
 model2/vegetation/tree_it/acacia_it.tobj	declared	dbm-vegetation	juninho-tree:da4cff1fa174,dbm-vegetation:d3d98ccadba7
 prefab/gas_small/price_stand_blue.dds	resolved	real-companies	juninho-asphalt:b11b0be4624c,real-companies:2be3835b15d3
 prefab/gas_small/price_stand_blue.tobj	resolved	real-companies	juninho-asphalt:f1950f79916d,real-companies:88030d5dbaf9
+prefab2/gas_station/gas_station_modern_01_global_gr.pmd	overridden-new	overrides/	real-companies:fbb48bf3f155
+prefab2/gas_station/gas_station_modern_01_global_gr_lod1.pmd	overridden-new	overrides/	real-companies:fbb48bf3f155
+prefab2/gas_station/gas_station_modern_02_global_gr.pmd	overridden-new	overrides/	real-companies:ff7d7ee54230
+prefab2/gas_station/gas_station_modern_02_global_gr_lod1.pmd	overridden-new	overrides/	real-companies:ff7d7ee54230
