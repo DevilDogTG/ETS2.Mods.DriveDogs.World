@@ -688,13 +688,15 @@ sources:
 
   # 3D leaf and grass cards, scanned bark and alpha-coverage mipmaps for the base game's, map DLCs' and ProMods' trees
   # and grass (maintainer: above every vegetation source, 2026-11-02). It ships .pmd files without their .pmg for
-  # models whose geometry it keeps, so its .pmd must follow the game's .pmg: recheck after a game update. Shared paths
-  # are textures only. Its def/world/detail_vegetation.sii is merged and World's grass density edit lands on it
-  # (world/graphics.yaml): DBM's draw distance and size/prefab coefficients stay, density stays World's 30.
+  # models whose geometry it keeps, so its .pmd must follow the game's .pmg: tools/check_model_pairs.py checks every
+  # pair (1.8's 1.61 city_flower_curve2_blke_lod1.pmd over 1.62's .pmg crashed the game at Larissa; 1.8.1 drops it,
+  # with all 17 city flower models and 6 cedar/date palm .pmd). Shared paths are textures only. Its
+  # def/world/detail_vegetation.sii is merged and World's grass density edit lands on it (world/graphics.yaml): DBM's
+  # draw distance and size/prefab coefficients stay, density stays World's 30.
   - id: dbm-vegetation
     name: DBM Vegetation
     author: DBM
-    version: "1.8"
+    version: "1.8.1"
     workshop: 3809092031
     origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=3809092031" }
     layer: 65
