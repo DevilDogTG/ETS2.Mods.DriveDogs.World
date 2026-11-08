@@ -716,7 +716,8 @@ sources:
       # unused in 1.61 (2026-11-05 reference trace): its material/terrain/*.mat (1.61's terrain draws through umatlib/;
       # nothing names these, except the 4 kept: dirt_2_512, dirt_3_512, grass_city_fr, grass_yellowish_main), the
       # normal maps only those .mat use, textures at paths nothing names, and its distribution .dmd (identical to
-      # 1.61's). Every file still in use stays.
+      # 1.61's). Every file still in use stays. Re-traced on 1.62 (2026-11-06): dirt_nrm is kept again, 1.62's new
+      # terrain material automat/f5/f56a42a588628d6b.mat pairs it with dirt.tobj; every other exclude is still unused.
       - "material/*.dmd"
       - "material/terrain/a*.mat"
       - "material/terrain/b*.mat"
@@ -898,8 +899,6 @@ sources:
       - "material/terrain/dirt.mat"
       - "material/terrain/dirt_bridge_fr.mat"
       - "material/terrain/dirt_far.mat"
-      - "material/terrain/dirt_nrm.dds"
-      - "material/terrain/dirt_nrm.tobj"
       - "material/terrain/dirt_yellow.mat"
       - "material/terrain/dirt_yellow_nrm.dds"
       - "material/terrain/dirt_yellow_nrm.tobj"
