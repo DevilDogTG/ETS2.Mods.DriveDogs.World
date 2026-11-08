@@ -4,7 +4,7 @@ ETS2 mod for the world around the road, built as a local **megapack** with the `
 `scs-mod-developer` agent profile. This repo holds only configuration and tools. The mod is built from the
 extracted base game, subscribed Workshop items and one local archive. It is never redistributed.
 
-Current content (v1.5.0, ETS2 1.62.1.0):
+Current content (v1.5.1, ETS2 1.62.1.0):
 
 - **Graphics** from Juninho944 (Weather_3.9, Asphalt_improved, grass_4.0_lite, tree_improved_4k), DIOX (Beautiful
   Nature), Darkcaptain (Realistic Rain) and DBM (Vegetation, Terrain Textures, Guard Rails 4K, World & Buildings HD;
