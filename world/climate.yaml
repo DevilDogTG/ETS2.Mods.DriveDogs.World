@@ -4,6 +4,7 @@
 # fog_density <= 0.0035, fog_offset >= 30.0 m, rain_max_wetness <= 0.6, rain_additional_ambient >= 30.0.
 # Twilight rain (-4.0 < sun <= 10.0 deg): fog_density <= 0.0025, fog_offset >= 20.0 m.
 # Day rain (sun > 10.0 deg): fog_density <= 0.0025, fog_offset >= 20.0 m.
+# Dawn/dusk rain (-4.0 <= sun <= 10.0 deg): max_scale raised to 1.0 x target_gray / (0.2 x scene light), at most the darkest night's.
 def/climate/default/bad.sii:
   default.bad.01:
     set:
@@ -426,6 +427,16 @@ def/climate/default/bad.sii:
       rain_additional_ambient[7]: '30'
       rain_additional_ambient[8]: '30'
       rain_additional_ambient[9]: '30'
+      max_scale[0]: '914.796'
+      max_scale[1]: '823.886'
+      max_scale[2]: '1579.7'
+      max_scale[3]: '1445.33'
+      max_scale[4]: '1001.41'
+      max_scale[5]: '1354.15'
+      max_scale[6]: '1803.71'
+      max_scale[7]: '928.942'
+      max_scale[8]: '1445.33'
+      max_scale[9]: '1001.41'
   default.bad.09:
     set:
       rain_intensity[0]: '0.85'
@@ -476,6 +487,15 @@ def/climate/default/bad.sii:
       fog_offset[6]: '20'
       fog_offset[8]: '20'
       fog_offset[9]: '20'
+      max_scale[0]: '184.264'
+      max_scale[1]: '240.507'
+      max_scale[2]: '270.092'
+      max_scale[3]: '197.204'
+      max_scale[4]: '262.311'
+      max_scale[6]: '208.95'
+      max_scale[7]: '220.55'
+      max_scale[8]: '280.497'
+      max_scale[9]: '268.292'
   default.bad.10:
     set:
       rain_intensity[0]: '0.85'
@@ -527,6 +547,14 @@ def/climate/default/bad.sii:
       fog_offset[6]: '20'
       fog_offset[8]: '20'
       fog_offset[9]: '20'
+      max_scale[0]: '25.0653'
+      max_scale[1]: '24.176'
+      max_scale[2]: '30.8098'
+      max_scale[3]: '25.0653'
+      max_scale[5]: '29.3953'
+      max_scale[6]: '28.6979'
+      max_scale[8]: '34.0986'
+      max_scale[9]: '24.5606'
   default.bad.11:
     set:
       rain_intensity[0]: '0.85'
@@ -1188,6 +1216,7 @@ def/climate/default/bad.sii:
       fog_offset[4]: '20'
       fog_offset[8]: '20'
       fog_offset[9]: '20'
+      max_scale[8]: '17.2481'
   default.bad.25:
     set:
       rain_intensity[0]: '0.85'
@@ -1280,6 +1309,12 @@ def/climate/default/bad.sii:
       fog_offset[4]: '20'
       fog_offset[8]: '20'
       fog_offset[9]: '20'
+      max_scale[0]: '26.1468'
+      max_scale[1]: '25.7078'
+      max_scale[2]: '33.06'
+      max_scale[3]: '28.319'
+      max_scale[4]: '26.7324'
+      max_scale[8]: '41.6145'
   default.bad.27:
     set:
       rain_intensity[0]: '0.85'
@@ -1325,6 +1360,15 @@ def/climate/default/bad.sii:
       fog_offset[4]: '20'
       fog_offset[8]: '20'
       fog_offset[9]: '20'
+      max_scale[0]: '198.184'
+      max_scale[1]: '179.365'
+      max_scale[2]: '272.874'
+      max_scale[3]: '232.042'
+      max_scale[4]: '244.99'
+      max_scale[6]: '224.595'
+      max_scale[7]: '270.04'
+      max_scale[8]: '299.541'
+      max_scale[9]: '270.127'
   default.bad.28:
     set:
       rain_intensity[0]: '0.85'
@@ -1384,6 +1428,16 @@ def/climate/default/bad.sii:
       rain_additional_ambient[7]: '30'
       rain_additional_ambient[8]: '30'
       rain_additional_ambient[9]: '30'
+      max_scale[0]: '914.796'
+      max_scale[1]: '823.886'
+      max_scale[2]: '1579.7'
+      max_scale[3]: '1445.33'
+      max_scale[4]: '1001.41'
+      max_scale[5]: '1354.15'
+      max_scale[6]: '1803.71'
+      max_scale[7]: '928.942'
+      max_scale[8]: '1445.33'
+      max_scale[9]: '1001.41'
   default.bad.29:
     set:
       rain_intensity[0]: '0.85'
@@ -1747,6 +1801,9 @@ def/climate/default/nice.sii:
       rain_additional_ambient[7]: '30'
       rain_additional_ambient[29]: '30'
       rain_additional_ambient[31]: '30'
+      max_scale[7]: '747.114'
+      max_scale[29]: '811.109'
+      max_scale[31]: '808.695'
   default.nice.09:
     set:
       fog_density[7]: '0.0025'
@@ -1756,6 +1813,8 @@ def/climate/default/nice.sii:
       fog_offset[7]: '20'
       fog_offset[8]: '20'
       fog_offset[31]: '20'
+      max_scale[7]: '382.217'
+      max_scale[31]: '281.298'
   default.nice.10:
     set:
       fog_density[7]: '0.0025'
@@ -1765,6 +1824,8 @@ def/climate/default/nice.sii:
       fog_offset[7]: '20'
       fog_offset[8]: '20'
       fog_offset[31]: '20'
+      max_scale[7]: '41.3391'
+      max_scale[31]: '37.3629'
   default.nice.11:
     set:
       fog_density[7]: '0.0025'
@@ -1772,6 +1833,7 @@ def/climate/default/nice.sii:
       fog_density[31]: '0.0025'
       fog_offset[7]: '20'
       fog_offset[31]: '20'
+      max_scale[31]: '16.717'
   default.nice.12:
     set:
       fog_density[7]: '0.0025'
@@ -1807,6 +1869,7 @@ def/climate/default/nice.sii:
       fog_offset[8]: '20'
       fog_offset[29]: '20'
       fog_offset[30]: '20'
+      max_scale[7]: '39.5097'
   default.nice.27:
     set:
       fog_density[8]: '0.0025'
@@ -1818,6 +1881,10 @@ def/climate/default/nice.sii:
       fog_offset[29]: '20'
       fog_offset[30]: '20'
       fog_offset[31]: '20'
+      max_scale[7]: '382.217'
+      max_scale[29]: '251.944'
+      max_scale[30]: '262.666'
+      max_scale[31]: '290.173'
   default.nice.28:
     set:
       fog_density[7]: '0.0035'
@@ -1835,6 +1902,11 @@ def/climate/default/nice.sii:
       rain_additional_ambient[29]: '30'
       rain_additional_ambient[30]: '30'
       rain_additional_ambient[31]: '30'
+      max_scale[7]: '900.594'
+      max_scale[8]: '726.191'
+      max_scale[29]: '1449.94'
+      max_scale[30]: '1815.04'
+      max_scale[31]: '1815.04'
   default.nice.29:
     set:
       fog_density[7]: '0.0035'
