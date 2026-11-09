@@ -9,8 +9,9 @@ scaled to them, and a definition must follow whichever texture wins. Otherwise t
 1.0.0-1.2.0-dev.2). `megapack check` cannot see this: the paths are all valid, only the numbers disagree.
 
 For each definition whose definition or texture is not the base game's, the expected coordinates are the base
-game's scaled by (winning texture size / base texture size), +-1 px. A definition the base game lacks is checked
-against its texture's bounds. Winners are read from the lock (lock/<source>.tsv, lock/collisions.tsv) and
+game's scaled by (winning texture size / base texture size), +-1 px; a side padded up to a multiple of 4 after a
+whole-number upscale counts as that whole number (the padding holds no image). A definition the base game lacks is
+checked against its texture's bounds. Winners are read from the lock (lock/<source>.tsv, lock/collisions.tsv) and
 overrides/, as the build resolves them, so rerun `megapack lock` first. A base-game definition World edits
 (`set` keys in a megapack.yaml `base_edits` file, e.g. world/sign_frames.yaml) is checked with those values.
 
@@ -104,6 +105,16 @@ def dds_size(p: pathlib.Path) -> tuple[int, int]:
     return w, h
 
 
+def scale(side: int, base_side: int) -> float:
+    """Pixel scale from a base texture side to the winning one. A whole multiple of a base side that is not a multiple
+    of 4, padded up to one (block compression), keeps the image at k x and the padding past it, so the scale is k
+    (DBM Signs' 2.3 re-upload, 2026-11-08: 2 x 279 = 558 -> 560)."""
+    k = round(side / base_side)
+    if k >= 1 and side != k * base_side and side == -(-k * base_side // 4) * 4:
+        return float(k)
+    return side / base_side
+
+
 def texture(tree: Tree, mat_path: str, base_only: bool) -> tuple[str, pathlib.Path] | None:
     """Material -> its .tobj -> the .dds it names, each resolved as the build ships it (or from the base game)."""
     def get(rel: str) -> tuple[str, pathlib.Path | None]:
@@ -169,7 +180,8 @@ def check(tree: Tree, rel: str) -> str | None:
     if base_tex is None:
         return f"{rel}: base game texture not found"
     bw, bh = dds_size(base_tex[1])
-    want = [(axis, v * (w / bw if axis == "x" else h / bh)) for axis, v in coords(base_text, frame)]
+    sx, sy = scale(w, bw), scale(h, bh)
+    want = [(axis, v * (sx if axis == "x" else sy)) for axis, v in coords(base_text, frame)]
     if len(want) != len(got):
         return f"{rel} ({def_owner}): {len(got) // (1 if frame else 4)} images, base game has {len(want) // (1 if frame else 4)}"
     off = [(g, round(x, 1)) for (_, g), (_, x) in zip(got, want) if abs(g - x) > 1.0]
