@@ -41,7 +41,14 @@
      Day wetness: heavy 0.55-0.70, storm 0.70-0.80 (were 0.60-0.85 / 0.80-0.95 to 1.4.0, a near-mirror road).
      `thunderstorm_probability` 1.0 so the weights alone set the storm share.
    - Night (sun <= -4 deg): rain fog <= 0.0035 from >= 30 m, wetness <= 0.6, rain streak light >= 30.
-   - Dawn/dusk (-4 to +10 deg): rain fog <= 0.004 from >= 20 m.
+   - Dawn/dusk (-4 to +10 deg) and day (above +10 deg): rain fog <= 0.0025 from >= 20 m (dawn/dusk was 0.004 to
+     1.2.0; day uncapped to 1.2.0).
+   - Dawn/dusk rain exposure (-4 to +10 deg, since 1.5.2): Weather's rain light there is 3-5x below vanilla's but its
+     auto-exposure ceiling is vanilla's, so the picture stayed at ~40-60% brightness and the headlight beam barely
+     showed. Raining variants' `max_scale` is raised to the exposure that brings the scene to its `target_gray`
+     (scene light = lum(ambient) + 0.5 lum(diffuse), albedo 0.2; vanilla reaches its target from -4 deg under the
+     same model), never lowered, at most the darkest night's. Weather's light itself is kept (a daylight raise would
+     cut the exposure and hide the beam further).
    - The tool refuses to write a decimal where the game file has an integer: a decimal `weight` made the whole
      `bad.sii` fail to load and rain crash the game (dev.2).
 5. **Date** (`world/environment.yaml`): fixed day 270 (27 September), `summer_time` 1. About 12 h of daylight

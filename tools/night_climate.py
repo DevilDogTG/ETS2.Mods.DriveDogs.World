@@ -37,6 +37,16 @@ is ~1-4 against ~1,800 at night, so sight in rain is set by fog alone. Weather_3
 fog_offset >= DAY_FOG_OFFSET_MIN, the same as the twilight cap (lowered with it: the 2026-10-03 report at sun ~5 deg was
 already under the old 0.004), so the cap does not jump at 10 degrees.
 
+5. Dawn/dusk exposure. From DAWN_EXPOSURE_MIN_ELEVATION to TWILIGHT_MAX_ELEVATION (the night band's -4 degree profile
+and the twilight band) Weather_3.9's rain light is 3-5x below vanilla's, but its auto-exposure ceiling (max_scale) is
+about vanilla's, so the picture stays at ~40-60% of its target brightness and the headlight beam, scaled by the same
+capped exposure, barely shows (user, 2026-11-09: "nearly impossible to see headlight"). Raining variants get max_scale
+raised (never lowered) to the exposure that brings the scene to its target_gray:
+  DAWN_RAIN_IMAGE * target_gray / (EXPOSURE_ALBEDO * (lum(ambient) + 0.5 * lum(diffuse)))
+capped at the darkest night's max_scale of the same file. Under this model vanilla 1.62 reaches its target from -4
+degrees up, so DAWN_RAIN_IMAGE 1.0 matches vanilla's behaviour while keeping Weather's darker light: the beam gets the
+extra exposure too. Night below -4 degrees and day above 10 degrees are untouched; so is min_scale.
+
 Dry variants (including pure fog weather) are left as Weather made them. The starting values are about vanilla 1.61's;
 tune them after play tests. The limits apply after the mix.
 
@@ -72,6 +82,9 @@ TWILIGHT_FOG_DENSITY_MAX = 0.0025  # 0.004 to 1.2.0; still ~200 m sight at 08:43
 TWILIGHT_FOG_OFFSET_MIN = 20.0
 DAY_FOG_DENSITY_MAX = 0.0025   # vanilla day rain is mostly 0.0009-0.004; half hidden at ~offset + 0.7/density = ~300 m
 DAY_FOG_OFFSET_MIN = 20.0
+DAWN_EXPOSURE_MIN_ELEVATION = -4.0  # lowest profile whose rain exposure ceiling is raised (vanilla reaches its target here)
+DAWN_RAIN_IMAGE = 1.0          # share of target_gray the raised ceiling allows (1.0 = vanilla's behaviour)
+EXPOSURE_ALBEDO = 0.2          # average surface albedo of the scene model; scene light = lum(ambient) + 0.5 lum(diffuse)
 INDEXED = re.compile(r"^(\w+)\[(\d+)\]$")
 
 MIX_FILE = "def/climate/default/bad.sii"
@@ -99,6 +112,12 @@ def num(v: str) -> float:
 
 def fmt(x: float) -> str:
     return f"{x:.6g}"
+
+
+def lum(v: str) -> float:
+    """Luminance of a colour value such as (&37102762, &3780ff80, &380b95c2)."""
+    r, g, b = (num(x) for x in v.strip().strip("()").split(","))
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b
 
 
 def source_dir() -> pathlib.Path:
@@ -131,12 +150,14 @@ def limits(src: pathlib.Path) -> tuple[dict, list[str]]:
         night = {u for u in profiles if elev[u] <= NIGHT_MAX_ELEVATION}
         twilight = {u for u in profiles if NIGHT_MAX_ELEVATION < elev[u] <= TWILIGHT_MAX_ELEVATION}
         day = {u for u in profiles if elev[u] > TWILIGHT_MAX_ELEVATION}
-        changed = 0
+        dawn = {u for u in profiles if DAWN_EXPOSURE_MIN_ELEVATION <= elev[u] <= TWILIGHT_MAX_ELEVATION}
+        night_max_scale = max(num(v) for u in night for v in arrays(sii, u)["max_scale"].values())
+        changed = raised = 0
         for unit in profiles:
             a = arrays(sii, unit)
             vals = {k: {i: num(v) for i, v in a[k].items()} for k in
                     ("rain_intensity", "rain_max_wetness", "lightning_intensity", "weight", "fog_density", "fog_offset",
-                     "rain_additional_ambient")}
+                     "rain_additional_ambient", "max_scale")}
             new = {k: dict(v) for k, v in vals.items()}
             if rel == MIX_FILE:
                 mix(new, unit in night)
@@ -156,6 +177,14 @@ def limits(src: pathlib.Path) -> tuple[dict, list[str]]:
                         continue
                     new["fog_density"][i] = min(new["fog_density"][i], fog_max)
                     new["fog_offset"][i] = max(new["fog_offset"][i], offset_min)
+            if unit in dawn:
+                for i, rain in new["rain_intensity"].items():
+                    if rain <= 0:
+                        continue
+                    light = lum(a["ambient"][i]) + 0.5 * lum(a["diffuse"][i])
+                    need = DAWN_RAIN_IMAGE * num(a["target_gray"][i]) / (EXPOSURE_ALBEDO * light)
+                    new["max_scale"][i] = max(new["max_scale"][i], min(need, night_max_scale))
+                    raised += fmt(new["max_scale"][i]) != fmt(vals["max_scale"][i])
             ops = {f"{k}[{i}]": fmt(x) for k in new for i, x in sorted(new[k].items())
                    if fmt(x) != fmt(vals[k][i])}
             for key, val in ops.items():
@@ -167,7 +196,7 @@ def limits(src: pathlib.Path) -> tuple[dict, list[str]]:
                 changed += len(ops)
         report.append(f"{rel}: {len(profiles)} profiles ({len(night)} night, {len(twilight)} twilight, {len(day)} day), "
                       f"{len(edits.get(rel, {}))} edited, "
-                      f"{changed} values")
+                      f"{changed} values ({raised} dawn/dusk rain exposure ceilings raised, cap {fmt(night_max_scale)})")
     return edits, report
 
 
@@ -201,7 +230,9 @@ def render(edits: dict) -> str:
         f"# Twilight rain ({NIGHT_MAX_ELEVATION} < sun <= {TWILIGHT_MAX_ELEVATION} deg): "
         f"fog_density <= {TWILIGHT_FOG_DENSITY_MAX}, fog_offset >= {TWILIGHT_FOG_OFFSET_MIN} m.\n"
         f"# Day rain (sun > {TWILIGHT_MAX_ELEVATION} deg): "
-        f"fog_density <= {DAY_FOG_DENSITY_MAX}, fog_offset >= {DAY_FOG_OFFSET_MIN} m.\n")
+        f"fog_density <= {DAY_FOG_DENSITY_MAX}, fog_offset >= {DAY_FOG_OFFSET_MIN} m.\n"
+        f"# Dawn/dusk rain ({DAWN_EXPOSURE_MIN_ELEVATION} <= sun <= {TWILIGHT_MAX_ELEVATION} deg): max_scale raised to "
+        f"{DAWN_RAIN_IMAGE} x target_gray / ({EXPOSURE_ALBEDO} x scene light), at most the darkest night's.\n")
     body = yaml.safe_dump({k: edits[k] for k in sorted(edits)}, sort_keys=False, allow_unicode=True, width=10_000)
     return head + body
 
