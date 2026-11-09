@@ -1851,6 +1851,8 @@ sources:
   # mod); loses the company and gas-station signs it shares with real-companies. Its textures are 4x the game's, and
   # sign atlas and frame definitions give coordinates in pixels, so its def/sign/{atlas,frame} (from 2.3) must ship
   # with them: 2.1 had none, and every sign showed the top-left quarter of each image (World 1.0.0-1.2.0-dev.2).
+  # 2.3 was re-uploaded on 2026-11-08 under the same version: three atlas textures (es/sign_diagram_puertollano_v1/v3,
+  # ru/arrow_up_right_righ_curve) padded by 2 px to a multiple of 4, their definitions unchanged (World 1.5.2).
   - id: dbm-signs
     name: DBM Road Signs & Markings 4K
     author: DBM
