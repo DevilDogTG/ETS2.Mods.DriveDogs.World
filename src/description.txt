@@ -18,6 +18,9 @@ Wet-road puddles and surface reflections: Realistic Rain Reflections Standalone 
 --------------------
 [green]Changelogs
 
+[orange]v1.5.2
+[normal]- Rain at dawn and dusk is no longer a dark, short view: the eye adapts to the dim rainy light as it does in the game without weather mods, so the road ahead and the headlight beam show again (around sunrise and sunset, about 4 degrees of sun below the horizon to 10 above). Night and daytime rain are unchanged
+
 [orange]v1.5.1
 [normal]- Takes the ETS2 1.62 updates of Real Train Sounds ETS2 (Cip, 1.62), Realistic Rain & Water & Thunder Sounds (Kass, V10.9) and Realistic Rain (5.2.1, re-released for 1.62). None of them changes a file World uses, so trains, thunder, rain and water look and sound as in 1.5.0
 
