@@ -4,7 +4,7 @@ ETS2 mod for the world around the road, built as a local **megapack** with the `
 `scs-mod-developer` agent profile. This repo holds only configuration and tools. The mod is built from the
 extracted base game, subscribed Workshop items and one local archive. It is never redistributed.
 
-Current content (v1.5.1, ETS2 1.62.1.0):
+Current content (v1.5.2, ETS2 1.62.1.0):
 
 - **Graphics** from Juninho944 (Weather_3.9, Asphalt_improved, grass_4.0_lite, tree_improved_4k), DIOX (Beautiful
   Nature), Darkcaptain (Realistic Rain) and DBM (Vegetation, Terrain Textures, Guard Rails 4K, World & Buildings HD;
@@ -17,7 +17,8 @@ Current content (v1.5.1, ETS2 1.62.1.0):
 - **Road signs and markings** from DBM Road Signs & Markings 4K; **real company and gas station brands** from Real
   companies & gas stations (MLH82, 4of25), its pre-1.62 gas-station models given 1.62's looks and price boards.
 - **Weather and time**: a rain mix of mostly light and medium rain, lighter rain fog at night so headlights reach and
-  by day and at dawn/dusk so the road ahead stays in sight, and a fixed date (27 September) for natural day and night.
+  by day and at dawn/dusk so the road ahead stays in sight, a brighter view in dawn and dusk rain so the headlights
+  show, and a fixed date (27 September) for natural day and night.
 - **People at bus stops** from d-luX's Busy Bus Stations: its people, parked bus and lamp placed on the 1.62
   bus-stop models (not its 2022 copies of them).
 - **Trains**: Realistic Train Lengths and Cip's Real Train Sounds, rebuilt on the 1.62 game files.
