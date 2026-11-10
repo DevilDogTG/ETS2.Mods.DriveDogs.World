@@ -1704,6 +1704,36 @@ sources:
       - "prefab2/tollgate/tollgate_hw2_symetric_mk_blkw.*"
       - "prefab2/truck_dealer/iveco/iveco_typo.*"
 
+  # Road surface colour textures from CC0 asphalt, sidewalk and curb scans (ambientCG), up to 8192 px; textures only,
+  # no materials or definitions (2026-11-09 check, plan world-dbm-roads). Above Asphalt_improved's road colours
+  # (362 files) and one curb decal of DBM Signs. It ships no normal map for the road surfaces, so Asphalt_improved's
+  # relief and World's rain-reflection blend stay on them (only un/tiles_new_01_tile_nrm changes input).
+  # Compare build (1.6.0-dev): not released yet.
+  - id: dbm-roads
+    name: DBM Road Textures
+    author: DBM
+    version: "4.2"
+    workshop: 3806747945
+    origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=3806747945" }
+    layer: 69
+    overrides: ["juninho-asphalt", "dbm-signs"]
+    exclude:
+      # DBM's plain-concrete curb drops the shoulder and gravel edge World's blended normal map still has: keep
+      # Asphalt_improved's
+      - "material/road/asphalt_ground_curb.*"
+      # unused in 1.62 (2026-11-10 trace of every base, source and overrides/ material): 10 textures no material
+      # names, the two Iceland ones (not in 1.62) included. Every texture still in use stays.
+      - "asset/props/road/tx_sidewalk_bricks1.*"
+      - "asset/props/road/tx_sidewalk_bricks2.*"
+      - "material/road/road_template/is/*"
+      - "material/road/road_template/un/curbs/curb_03b_un_difspec.*"
+      - "material/road/road_template/un/curbs/curb_03b_un_nrm.*"
+      - "material/road/road_template/un/curbs/curb_03c_un_difspec.*"
+      - "material/road/road_template/un/curbs/curb_03d_un_difspec.*"
+      - "material/special/lines_is_01.*"
+      - "material/tiled/sw_curb_bright.*"
+      - "material/tiled/sw_curb_dmg_nrm.*"
+
   - id: juninho-weather
     name: Weather_3.9_2K
     author: Juninho944

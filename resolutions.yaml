@@ -428,6 +428,11 @@ resolutions:
   inputs:
     juninho-asphalt: 1cdd8da16c57973dde9b42ec044bcfbc939870aa29d2bb2905404b7f2fe85f3f
   note: 'tools/rain_reflections.py: juninho-asphalt''s normal map blended with Realistic Rain Reflections'' puddles'
+- path: material/road/road_template/un/tiles_new_01_tile_nrm.dds
+  merged: overrides/material/road/road_template/un/tiles_new_01_tile_nrm.dds
+  inputs:
+    dbm-roads: d28be792de9a0c266420a5f375d615556ef081c1dd48eb09ca7ff4e0e93c23b1
+  note: 'tools/rain_reflections.py: dbm-roads''s normal map blended with Realistic Rain Reflections'' puddles'
 - path: material/road/asphalt.mat
   merged: overrides/material/road/asphalt.mat
   inputs:
