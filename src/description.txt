@@ -18,6 +18,10 @@ Wet-road puddles and surface reflections: Realistic Rain Reflections Standalone 
 --------------------
 [green]Changelogs
 
+[orange]v1.5.3
+[normal]- Eleven images World replaces now reach the game: the wet-road puddle blends of four road surfaces (new asphalt 05, rough asphalt 05, rough tiles 01 and new tiles 01), DIOX's two mountain rocks, its light rock and flowering hedge, and from Real companies the Sal (Baltic) and PP Chimica (Italy) company logos and a loading-screen picture. The build left them out of the archive, so the game showed its own images there
+- Nothing else changes from 1.5.2
+
 [orange]v1.5.2
 [normal]- Rain at dawn and dusk is no longer a dark, short view: the eye adapts to the dim rainy light as it does in the game without weather mods, so the road ahead and the headlight beam show again (around sunrise and sunset, about 4 degrees of sun below the horizon to 10 above). Night and daytime rain are unchanged
 - Takes DBM Road Signs & Markings 4K's re-upload of 2.3: three sign images (two Spanish junction diagram signs for Puertollano and a Russian curve arrow) are padded to a size the game compresses cleanly; the signs look as before
