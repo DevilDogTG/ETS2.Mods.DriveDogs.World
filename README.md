@@ -4,7 +4,7 @@ ETS2 mod for the world around the road, built as a local **megapack** with the `
 `scs-mod-developer` agent profile. This repo holds only configuration and tools. The mod is built from the
 extracted base game, subscribed Workshop items and one local archive. It is never redistributed.
 
-Current content (v1.5.2, ETS2 1.62.1.0):
+Current content (v1.5.3, ETS2 1.62.1.0):
 
 - **Graphics** from Juninho944 (Weather_3.9, Asphalt_improved, grass_4.0_lite, tree_improved_4k), DIOX (Beautiful
   Nature), Darkcaptain (Realistic Rain) and DBM (Vegetation, Terrain Textures, Guard Rails 4K, World & Buildings HD;
@@ -59,7 +59,9 @@ The lenses, the flash and the night yellow blink work on their own and take Bett
 Requires Python 3.10+ with the megapack skill's `scripts/requirements.txt`, Pillow and numpy, `scs_packer` on
 `PATH`, the base game extracted at the version in `megapack.yaml`, every Workshop source in `sources.yaml` extracted
 (`extract-reference`, category `workshop`, at the listed version), and Realistic Rain Reflections Standalone v1.4
-(Grimes, not on the Workshop) unzipped to `<extracted root>/local/rain-reflections/1.4/`.
+(Grimes, not on the Workshop) unzipped to `<extracted root>/local/rain-reflections/1.4/`. Build with megapack 0.14
+or later: older versions leave out of the archive every image whose texture definition (`.tobj`) is the base game's,
+among them four of the blended road normal maps (`megapack check` reports `base-game .tobj added` for them).
 
 ```bash
 python tools/harvest_edits.py        # trains -> world/edits.yaml
