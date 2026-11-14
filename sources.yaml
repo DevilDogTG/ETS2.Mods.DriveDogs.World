@@ -1707,8 +1707,8 @@ sources:
   # Road surface colour textures from CC0 asphalt, sidewalk and curb scans (ambientCG), up to 8192 px; textures only,
   # no materials or definitions (2026-11-09 check, plan world-dbm-roads). Above Asphalt_improved's road colours
   # (362 files) and one curb decal of DBM Signs. It ships no normal map for the road surfaces, so Asphalt_improved's
-  # relief and World's rain-reflection blend stay on them (only un/tiles_new_01_tile_nrm changes input).
-  # Compare build (1.6.0-dev): not released yet.
+  # relief and World's rain-reflection blend stay on them (only un/tiles_new_01_tile_nrm changes input). Kept after
+  # an in-game comparison with 1.5.3 (World 1.6.0, ADR-0002 decision 15).
   - id: dbm-roads
     name: DBM Road Textures
     author: DBM
