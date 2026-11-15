@@ -46,6 +46,7 @@
 - Load order: World must sit above Daniel's Random Events when that mod is loaded on its own (it ships the 20 / 13
   mm copies). The AiTraffic megapack drops its copies in 1.7.2.
 - Changes against the tested `half` package: the collision copy is no longer drawn, and its substance is `road`
-  (Daniel's had none). The plate shapes and heights are the same. The dev build's playtest confirms that the
-  invisible plates collide.
+  (Daniel's had none). The plate shapes and heights are the same. The playtest of 1.7.0-dev.1 (2026-11-15, ETS2
+  1.62.3.3, with AiTraffic 1.7.2-dev.1 and no test package) confirmed that the invisible plates collide and feel
+  like `half`, with no log line from the patch models or their materials.
 - If the bump still feels too sharp, the next lever is a slope at the plate's edges instead of a step.
