@@ -1,7 +1,7 @@
 [orange]{{display_name}}{{part_label}}
 
-[normal]The world around the road for ETS2 1.62: weather, rain, roads, grass, trees and water from Juninho944, DIOX, Realistic Rain and Kass, DBM's trees and grass, terrain, road surfaces, guard rails, rocks and walls, water and 4K road signs and markings, country traffic-light lenses, and real company and gas station brands in one pack, with wet-road puddles, lightning and thunder, a realistic mix of light and heavy rain, a fixed late-September date for natural day and night, and a fix for poor headlight reach in night rain; people waiting at bus stops; realistic train lengths and Cip's real train and level-crossing sounds. Game settings are built on the current game files, so what the game adds in updates keeps working.
-[red]Place ABOVE Sound Fixes Pack (optional) and any other train sound or train length mod.
+[normal]The world around the road for ETS2 1.62: weather, rain, roads, grass, trees and water from Juninho944, DIOX, Realistic Rain and Kass, DBM's trees and grass, terrain, road surfaces, guard rails, rocks and walls, water and 4K road signs and markings, country traffic-light lenses, and real company and gas station brands in one pack, with wet-road puddles, lightning and thunder, a realistic mix of light and heavy rain, a fixed late-September date for natural day and night, and a fix for poor headlight reach in night rain; asphalt patches the wheels feel as a light bump; people waiting at bus stops; realistic train lengths and Cip's real train and level-crossing sounds. Game settings are built on the current game files, so what the game adds in updates keeps working.
+[red]Place ABOVE Sound Fixes Pack (optional) and any other train sound or train length mod, and ABOVE Daniel's Random Events Mod if you load it on its own (keep it: World only lowers its asphalt-patch bump).
 [red]Do not load these, they are built in (disable them, including Workshop subscriptions): Weather_3.9, Asphalt_improved, grass_4.0_lite, tree_improved_4k (Juninho944), Beautiful Water, Beautiful Nature (DIOX), Realistic Rain, Realistic Rain Reflections, Realistic Rain & Water & Thunder Sounds (Kass), DBM Road Signs & Markings 4K, DBM Vegetation, DBM Terrain Textures, DBM Guard Rails 4K, DBM World & Buildings HD, DBM Water, DBM Road Textures, Real companies & gas stations, Busy Bus Stations, Realistic Train Lengths, Real Train Sounds ETS2, Different lenses of traffic lights.
 [red]Also disable any day/night or date mod (e.g. Workshop 1061306287): World sets the date.
 [red]Remove the DriveDogs: Better Flares Traffic Lights add-on: World now does everything it did (with or without Better Flares).
@@ -10,11 +10,13 @@
 [normal]{{source_list}}
 Train speeds, power and weights: Sound Fixes Pack by Drive Safely (as carried by Realistic Train Lengths)
 Wet-road puddles and surface reflections: Realistic Rain Reflections Standalone v1.4 by Grimes (blended into Asphalt_improved's roads)
+Asphalt-patch bump: Daniel's Random Events Mod by Daniel (his collision plates, lowered, on the game's own patch models)
 --------------------
 [orange]Download the originals / support the authors:
 [normal]{{source_links}}
 - Sound Fixes Pack: https://steamcommunity.com/sharedfiles/filedetails/?id=648591060
 - Realistic Rain Reflections (Grimes): https://grimesmods.wordpress.com/2017/05/08/realistic-rain-reflections-standalone/
+- Daniel's Random Events Mod: https://forum.scssoft.com/viewtopic.php?t=265242
 --------------------
 [green]Changelogs
 
