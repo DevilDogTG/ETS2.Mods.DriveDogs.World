@@ -20,6 +20,9 @@ Asphalt-patch bump: Daniel's Random Events Mod by Daniel (his collision plates, 
 --------------------
 [green]Changelogs
 
+[orange]v1.7.0
+[normal]- Asphalt patches are a light bump: the game's three repaired-asphalt patches get the collision plates of Daniel's Random Events Mod, lowered to 10 mm (6.5 mm on the thin patch) from its 20 mm, so the wheels feel a soft step on and off instead of a hard one. They keep the game's own look and work in SCS's patched road sections and in Daniel's asphalt-patch events, with or without his mod
+
 [orange]v1.6.0
 [normal]- DBM Road Textures is built in (disable it): scanned asphalt, sidewalk and curb colours on every road, up to 8K, over Asphalt_improved's. Asphalt_improved's crack and joint relief, its curb with a gravel edge, and World's wet-road wheel tracks and puddles stay
 - One archive, now about 16 GB (DBM's 8K road textures)
