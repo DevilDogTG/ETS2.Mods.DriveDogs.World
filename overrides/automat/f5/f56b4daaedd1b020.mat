@@ -1,4 +1,4 @@
-effect : "eut2.dif.spec.weight.rfx" {
+effect : "eut2.dif.spec.weight.tsnmapcalc.rfx" {
 	additional_ambient : 0.000000
 	diffuse : { 1.000000 , 1.000000 , 1.000000 }
 	reflection : 1.000000
@@ -7,6 +7,10 @@ effect : "eut2.dif.spec.weight.rfx" {
 	substance : "road"
 	texture : "texture_base" {
 		source : "/material/road/road_template/balt/1_balt.tobj"
+		sampler : default
+	}
+	texture : "texture_nmap" {
+		source : "/material/road/road_template/balt/1_balt_nrm.tobj"
 		sampler : default
 	}
 }
