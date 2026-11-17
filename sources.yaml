@@ -1938,3 +1938,10 @@ sources:
       - "material/special/decal_ground_01.*"
       - "material/terrain/grass_droughty_main.*"
       - "model2/vegetation/tree_it/oleander_it.*"
+      # base textures it ships pixel-identical but with the .tobj set to clamp instead of repeat: base models tile
+      # them, so clamped they sample the edge. decal_light_01 is the lamp-glow/light-pool texture (872 base models
+      # draw past its edge: night glows on buildings, landmarks, signs and tunnels such as Bosruck went dark),
+      # iamod_building_01 a tiling facade texture (7,920 models), glass_building_01 flat black (2026-11-15 trace)
+      - "material/special/decal_light_01.*"
+      - "material/special/glass_building_01.*"
+      - "material/tiled/iamod_building_01.*"
