@@ -75,7 +75,9 @@ RUT_STRENGTH_DEFAULT = 1.0
 # Junction materials RRR gives a rut map where the base game has no normal map get the blended normal map of the
 # road template that uses the same colour texture (so the junction matches the road next to it), with the effect's
 # `.tsnmapcalc` flavour added before `.rfx`. RRR's own rut maps are never shipped.
-JUNCTION_NMAPS = True
+# Off for the 1.7.1-dev.1 test (2026-11-15): junctions and roundabouts showed jagged lighter/darker patches in sun,
+# where a two-layer junction blend's layers got different normal maps and shininess.
+JUNCTION_NMAPS = False
 # Blends are written at RRR's rut-map size when the winner's map is smaller (Asphalt's are 1024, RRR's 2048), so
 # RRR's fine water-surface detail is not lost to downscaling.
 KEEP_RUT_SIZE = True
@@ -94,7 +96,9 @@ LEGACY_RUT_SLOPE = 0.18           # peak slope of a trough flank (~10 deg; mean 
 LEGACY_SHININESS = "50"
 # Base junction, yard and parking materials whose colour layer is a legacy asphalt texture (the UK prefabs: ~300, only
 # 18 with a normal map in 1.61) get that legacy road's normal map, as JUNCTION_NMAPS does for the template junctions.
-LEGACY_JUNCTIONS = True
+# Off for the 1.7.1-dev.1 test (2026-11-15): the legacy layer got wheel tracks and shininess 50 while the other
+# layer stayed flat, so the jagged blend edges showed as lighter/darker patches in junctions in dry weather.
+LEGACY_JUNCTIONS = False
 FLAT_NMAP = "/system/special/flat_nrm.tobj"    # what SCS's own two-layer materials use on a layer without one
 VALUE_KEYS = ["reflection", "reflection_secondary", "specular", "specular_secondary", "shininess",
               "shininess_secondary"]

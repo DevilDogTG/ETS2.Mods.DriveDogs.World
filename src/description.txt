@@ -20,6 +20,10 @@ Asphalt-patch bump: Daniel's Random Events Mod by Daniel (his collision plates, 
 --------------------
 [green]Changelogs
 
+[orange]v1.7.1
+[normal]- Lamp glows show again at night: the game's lamp-glow and light-pool texture (and a tiling facade texture) came from Real companies set to stop at the image edge instead of repeating, so many building, landmark, sign and tunnel lamps (Bosruck, the Karawanken entrance, some Balkan tunnels) lost their glow while their light still reached the road. World now uses the game's own copies, which look the same
+- Junctions and roundabouts no longer show jagged lighter and darker patches in the sun: World's wet-road wheel tracks and glare stay on the roads but no longer go on the junction surfaces, so a junction blends its two asphalts as the game does
+
 [orange]v1.7.0
 [normal]- Asphalt patches are a light bump: the game's three repaired-asphalt patches get the collision plates of Daniel's Random Events Mod, lowered to 10 mm (6.5 mm on the thin patch) from its 20 mm, so the wheels feel a soft step on and off instead of a hard one. They keep the game's own look and work in SCS's patched road sections and in Daniel's asphalt-patch events, with or without his mod
 
