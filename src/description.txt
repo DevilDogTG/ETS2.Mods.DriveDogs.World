@@ -20,6 +20,9 @@ Asphalt-patch bump: Daniel's Random Events Mod by Daniel (his collision plates, 
 --------------------
 [green]Changelogs
 
+[orange]v1.7.2
+[normal]- Junctions and roundabouts look wet in rain again, without the patches in the sun: every asphalt surface of a junction, the darker repaired patches included, gets the same wet grain and glare as the road next to it, so in dry weather a junction still blends its asphalts as the game does. Slip-road joins and junctions laid with the road's own surface keep its wheel tracks; other junctions, most of the UK's included, get the wet grain without tracks
+
 [orange]v1.7.1
 [normal]- Lamp glows show again at night: the game's lamp-glow and light-pool texture (and a tiling facade texture) came from Real companies set to stop at the image edge instead of repeating, so many building, landmark, sign and tunnel lamps (Bosruck, the Karawanken entrance, some Balkan tunnels) lost their glow while their light still reached the road. World now uses the game's own copies, which look the same
 - Junctions and roundabouts no longer show jagged lighter and darker patches in the sun: World's wet-road wheel tracks and glare stay on the roads but no longer go on the junction surfaces, so a junction blends its two asphalts as the game does

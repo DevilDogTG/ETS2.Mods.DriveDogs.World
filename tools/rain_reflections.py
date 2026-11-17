@@ -18,8 +18,10 @@ elsewhere. Decisions: plan world-graphics, sub-plan rain-extras; ADR docs/adr/AD
        material's own normal map is blended)
      - `road_template/un/*_nrm.tobj` (RRR points the universal roads' normal maps at its own; the winning
        texture is blended), which also reaches every junction material that uses them.
-   Junction materials that have no normal map in 1.61 (RRR gives them its rut maps) get the blended normal map of
-   the road template with the same colour texture (JUNCTION_NMAPS), plus `.tsnmapcalc` in their effect.
+   Junction, yard and parking materials with no normal map (WET_JUNCTIONS): every road and paved layer of a material
+   gets one normal map and one shininess, so the layers of a blend differ only in colour, as in the game: the road
+   template's blended map where all of them are that road's texture on mesh UVs, else a grain-only copy of the road's
+   map (no wheel tracks). Terrain layers get the flat map. RRR's own junction rut maps are never shipped.
    Grain floor (GRAIN_MIN_TILT): a detail map smoother than that (the country templates, the legacy roads) has its
    fine grain (high-pass) raised until it reaches it, so wet roads sparkle like the rough universal/blkw roads
    instead of mirroring buildings in patches. Rough maps are left as they are.
@@ -27,13 +29,13 @@ elsewhere. Decisions: plan world-graphics, sub-plan rain-extras; ADR docs/adr/AD
    the UK) take Asphalt's `material/road/*.mat`, which RRR never touched, so they had no wheel tracks. Their
    normal maps get World's own tracks: two troughs per lane strip (the legacy textures put a lane in each 0.25 of
    U, seams at 0.25/0.5/0.752 in every legacy road look; 0.752-0.944 is shoulder), at RRR's large-scale depth, and
-   their shininess goes to the templates' 50 (LEGACY_SHININESS) for the templates' narrower glare. Base
-   junction/yard materials with a legacy asphalt layer and no normal map get the same map (LEGACY_JUNCTIONS).
+   their shininess goes to the templates' 50 (LEGACY_SHININESS) for the templates' narrower glare.
 2. Values. On base-game `umatlib/**` and `automat/**` materials RRR changes, only the reflection, specular and
    shininess values are carried (sidewalks, tiles, concrete, cobblestone, parking lots, junctions). Its effect
    and texture swaps are not: they drop the 1.61 reflection flavour (`.rfx`) or point at its normal maps.
 
-Outputs: overrides/<path> for every blended .dds (git-ignored: regenerate with this tool) and edited .mat, the
+Outputs: overrides/<path> for every blended or grain-only .dds (git-ignored: regenerate with this tool), the
+grain-only maps' .tobj and every edited .mat, the
 manifest world/rain_reflections.tsv (output sha256 + input sha256s), and resolutions.yaml entries for the
 overrides a source also ships (so `megapack check` flags an upstream change).
 
@@ -72,12 +74,6 @@ NOTE = "tools/rain_reflections.py"
 # large-scale tilt in 1.0.0-1.4.0; the country templates (~5 deg) kept ~90% at 1.0.
 RUT_STRENGTH = {"un": 1.6, "blkw": 1.4}
 RUT_STRENGTH_DEFAULT = 1.0
-# Junction materials RRR gives a rut map where the base game has no normal map get the blended normal map of the
-# road template that uses the same colour texture (so the junction matches the road next to it), with the effect's
-# `.tsnmapcalc` flavour added before `.rfx`. RRR's own rut maps are never shipped.
-# Off for the 1.7.1-dev.1 test (2026-11-15): junctions and roundabouts showed jagged lighter/darker patches in sun,
-# where a two-layer junction blend's layers got different normal maps and shininess.
-JUNCTION_NMAPS = False
 # Blends are written at RRR's rut-map size when the winner's map is smaller (Asphalt's are 1024, RRR's 2048), so
 # RRR's fine water-surface detail is not lost to downscaling.
 KEEP_RUT_SIZE = True
@@ -94,12 +90,24 @@ LEGACY_TRACKS = (0.25, 0.70)      # wheel-track centres across a lane strip (a t
 LEGACY_TRACK_WIDTH = 0.07         # trough sigma, fraction of the strip (~0.3 m)
 LEGACY_RUT_SLOPE = 0.18           # peak slope of a trough flank (~10 deg; mean over the lane ~RRR's 5 deg)
 LEGACY_SHININESS = "50"
-# Base junction, yard and parking materials whose colour layer is a legacy asphalt texture (the UK prefabs: ~300, only
-# 18 with a normal map in 1.61) get that legacy road's normal map, as JUNCTION_NMAPS does for the template junctions.
-# Off for the 1.7.1-dev.1 test (2026-11-15): the legacy layer got wheel tracks and shininess 50 while the other
-# layer stayed flat, so the jagged blend edges showed as lighter/darker patches in junctions in dry weather.
-LEGACY_JUNCTIONS = False
+# Wet junctions (1.7.2). Junction, yard and parking materials with no normal map: those RRR gives a rut map, and base
+# ones with a legacy asphalt layer (the UK prefabs). 1.4.1-1.7.0 gave the road layer of a blend a normal map and
+# shininess 50 while a dark repair-patch (dark_c*) or terrain-asphalt layer of the same blend stayed flat with
+# shininess 8, so in sun the jagged blend edges showed as lighter/darker patches (1.7.1 turned it off). Now every road
+# and PAVED layer of a material gets ONE map and ONE shininess (LEGACY_SHININESS where a legacy road is involved, else
+# the road layer's own): the template road's blended map, wheel tracks included, where all of them are that road's
+# texture on mesh UVs (no `.tgN`: slip-road joins continue the road's tracks); otherwise a grain-only copy of the
+# road's map (the source's surface detail with the grain floor, no tracks) under GRAIN_DIR, since world-generated UVs
+# and the legacy junction UVs do not follow the lanes. Terrain layers (grass, dirt ...) get FLAT_NMAP and keep their
+# shininess, as SCS's own two-layer road materials do. `.tsnmapcalc` only into an effect the base game uses.
+WET_JUNCTIONS = True
+# Paved: any other road texture (dark_c* repair patches, rough/dusty asphalt, asphalt tiles), terrain asphalt and the
+# junction prefabs' asphalt-with-patches atlas; everything else (grass, dirt) is terrain.
+PAVED = re.compile(r"^(material/road/[\w/]+|material/terrain/asphalt\w*|prefab/cross/road_decals\w*)\.tobj$")
+GRAIN_DIR = "material/road/drivedog_wet"
 FLAT_NMAP = "/system/special/flat_nrm.tobj"    # what SCS's own two-layer materials use on a layer without one
+LAYERS = (("texture_base", "texture_nmap", "shininess"), ("texture_over", "texture_nmap_over", "shininess_secondary"))
+TOBJ_PATH_AT = 40                              # .tobj: u32 path length at 40, the path from 48
 VALUE_KEYS = ["reflection", "reflection_secondary", "specular", "specular_secondary", "shininess",
               "shininess_secondary"]
 DDS_PATH = re.compile(rb"/[\w/.\-]+\.dds")
@@ -214,7 +222,8 @@ def plan(m: Merge) -> tuple[dict[str, dict], dict[str, dict], list[str]]:
         rel = tobj.relative_to(m.rrr).as_posix()
         want(rel, tobj, rel)
 
-    road_nmaps = road_nmap_index(m, blends) if JUNCTION_NMAPS else {}
+    road_nmaps = road_nmap_index(m, blends) if WET_JUNCTIONS else {}
+    rrr_junctions: set[str] = set()
     values: dict[str, dict] = {}
     legacy_nmaps: dict[str, str] = {}
     legacy = re.findall(r'^\s*path\s*:\s*"/([^"]+)"', (m.base / "def/world/road_material.sii").read_text(encoding="utf-8"),
@@ -255,11 +264,16 @@ def plan(m: Merge) -> tuple[dict[str, dict], dict[str, dict], list[str]]:
                     ops[key] = a.group(2)
                 elif a and not b:
                     report.append(f"skip  {rel}: {key} not in the base material")
-            nmaps, effect = junction_nmaps(rel, theirs, ours, road_nmaps, report)
-            if ops or nmaps:
-                values[rel] = {"base": base, "ops": ops, "nmaps": nmaps, "effect": effect}
-    if LEGACY_JUNCTIONS and legacy_nmaps:
-        legacy_junctions(m, legacy_nmaps, road_nmaps, values, report)
+            rrr_nmap = nmap_of(theirs)
+            if rrr_nmap and "road_ntex" in rrr_nmap and nmap_of(ours) is None:
+                rrr_junctions.add(rel)
+            if ops:
+                values[rel] = {"base": base, "ops": ops, "nmaps": {}, "effect": ""}
+    if WET_JUNCTIONS:
+        wet_junctions(m, legacy_nmaps, road_nmaps, rrr_junctions, blends, values, report)
+        problems = junction_problems(values)
+        if problems:
+            sys.exit("junction layers differ in normal map or shininess:\n" + "\n".join(problems[:20]))
     return blends, values, report
 
 
@@ -269,12 +283,10 @@ def with_nmapcalc(effect: str) -> str | None:
     return None if t is None or ".tsnmapcalc" in effect else effect[: t.start()] + ".tsnmapcalc" + effect[t.start():]
 
 
-def legacy_junctions(m: Merge, legacy_nmaps: dict[str, str], road_nmaps: dict[str, str], values: dict,
-                     report: list[str]) -> None:
-    """Base junction/yard/parking materials with a legacy asphalt colour layer and no normal map get the legacy road's
-    normal map on that layer (the other layer: a blended road-template map, else the base game's flat map, as SCS's
-    own two-layer materials do), `.tsnmapcalc` (only into an effect the base game already uses) and the legacy
-    shininess on that layer. Merged into `values`; a material R3 already gave normal maps is left as it is."""
+def wet_junctions(m: Merge, legacy_nmaps: dict[str, str], road_nmaps: dict[str, str], rrr_junctions: set[str],
+                  blends: dict, values: dict, report: list[str]) -> None:
+    """Every road and paved layer of a junction/yard/parking material without a normal map gets one map and one
+    shininess (WET_JUNCTIONS); terrain layers the flat map. Merged into `values` (World's shininess wins over RRR's)."""
     effects, cands = set(), []
     for top in ("automat", "umatlib"):
         for p in sorted((m.base / top).rglob("*.mat")):
@@ -282,37 +294,96 @@ def legacy_junctions(m: Merge, legacy_nmaps: dict[str, str], road_nmaps: dict[st
             e = re.search(r'^\s*effect\s*:\s*"([^"]+)"', t, re.M)
             if e:
                 effects.add(e.group(1))
-            if "/material/road/" in t:
-                cands.append((p, t, e.group(1) if e else ""))
-    for p, text, effect in cands:
-        rel = p.relative_to(m.base).as_posix()
+            rel = p.relative_to(m.base).as_posix()
+            if "/material/road/" in t or rel in rrr_junctions:
+                cands.append((rel, p, t, e.group(1) if e else ""))
+    for rel, p, text, effect in cands:
         tex = mat_textures(text)
-        layers = [(layer, name, key) for layer, name, key in (("texture_base", "texture_nmap", "shininess"),
-                                                               ("texture_over", "texture_nmap_over", "shininess_secondary"))
-                  if layer in tex]
-        legacy = [layer for layer, _, _ in layers if tex[layer].lstrip("/").lower() in legacy_nmaps]
-        if not legacy or nmap_of(text) is not None or "texture_nmap_over" in tex:
+        if nmap_of(text) is not None or "texture_nmap_over" in tex:
+            continue
+        layers = [(i, layer, name, key) for i, (layer, name, key) in enumerate(LAYERS) if layer in tex]
+        colour = {layer: tex[layer].lstrip("/").lower() for _, layer, _, _ in layers}
+        kind = {layer: "template" if c in road_nmaps else "legacy" if c in legacy_nmaps
+                else "paved" if PAVED.match(c) else "terrain" for layer, c in colour.items()}
+        if rel not in rrr_junctions and "legacy" not in kind.values():
+            continue
+        roads = [layer for layer, k in kind.items() if k in ("template", "legacy")]
+        if not roads:
+            report.append(f"skip  {rel}: no road layer (wet junction)")
             continue
         if rel.lower() in m.holders:
-            report.append(f"skip  {rel}: shipped by {m.inputs(rel)} (legacy junction)")
+            report.append(f"skip  {rel}: shipped by {m.inputs(rel)} (wet junction)")
             continue
         new = with_nmapcalc(effect)
         if new is None or new not in effects:
-            report.append(f"skip  {rel}: no base-game effect {new or effect + ' + .tsnmapcalc'} (legacy junction)")
+            report.append(f"skip  {rel}: no base-game effect {new or effect + ' + .tsnmapcalc'} (wet junction)")
             continue
-        nmaps, ops = {}, {}
-        for layer, name, key in layers:
-            src = tex[layer].lstrip("/").lower()
-            nmaps[name] = legacy_nmaps.get(src) or road_nmaps.get(src) or FLAT_NMAP
-            cur = re.search(VALUE_LINE.format(key=key), text, re.M)
-            if layer in legacy and cur and canon(cur.group(2)) != canon(LEGACY_SHININESS):
-                ops[key] = LEGACY_SHININESS
-        if rel in values:
-            if values[rel]["nmaps"]:
-                continue
-            values[rel].update(nmaps=nmaps, effect=new, ops={**ops, **values[rel]["ops"]})
-        else:
-            values[rel] = {"base": p, "ops": ops, "nmaps": nmaps, "effect": new}
+        paved = [layer for _, layer, _, _ in layers if kind[layer] != "terrain"]
+        tg = {layer: f".tg{i}" in effect for i, layer, _, _ in layers}
+        main = "texture_over" if "texture_over" in roads else roads[0]
+        road_map = road_nmaps.get(colour[main]) or legacy_nmaps[colour[main]]
+        tracks = (all(kind[x] == "template" for x in paved) and len({colour[x] for x in paved}) == 1
+                  and not any(tg[x] for x in paved))
+        nmap = road_map if tracks else grain_map(m, road_map, blends, report)
+        if nmap is None:
+            continue
+        ops = dict(values[rel]["ops"]) if rel in values else {}
+        keys = {layer: key for _, layer, _, key in layers}
+
+        def shine(layer: str) -> str | None:
+            if keys[layer] in ops:
+                return ops[keys[layer]]
+            cur = re.search(VALUE_LINE.format(key=keys[layer]), text, re.M)
+            return cur.group(2) if cur else None
+
+        target = LEGACY_SHININESS if "legacy" in kind.values() else shine(main)
+        for layer in paved:
+            cur = shine(layer)
+            if target is not None and cur is not None and canon(cur) != canon(target):
+                ops[keys[layer]] = target
+        nmaps = {name: nmap if layer in paved else FLAT_NMAP for _, layer, name, _ in layers}
+        values[rel] = {"base": p, "ops": ops, "nmaps": nmaps, "effect": new}
+
+
+def grain_map(m: Merge, road_map: str, blends: dict, report: list[str]) -> str | None:
+    """Game path (.tobj) of the grain-only copy of a road normal map, registered in `blends` (kind grain)."""
+    w = m.winner(road_map.lstrip("/"))
+    dw = m.winner(tobj_dds(w[1]).lstrip("/")) if w else None
+    if dw is None:
+        report.append(f"skip  {road_map}: missing (grain-only junction map)")
+        return None
+    stem = road_map.lstrip("/").removeprefix("material/road/").removeprefix("road_template/")
+    out = f"{GRAIN_DIR}/{stem.removesuffix('_nrm.tobj').replace('/', '_')}_grain_nrm"
+    blends.setdefault(out + ".dds", {"detail_src": dw[0], "detail": dw[1], "ruts": None, "grain": w[1], "via": road_map})
+    return "/" + out + ".tobj"
+
+
+def junction_problems(values: dict) -> list[str]:
+    """Edited junction materials whose road/paved layers end up with different normal maps or shininess."""
+    out = []
+    for rel, v in sorted(values.items()):
+        if not v["nmaps"]:
+            continue
+        text = edit_mat(v["base"].read_text(encoding="utf-8", errors="ignore"), v["ops"], v["nmaps"], v["effect"])
+        tex = mat_textures(text)
+        maps, shines = set(), set()
+        for layer, name, key in LAYERS:
+            if layer in tex and tex.get(name) != FLAT_NMAP:
+                cur = re.search(VALUE_LINE.format(key=key), text, re.M)
+                maps.add(tex.get(name))
+                shines.add(canon(cur.group(2)) if cur else None)
+        if len(maps) > 1 or len(shines) > 1:
+            out.append(f"{rel}: maps {sorted(map(str, maps))}, shininess {sorted(map(str, shines))}")
+    return out
+
+
+def tobj_for(template: bytes, dds: str) -> bytes:
+    """A .tobj like `template` (same type, filters, addressing) pointing at `dds`."""
+    n = struct.unpack_from("<I", template, TOBJ_PATH_AT)[0]
+    if len(template) != TOBJ_PATH_AT + 8 + n:
+        raise ValueError("unexpected .tobj layout")
+    path = dds.encode()
+    return template[:TOBJ_PATH_AT] + struct.pack("<II", len(path), 0) + path
 
 
 def mat_textures(text: str) -> dict[str, str]:
@@ -342,30 +413,6 @@ def road_nmap_index(m: Merge, blends: dict) -> dict[str, str]:
         if nw and tobj_dds(nw[1]).lstrip("/") in blends:
             index.setdefault(resolve(rel_dir, tex["texture_base"]).lower(), "/" + nmap)
     return index
-
-
-def junction_nmaps(rel: str, theirs: str, ours: str, road_nmaps: dict[str, str],
-                   report: list[str]) -> tuple[dict[str, str], str]:
-    """({texture_nmap[_over]: .tobj}, new effect) for a junction material RRR gives a rut map and 1.61 none."""
-    rrr_nmap = nmap_of(theirs)
-    if not road_nmaps or rrr_nmap is None or "road_ntex" not in rrr_nmap or nmap_of(ours) is not None:
-        return {}, ""
-    tex = mat_textures(ours)
-    nmaps = {}
-    for layer, name in (("texture_base", "texture_nmap"), ("texture_over", "texture_nmap_over")):
-        if layer not in tex:
-            continue
-        nmap = road_nmaps.get(tex[layer].lstrip("/").lower())
-        if nmap is None:
-            report.append(f"skip  {rel}: no blended road normal map for {tex[layer]}")
-            return {}, ""
-        nmaps[name] = nmap
-    effect = re.search(r'^\s*effect\s*:\s*"([^"]+)"', ours, re.M)
-    if not nmaps or effect is None or ".tsnmapcalc" in effect.group(1):
-        report.append(f"skip  {rel}: unexpected effect or textures")
-        return {}, ""
-    e = effect.group(1)
-    return nmaps, (e[: -len(".rfx")] + ".tsnmapcalc.rfx" if e.endswith(".rfx") else e + ".tsnmapcalc")
 
 
 def canon(v: str) -> str:
@@ -528,6 +575,13 @@ def edit_mat(text: str, ops: dict[str, str], nmaps: dict[str, str] | None = None
 def manifest_rows(m: Merge, blends: dict, values: dict) -> list[list[str]]:
     rows = []
     for target, b in sorted(blends.items()):
+        if b.get("grain"):
+            w, h = out_size(b["detail"], None)
+            rows.append([target, "grain", f"{b['detail_src']}:{sha(b['detail'])}", "world:no-tracks",
+                         f"0@{w}x{h} grain>={GRAIN_MIN_TILT:g}"])
+            rows.append([target[: -len(".dds")] + ".tobj", "tobj", f"{b['detail_src']}:{sha(b['grain'])}",
+                         "/" + target, ""])
+            continue
         ruts = m.rrr / b["ruts"] if b["ruts"] else None
         w, h = out_size(b["detail"], ruts)
         puddles = f"rrr:{sha(ruts)}" if ruts else "world:legacy-lanes"
@@ -575,7 +629,7 @@ def resolutions_text(m: Merge, blends: dict, values: dict) -> str:
     ours = [{"path": t, "merged": f"overrides/{t}", "inputs": m.inputs(t),
              "note": (f"{NOTE}: {b['detail_src']}'s normal map blended with Realistic Rain Reflections' puddles"
                       if b["ruts"] else f"{NOTE}: {b['detail_src']}'s legacy road normal map with World's wheel tracks")}
-            for t, b in sorted(blends.items()) if m.inputs(t)]
+            for t, b in sorted(blends.items()) if m.inputs(t) and not b.get("grain")]
     ours += [{"path": rel, "merged": f"overrides/{rel}", "inputs": m.inputs(rel),
               "note": f"{NOTE}: {v['src']}'s legacy road material, shininess {LEGACY_SHININESS}"}
              for rel, v in sorted(values.items()) if v.get("src", "base") != "base" and m.inputs(rel)]
@@ -622,6 +676,16 @@ def main() -> int:
         rut_map = m.rrr / b["ruts"] if b["ruts"] else None
         w, h = out_size(b["detail"], rut_map)
         detail_xy, gain = grain_floor(load_xy(b["detail"], (w, h)))
+        if b.get("grain"):
+            data = encode_like(to_normal(detail_xy), template)
+            tobj_rel = target[: -len(".dds")] + ".tobj"
+            for rel, blob in ((target, data), (tobj_rel, tobj_for(b["grain"].read_bytes(), "/" + target))):
+                dest = OVERRIDES / rel
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                dest.write_bytes(blob)
+                outs[rel] = hashlib.sha256(blob).hexdigest()
+            print(f"[{i}/{len(blends)}] grain {target} ({b['detail_src']} {b['via']}, {w}x{h}, grain x{gain:.2f})")
+            continue
         if rut_map:
             ruts, what = load_xy(rut_map, (w, h)) * rut_strength(target), f"{rut_map.name} x{rut_strength(target):g}"
         else:
