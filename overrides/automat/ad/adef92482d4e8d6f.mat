@@ -5,7 +5,7 @@ effect : "eut2.dif.spec.weight.weight.dif.spec.weight.tsnmapcalc.tg0.rfx" {
 	reflection : 0.000000
 	reflection_secondary : 1.000000
 	shininess : 12.000000
-	shininess_secondary : 50
+	shininess_secondary : 15.000000
 	specular : { 0.010023 , 0.010023 , 0.010023 }
 	specular_secondary : { 1.600000 , 1.600000 , 1.600000 }
 	texgen_0_gen : { 13.000000 , 13.000000 }
@@ -24,7 +24,7 @@ effect : "eut2.dif.spec.weight.weight.dif.spec.weight.tsnmapcalc.tg0.rfx" {
 		sampler : default
 	}
 	texture : "texture_nmap_over" {
-		source : "/material/road/drivedog_wet/asphalt_nl_1_grain_nrm.tobj"
+		source : "/material/road/drivedog_wet/junction_grain_nrm.tobj"
 		sampler : default
 	}
 }
