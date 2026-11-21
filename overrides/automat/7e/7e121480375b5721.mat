@@ -10,7 +10,7 @@ effect : "eut2.dif.spec.weight.tsnmapcalc.rfx" {
 		sampler : default
 	}
 	texture : "texture_nmap" {
-		source : "/material/road/road_template/ger/ger_04_nrm.tobj"
+		source : "/material/road/drivedog_wet/junction_grain_nrm.tobj"
 		sampler : default
 	}
 }

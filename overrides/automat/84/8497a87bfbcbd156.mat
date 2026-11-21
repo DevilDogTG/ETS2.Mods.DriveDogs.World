@@ -1,0 +1,29 @@
+effect : "eut2.dif.spec.weight.weight.dif.spec.weight.tsnmapcalc.rfx" {
+	additional_ambient : 0.000000
+	diffuse : { 1.000000 , 1.000000 , 1.000000 }
+	diffuse_secondary : { 1.000000 , 1.000000 , 1.000000 }
+	reflection : 0.000000
+	reflection_secondary : 1.000000
+	shininess : 12.000000
+	shininess_secondary : 15.000000
+	specular : { 0.033105 , 0.033105 , 0.033105 }
+	specular_secondary : { 1.000000 , 1.000000 , 1.000000 }
+	substance : "road"
+	is_terrain_material : 1
+	texture : "texture_base" {
+		source : "/material/road/road_template/ibe/ter_trans_placeholder.tobj"
+		sampler : default
+	}
+	texture : "texture_over" {
+		source : "/material/road/road_template/ibe/3_ibe.tobj"
+		sampler : default
+	}
+	texture : "texture_nmap" {
+		source : "/system/special/flat_nrm.tobj"
+		sampler : default
+	}
+	texture : "texture_nmap_over" {
+		source : "/material/road/drivedog_wet/junction_grain_nrm.tobj"
+		sampler : default
+	}
+}
