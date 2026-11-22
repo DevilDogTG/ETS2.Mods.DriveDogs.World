@@ -12,7 +12,8 @@ elsewhere. Decisions: plan world-graphics, sub-plan rain-extras; ADR docs/adr/AD
    map RRR would replace is rewritten as a blend: Asphalt's (or the base game's) surface detail reoriented onto
    RRR's wheel tracks (Reoriented Normal Mapping), same format (BC5) and mip chain as the winner's file, at RRR's
    size where that is larger (KEEP_RUT_SIZE). The rut tilt is scaled per folder (RUT_STRENGTH): Asphalt's
-   universal and blkw maps are rough enough to bury the ruts at RRR's own strength.
+   universal and blkw maps are rough enough to bury the ruts at RRR's own strength. RRR's constant ~4 deg
+   tilt under the ruts is taken out (RUT_FLAT_MEAN), so a road is as bright as flat asphalt in dry sun.
    Both maps are sampled with the same UVs, since RRR swapped them on the same materials. Covered:
      - country road templates `material/road/road_template/<c>/*.mat` (RRR adds a normal map; the winning
        material's own normal map is blended)
@@ -74,6 +75,12 @@ NOTE = "tools/rain_reflections.py"
 # large-scale tilt in 1.0.0-1.4.0; the country templates (~5 deg) kept ~90% at 1.0.
 RUT_STRENGTH = {"un": 1.6, "blkw": 1.4}
 RUT_STRENGTH_DEFAULT = 1.0
+# RRR's rut maps (DXT3) average R and G ~131-135 where flat is 128: a constant ~4 deg diagonal tilt on top of the
+# ruts (a tiling trough averages flat). Blended in (1.0-1.7.3-dev.1), it tilted every road 3-5 deg, so in dry sun a
+# road drew up to ~10% lighter or darker than flat (the junction next to it, the game's own road) by direction of
+# travel. The ruts are taken minus their mean xy; their shape, and so the wet look, stays (plan
+# world-rain-only-junctions, 2026-11-22).
+RUT_FLAT_MEAN = True
 # Blends are written at RRR's rut-map size when the winner's map is smaller (Asphalt's are 1024, RRR's 2048), so
 # RRR's fine water-surface detail is not lost to downscaling.
 KEEP_RUT_SIZE = True
@@ -414,6 +421,14 @@ def rut_strength(target: str) -> float:
     return RUT_STRENGTH.get(folder, RUT_STRENGTH_DEFAULT)
 
 
+def rrr_ruts(path: pathlib.Path, size: tuple[int, int], target: str) -> np.ndarray:
+    """RRR's rut map as tangent-space xy at `size`, minus its mean tilt (RUT_FLAT_MEAN), scaled by RUT_STRENGTH."""
+    xy = load_xy(path, size)
+    if RUT_FLAT_MEAN:
+        xy = xy - xy.reshape(-1, 2).mean(0)
+    return xy * rut_strength(target)
+
+
 def mean_tilt(xy: np.ndarray) -> float:
     return float(np.degrees(np.arccos(np.clip(to_normal(xy)[..., 2], -1.0, 1.0))).mean())
 
@@ -560,7 +575,8 @@ def manifest_rows(m: Merge, blends: dict, values: dict) -> list[list[str]]:
         ruts = m.rrr / b["ruts"] if b["ruts"] else None
         w, h = out_size(b["detail"], ruts)
         puddles = f"rrr:{sha(ruts)}" if ruts else "world:legacy-lanes"
-        strength = f"{rut_strength(target):g}" if ruts else f"{LEGACY_RUT_SLOPE:g}"
+        strength = (f"{rut_strength(target):g}{' flat-mean' if RUT_FLAT_MEAN else ''}" if ruts
+                    else f"{LEGACY_RUT_SLOPE:g}")
         rows.append([target, "blend", f"{b['detail_src']}:{sha(b['detail'])}", puddles,
                      f"{strength}@{w}x{h} grain>={GRAIN_MIN_TILT:g}"])
     for rel, v in sorted(values.items()):
@@ -663,7 +679,7 @@ def main() -> int:
             continue
         detail_xy, gain = grain_floor(load_xy(b["detail"], (w, h)))
         if rut_map:
-            ruts, what = load_xy(rut_map, (w, h)) * rut_strength(target), f"{rut_map.name} x{rut_strength(target):g}"
+            ruts, what = rrr_ruts(rut_map, (w, h), target), f"{rut_map.name} x{rut_strength(target):g}"
         else:
             ruts, what = legacy_ruts(w, h), "World's legacy lane tracks"
         data = encode_like(blend(to_normal(detail_xy), to_normal(ruts)), template)
