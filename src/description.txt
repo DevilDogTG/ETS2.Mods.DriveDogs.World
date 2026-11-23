@@ -21,7 +21,7 @@ Asphalt-patch bump: Daniel's Random Events Mod by Daniel (his collision plates, 
 [green]Changelogs
 
 [orange]v1.7.3
-[normal]- Junctions, roundabouts, yards and parking areas look as the game draws them again in dry weather: 1.7.2's wet grain made them slightly darker and gritty right in front of the truck and narrowed their glare in the sun. Now every asphalt surface of them, repaired patches and parking lots included, gets one much finer wet grain that fades out within a few metres and keeps the game's own glare, so in rain all of it looks wet and catches the light the same way. Junctions no longer carry wheel tracks
+[normal]- Junctions, roundabouts, yards and parking areas look exactly as the game draws them again in dry weather: since 1.7.2 their wet grain could leave one of a junction's two asphalts unlit by the sun, so part of a junction looked much darker than the road next to it. Junctions now keep the game's own surface; only how wet they get in rain changes, so every asphalt surface of them, repaired patches and parking lots included, darkens, shines and reflects the sky in rain like the road. Junctions no longer carry wheel tracks or wet grain
 - Roads are as bright as the junctions next to them in dry sun: the wet-road wheel tracks from Realistic Rain Reflections tilted every road slightly, so a road looked lighter or darker than the game's asphalt depending on which way you drove against the sun. The tracks and the wet look stay
 
 [orange]v1.7.2

@@ -1,0 +1,14 @@
+effect : "eut2.dif.spec.tg0.rfx" {
+	additional_ambient : 0.000000
+	diffuse : { 1.000000 , 1.000000 , 1.000000 }
+	reflection : 1.000000
+	shininess : 65.000000
+	specular : { 1.000000 , 1.000000 , 1.000000 }
+	texgen_0_gen : { 4.000000 , 4.000000 }
+	texgen_0_rot : 0.000000
+	lod_switch_distance : 0.000000
+	texture : "texture_base" {
+		source : "/material/road/asphalt_new_tiles.tobj"
+		sampler : default
+	}
+}

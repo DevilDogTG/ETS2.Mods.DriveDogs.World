@@ -1,4 +1,4 @@
-effect : "eut2.dif.spec.weight.tsnmapcalc.tg0.rfx" {
+effect : "eut2.dif.spec.weight.tg0.rfx" {
 	additional_ambient : 0.000000
 	diffuse : { 1.000000 , 1.000000 , 1.000000 }
 	reflection : 1.000000
@@ -9,10 +9,6 @@ effect : "eut2.dif.spec.weight.tsnmapcalc.tg0.rfx" {
 	queue_bias : 0
 	texture : "texture_base" {
 		source : "/material/terrain/asphalt_tiles_eu_01.tobj"
-		sampler : default
-	}
-	texture : "texture_nmap" {
-		source : "/material/road/drivedog_wet/junction_grain_nrm.tobj"
 		sampler : default
 	}
 }
