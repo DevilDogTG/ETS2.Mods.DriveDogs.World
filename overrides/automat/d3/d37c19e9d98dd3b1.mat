@@ -1,0 +1,15 @@
+effect : "eut2.dif.spec.mult.dif.spec.rfx" {
+	additional_ambient : 0.000000
+	diffuse : { 1.000000 , 1.000000 , 1.000000 }
+	reflection : 1.000000
+	shininess : 8.000000
+	specular : { 1.000000 , 1.000000 , 1.000000 }
+	texture : "texture_base" {
+		source : "/material/road/dark_c2.tobj"
+		sampler : default
+	}
+	texture : "texture_mult" {
+		source : "/prefab/car_factory/ground.tobj"
+		sampler : default
+	}
+}

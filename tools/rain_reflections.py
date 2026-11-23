@@ -19,10 +19,10 @@ elsewhere. Decisions: plan world-graphics, sub-plan rain-extras; ADR docs/adr/AD
        material's own normal map is blended)
      - `road_template/un/*_nrm.tobj` (RRR points the universal roads' normal maps at its own; the winning
        texture is blended), which also reaches every junction material that uses them.
-   Junction, yard and parking materials with no normal map (WET_JUNCTIONS): every asphalt layer gets one shared
-   low-tilt grain map (JUNCTION_GRAIN_TILT, fine grain only) and `reflection` 1 where it had 0; shininess stays the
-   game's. Other layers get the flat map. So in dry sun a junction looks as in the game, and in rain every asphalt
-   layer of it breaks up the wet gloss the same way. RRR's own junction rut maps are never shipped.
+   Junction, yard and parking materials with no normal map (WET_JUNCTIONS): every asphalt layer gets `reflection` 1
+   where it had 0, nothing else (no normal map: JUNCTION_NMAPS is off, a mapped junction layer could draw without sun
+   light). So in dry weather a junction is the game's, and in rain every asphalt layer of it looks wet. RRR's own
+   junction rut maps are never shipped.
    Grain floor (GRAIN_MIN_TILT): a detail map smoother than that (the country templates, the legacy roads) has its
    fine grain (high-pass) raised until it reaches it, so wet roads sparkle like the rough universal/blkw roads
    instead of mirroring buildings in patches. Rough maps are left as they are.
@@ -35,8 +35,8 @@ elsewhere. Decisions: plan world-graphics, sub-plan rain-extras; ADR docs/adr/AD
    shininess values are carried (sidewalks, tiles, concrete, cobblestone, parking lots, junctions). Its effect
    and texture swaps are not: they drop the 1.61 reflection flavour (`.rfx`) or point at its normal maps.
 
-Outputs: overrides/<path> for every blended .dds and the junction grain map (git-ignored: regenerate with this tool),
-the grain map's .tobj and every edited .mat, the
+Outputs: overrides/<path> for every blended .dds (and the junction grain map with JUNCTION_NMAPS; git-ignored:
+regenerate with this tool), the grain map's .tobj (JUNCTION_NMAPS) and every edited .mat, the
 manifest world/rain_reflections.tsv (output sha256 + input sha256s), and resolutions.yaml entries for the
 overrides a source also ships (so `megapack check` flags an upstream change).
 
@@ -98,17 +98,17 @@ LEGACY_TRACK_WIDTH = 0.07         # trough sigma, fraction of the strip (~0.3 m)
 LEGACY_RUT_SLOPE = 0.18           # peak slope of a trough flank (~10 deg; mean over the lane ~RRR's 5 deg)
 LEGACY_SHININESS = "50"
 # Wet junctions (1.7.3). Every junction, yard and parking material (base automat/ and umatlib/) with no normal map and
-# an ASPHALT layer. The game's shader multiplies the colour by 0.6 + 0.4 * the map's z and lights the map in every
-# weather, while `reflection` (how wet a layer gets) acts in rain only. 1.7.2 gave a subset of them 22-deg grain or the
-# road's rut map and shininess 50: in dry sun those junctions were darker, gritty near the truck, with a narrow sheen,
-# next to untouched ones. Now each asphalt layer gets one shared map, the fine grain of the universal asphalt map
-# (JUNCTION_GRAIN_SOURCE minus its GRAIN_RADIUS box blur, so it averages flat from a few metres) at
-# JUNCTION_GRAIN_TILT mean tilt: ~0.5% darker and ~1% less sun right at the truck. Shininess stays the game's (plus
-# RRR's carried values, as in 1.7.1); `reflection` goes to JUNCTION_REFLECTION where it is 0, so the grain breaks up
-# the wet gloss on every asphalt layer. Other layers (dirt, gravel, shoulders, terrain transitions, sidewalks, block
-# pavements, curbs, snow) get FLAT_NMAP, as SCS's own two-layer road materials do. `.tsnmapcalc` only into an effect
-# the base game uses. Decisions: plan world-rain-only-junctions (option B).
+# an ASPHALT layer gets `reflection` JUNCTION_REFLECTION where it is 0. `reflection` (how wet a layer gets) acts in
+# rain only, so in dry weather a junction is drawn exactly as the game draws it (effect, maps, shininess, specular
+# untouched; RRR's carried values stay, as in 1.7.1), and in rain every asphalt layer of it gets the wet dimming, gloss
+# and sky reflection. JUNCTION_NMAPS (off) also gave each asphalt layer one shared map, the fine grain of the universal
+# asphalt map (JUNCTION_GRAIN_SOURCE minus its GRAIN_RADIUS box blur) at JUNCTION_GRAIN_TILT mean tilt, other layers
+# FLAT_NMAP and the effect `.tsnmapcalc` (only into an effect the base game uses): in 1.7.2 (22-deg grain) and
+# 1.7.3-dev.1/.2 (this grain) one asphalt layer of a two-layer junction drew without sun light at all in dry weather
+# (Lisbon Marina crossroads, 2026-11-23), so junctions keep the game's flat effect. Decisions: plan
+# world-rain-only-junctions (option A, dev.3).
 WET_JUNCTIONS = True
+JUNCTION_NMAPS = False
 JUNCTION_GRAIN_TILT = 9.0
 JUNCTION_GRAIN_SOURCE = "material/road/road_template/un/asp_new_01_nrm.tobj"
 JUNCTION_REFLECTION = "1.000000"
@@ -292,9 +292,9 @@ def with_nmapcalc(effect: str) -> str | None:
 
 
 def wet_junctions(m: Merge, road_colours: set[str], blends: dict, values: dict, report: list[str]) -> None:
-    """Every asphalt layer of a junction/yard/parking material without a normal map gets the shared junction grain
-    map and `reflection` JUNCTION_REFLECTION where it is 0 (WET_JUNCTIONS); other layers the flat map. Merged into
-    `values` (RRR's carried values stay)."""
+    """Every asphalt layer of a junction/yard/parking material without a normal map gets `reflection`
+    JUNCTION_REFLECTION where it is 0 (WET_JUNCTIONS); with JUNCTION_NMAPS also the shared junction grain map (other
+    layers the flat map, the effect `.tsnmapcalc`). Merged into `values` (RRR's carried values stay)."""
     effects, cands = set(), []
     for top in ("automat", "umatlib"):
         for p in sorted((m.base / top).rglob("*.mat")):
@@ -316,11 +316,12 @@ def wet_junctions(m: Merge, road_colours: set[str], blends: dict, values: dict, 
         if rel.lower() in m.holders:
             report.append(f"skip  {rel}: shipped by {m.inputs(rel)} (wet junction)")
             continue
-        new = with_nmapcalc(effect)
+        new = with_nmapcalc(effect) if JUNCTION_NMAPS else effect
         if new is None or new not in effects:
             report.append(f"skip  {rel}: no base-game effect {new or effect + ' + .tsnmapcalc'} (wet junction)")
             continue
-        nmap = nmap or junction_grain(m, blends)
+        if JUNCTION_NMAPS:
+            nmap = nmap or junction_grain(m, blends)
         ops = dict(values[rel]["ops"]) if rel in values else {}
         for layer, _, key in layers:
             if layer not in asphalt:
@@ -333,6 +334,10 @@ def wet_junctions(m: Merge, road_colours: set[str], blends: dict, values: dict, 
                 report.append(f"keep  {rel}: no {key} value on asphalt layer {layer} (wet junction)")
             elif float(canon(cur)) == 0:
                 ops[key] = JUNCTION_REFLECTION
+        if not JUNCTION_NMAPS:
+            if ops:
+                values[rel] = {"base": p, "ops": ops, "nmaps": {}, "effect": ""}
+            continue
         nmaps = {name: nmap if layer in asphalt else FLAT_NMAP for layer, name, _ in layers}
         values[rel] = {"base": p, "ops": ops, "nmaps": nmaps, "effect": new}
 

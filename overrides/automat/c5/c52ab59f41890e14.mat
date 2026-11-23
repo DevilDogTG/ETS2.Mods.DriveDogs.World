@@ -1,0 +1,20 @@
+effect : "eut2.dif.spec.mult.dif.spec.iamod.dif.spec.rfx" {
+	additional_ambient : 0.000000
+	diffuse : { 1.000000 , 1.000000 , 1.000000 }
+	reflection : 1.000000
+	shininess : 60.000000
+	specular : { 0.031130 , 0.031130 , 0.031130 }
+	substance : "road"
+	texture : "texture_base" {
+		source : "/material/terrain/asphalt.tobj"
+		sampler : default
+	}
+	texture : "texture_iamod" {
+		source : "/material/tiled/iamod_building_01.tobj"
+		sampler : default
+	}
+	texture : "texture_mult" {
+		source : "/material/tiled/concrete_over_01.tobj"
+		sampler : default
+	}
+}

@@ -1,4 +1,4 @@
-effect : "eut2.dif.spec.weight.tsnmapcalc.rfx" {
+effect : "eut2.dif.spec.weight.rfx" {
 	additional_ambient : 0.000000
 	diffuse : { 1.000000 , 1.000000 , 1.000000 }
 	reflection : 1.000000
@@ -6,10 +6,6 @@ effect : "eut2.dif.spec.weight.tsnmapcalc.rfx" {
 	specular : { 1.000000 , 1.000000 , 1.000000 }
 	texture : "texture_base" {
 		source : "/material/road/road_template/fr/gray_old_map_2_fr.tobj"
-		sampler : default
-	}
-	texture : "texture_nmap" {
-		source : "/material/road/drivedog_wet/junction_grain_nrm.tobj"
 		sampler : default
 	}
 }
