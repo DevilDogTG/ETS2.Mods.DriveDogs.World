@@ -4,7 +4,7 @@ ETS2 mod for the world around the road, built as a local **megapack** with the `
 `scs-mod-developer` agent profile. This repo holds only configuration and tools. The mod is built from the
 extracted base game, subscribed Workshop items and one local archive. It is never redistributed.
 
-Current content (v1.7.2, ETS2 1.62.1.0, checked on 1.62.3.3):
+Current content (v1.7.3, ETS2 1.62.1.0, checked on 1.62.3.3):
 
 - **Graphics** from Juninho944 (Weather_3.9, Asphalt_improved, grass_4.0_lite, tree_improved_4k), DIOX (Beautiful
   Nature), Darkcaptain (Realistic Rain) and DBM (Vegetation, Terrain Textures, Road Textures, Guard Rails 4K, World &
@@ -13,9 +13,10 @@ Current content (v1.7.2, ETS2 1.62.1.0, checked on 1.62.3.3):
 - **Water** from DBM Water (lake waves, foam, shores, beaches) and Kass (rivers, distant water); **lightning and
   thunder** from Kass (Realistic Rain & Water & Thunder Sounds).
 - **Wet roads**: Grimes' Realistic Rain Reflections wheel tracks blended into the winning road normal maps
-  (World's own on the older roads), a rough wet grain on every asphalt road, its wet reflections on sidewalks, tiles,
-  concrete and junctions (every asphalt of a junction gets the same wet grain, with the road's wheel tracks where a junction
-  continues the road's own surface), and a softer sky mirror so the asphalt shows through. Needs the game's rain reflections and reflection quality set high.
+  (World's own on the older roads; without the tracks' constant tilt, so a road is as bright as the game's asphalt in
+  sun), a rough wet grain on every asphalt road, its wet reflections on sidewalks, tiles, concrete and junctions (every
+  asphalt of a junction gets wet in rain and keeps the game's own surface in dry weather), and a softer sky mirror so
+  the asphalt shows through. Needs the game's rain reflections and reflection quality set high.
 - **Road signs and markings** from DBM Road Signs & Markings 4K; **real company and gas station brands** from Real
   companies & gas stations (MLH82, 4of25), its pre-1.62 gas-station models given 1.62's looks and price boards.
 - **Weather and time**: a rain mix of mostly light and medium rain, lighter rain fog at night so headlights reach and
