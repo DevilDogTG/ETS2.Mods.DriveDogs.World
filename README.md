@@ -4,7 +4,7 @@ ETS2 mod for the world around the road, built as a local **megapack** with the `
 `scs-mod-developer` agent profile. This repo holds only configuration and tools. The mod is built from the
 extracted base game, subscribed Workshop items and one local archive. It is never redistributed.
 
-Current content (v1.7.3, ETS2 1.62.1.0, checked on 1.62.3.3):
+Current content (v1.7.4, ETS2 1.62.1.0, checked on 1.62.3.3):
 
 - **Graphics** from Juninho944 (Weather_3.9, Asphalt_improved, grass_4.0_lite, tree_improved_4k), DIOX (Beautiful
   Nature), Darkcaptain (Realistic Rain) and DBM (Vegetation, Terrain Textures, Road Textures, Guard Rails 4K, World &
@@ -36,6 +36,9 @@ Current content (v1.7.3, ETS2 1.62.1.0, checked on 1.62.3.3):
   [forum](https://forum.scssoft.com/viewtopic.php?t=265242)): the game's three asphalt-patch decals get his
   collision plates, invisible and lowered to 10 mm (6.5 mm on the thin patch), so the wheels feel a light step on
   and off. Built on the 1.62 models, with the game's own look.
+- **Lane-line feel**: crossing a lane divider or centre line gives a light thump (plain road surface, 4 mm), while
+  the motorway edge keeps the game's harder rumble. Invisible wheel strips follow the painted lines of 124 road
+  models, only where the road's look paints a line.
 
 Every game setting these mods change is carried as an edit of the current game files, never as an old whole copy,
 so what a game update adds keeps working. Decisions: [ADR-0001](docs/adr/ADR-0001-world-megapack.md) (megapack,
@@ -45,7 +48,8 @@ trains), [ADR-0002](docs/adr/ADR-0002-world-graphics.md) (graphics, weather, bra
 [ADR-0005](docs/adr/ADR-0005-world-flashing-green-locators.md) (flashing-green locators, night yellow blink),
 [ADR-0006](docs/adr/ADR-0006-world-owns-traffic-lights.md) (flash timing and lenses in World, no add-on),
 [ADR-0007](docs/adr/ADR-0007-world-model-variants.md) (newer looks/variants on source models),
-[ADR-0008](docs/adr/ADR-0008-world-patch-bump.md) (asphalt-patch bump).
+[ADR-0008](docs/adr/ADR-0008-world-patch-bump.md) (asphalt-patch bump),
+[ADR-0009](docs/adr/ADR-0009-world-lane-line-feel.md) (lane-line feel).
 
 ## Install
 
@@ -89,6 +93,7 @@ python tools/traffic_light_locators.py  # flashing-green locators on the timed t
 python tools/sign_lods.py            # instanced base signs without their unused LODs -> world/signs.yaml
 python tools/base_material_fixes.py  # base materials with moved texture paths corrected -> overrides/automat/ (after rain_reflections.py)
 python tools/patch_bump.py           # asphalt-patch models with low collision plates -> overrides/ (after a clone too)
+python tools/lane_strips.py          # lane-line wheel strips on the base road templates -> overrides/ (after a clone too)
 python tools/generate_cover.py
 python ~/.agent-brains/profiles/scs-mod-developer/skills/megapack/scripts/megapack.py lock
 python tools/sign_frames.py          # base sign frames scaled to the winning texture -> world/sign_frames.yaml (after lock)
@@ -101,8 +106,9 @@ python ~/.agent-brains/profiles/scs-mod-developer/skills/megapack/scripts/megapa
 
 Each tool's `--check` fails when its output no longer matches its inputs. `world/environment.yaml` (date, storm
 chance) is hand-written. The blended road normal maps, the bus-stop models, the traffic-light models, the
-asphalt-patch models and the patched source models in `overrides/` are git-ignored: `rain_reflections.py`,
-`bus_stop_people.py`, `traffic_light_locators.py`, `patch_bump.py` and `model_variants.py` regenerate them.
+asphalt-patch models, the lane-strip road templates and the patched source models in `overrides/` are git-ignored:
+`rain_reflections.py`, `bus_stop_people.py`, `traffic_light_locators.py`, `patch_bump.py`, `lane_strips.py` and
+`model_variants.py` regenerate them.
 
 ## Updating
 
@@ -115,6 +121,7 @@ asphalt-patch models and the patched source models in `overrides/` are git-ignor
 | Sound Fixes Pack update | `megapack updates` reports it. Extract it to `workshop/648591060/<version>/` with `--package sound`, set its version in `megapack.yaml` `references`, rerun `harvest_edits.py` (it fails on a picked sound that no longer resolves), rebuild. |
 | Better Flares update | Nothing. World does not use its files. |
 | Patch bump height | Set `HEIGHTS` in `tools/patch_bump.py`, rerun it, rebuild. Daniel's Random Events updates need nothing: World uses the base game's models, not his files. |
+| Lane-line feel height or surface | Set `HEIGHT_MM` in `tools/lane_strips.py` or the substance in `overrides/material/drivedogs/lane_feel.mat`, rerun the tool, rebuild. A mod that ships `road_template/` models above World takes the lane feel off those roads. |
 | Flash length or targets change | Set `FLASH_SECONDS` (or the model rules) in `tools/traffic_light_timing.py`, rerun it, then `tools/traffic_light_locators.py`, rebuild. |
 
 ## Layout
@@ -126,7 +133,7 @@ asphalt-patch models and the patched source models in `overrides/` are git-ignor
 | `resolutions.yaml` | per-path collision decisions (partly written by `rain_reflections.py` and `model_variants.py`) |
 | `world/*.yaml` | base-game edits: generated by the tools, except `environment.yaml` |
 | `world/units/` | new game definition files (`harvest_brands.py`) |
-| `overrides/` | World's own files: rain streak material, edited materials and blended road normal maps (`rain_reflections.py`), bus-stop models (`bus_stop_people.py`), traffic-light models (`traffic_light_locators.py`), asphalt-patch models with collision plates (`patch_bump.py`), source models given the base game's newer looks/variants (`model_variants.py`, `world/model_variants.yaml`) |
+| `overrides/` | World's own files: rain streak material, edited materials and blended road normal maps (`rain_reflections.py`), bus-stop models (`bus_stop_people.py`), traffic-light models (`traffic_light_locators.py`), asphalt-patch models with collision plates (`patch_bump.py`), road templates with lane-line strips (`lane_strips.py`) and their material `material/drivedogs/lane_feel.mat`, source models given the base game's newer looks/variants (`model_variants.py`, `world/model_variants.yaml`) |
 | `tools/` | the generators above, `check_sign_defs.py` and `check_model_pairs.py` (read-only) and `generate_cover.py`; `overrides/automat/` is shared by `rain_reflections.py` and `base_material_fixes.py` (manifests `world/*.tsv`) |
 | `src/` | manifest and description templates, cover |
 | `lock/` | generated source hashes and collision report |

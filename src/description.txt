@@ -1,6 +1,6 @@
 [orange]{{display_name}}{{part_label}}
 
-[normal]The world around the road for ETS2 1.62: weather, rain, roads, grass, trees and water from Juninho944, DIOX, Realistic Rain and Kass, DBM's trees and grass, terrain, road surfaces, guard rails, rocks and walls, water and 4K road signs and markings, country traffic-light lenses, and real company and gas station brands in one pack, with wet-road puddles, lightning and thunder, a realistic mix of light and heavy rain, a fixed late-September date for natural day and night, and a fix for poor headlight reach in night rain; asphalt patches the wheels feel as a light bump; people waiting at bus stops; realistic train lengths and Cip's real train and level-crossing sounds; Sound Fixes Pack's garage-door sound. Game settings are built on the current game files, so what the game adds in updates keeps working.
+[normal]The world around the road for ETS2 1.62: weather, rain, roads, grass, trees and water from Juninho944, DIOX, Realistic Rain and Kass, DBM's trees and grass, terrain, road surfaces, guard rails, rocks and walls, water and 4K road signs and markings, country traffic-light lenses, and real company and gas station brands in one pack, with wet-road puddles, lightning and thunder, a realistic mix of light and heavy rain, a fixed late-September date for natural day and night, and a fix for poor headlight reach in night rain; asphalt patches the wheels feel as a light bump; lane lines that give a light thump, softer than the edge rumble; people waiting at bus stops; realistic train lengths and Cip's real train and level-crossing sounds; Sound Fixes Pack's garage-door sound. Game settings are built on the current game files, so what the game adds in updates keeps working.
 [red]Place ABOVE Sound Fixes Pack (needed: World plays its garage-door sound from it) and any other train sound or train length mod, and ABOVE Daniel's Random Events Mod if you load it on its own (keep it: World only lowers its asphalt-patch bump).
 [red]Do not load these, they are built in (disable them, including Workshop subscriptions): Weather_3.9, Asphalt_improved, grass_4.0_lite, tree_improved_4k (Juninho944), Beautiful Water, Beautiful Nature (DIOX), Realistic Rain, Realistic Rain Reflections, Realistic Rain & Water & Thunder Sounds (Kass), DBM Road Signs & Markings 4K, DBM Vegetation, DBM Terrain Textures, DBM Guard Rails 4K, DBM World & Buildings HD, DBM Water, DBM Road Textures, Real companies & gas stations, Busy Bus Stations, Realistic Train Lengths, Real Train Sounds ETS2, Different lenses of traffic lights.
 [red]Also disable any day/night or date mod (e.g. Workshop 1061306287): World sets the date.
@@ -22,7 +22,11 @@ Asphalt-patch bump: Daniel's Random Events Mod by Daniel (his collision plates, 
 
 [orange]v1.8.0
 [normal]- Garage doors (the small, medium and large garage doors and the Scandinavian one) open and close with Sound Fixes Pack's door sound instead of the game's iron-gate sound. World plays it from Sound Fixes Pack, so Sound Fixes Pack is now needed: load it below World
-- Trains, level crossings, rain and thunder sound as in 1.7.3
+- Trains, level crossings, rain and thunder sound as in 1.7.4
+
+[orange]v1.7.4
+[normal]- Lane lines can be felt: crossing a lane divider or centre line gives a light thump, while the motorway edge keeps its harder rumble, so drifting into the next lane and running off the road feel different. Only where the road paints a line; junctions not yet
+- Weather, rain, roads and sounds as in 1.7.3
 
 [orange]v1.7.3
 [normal]- Junctions, roundabouts, yards and parking areas look exactly as the game draws them again in dry weather: since 1.7.2 their wet grain could leave one of a junction's two asphalts unlit by the sun, so part of a junction looked much darker than the road next to it. Junctions now keep the game's own surface; only how wet they get in rain changes, so every asphalt surface of them, repaired patches and parking lots included, darkens, shines and reflects the sky in rain like the road. Junctions no longer carry wheel tracks or wet grain
