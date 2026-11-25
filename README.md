@@ -25,6 +25,7 @@ Current content (v1.7.3, ETS2 1.62.1.0, checked on 1.62.3.3):
 - **People at bus stops** from d-luX's Busy Bus Stations: its people, parked bus and lamp placed on the 1.62
   bus-stop models (not its 2022 copies of them).
 - **Trains**: Realistic Train Lengths and Cip's Real Train Sounds, rebuilt on the 1.62 game files.
+- **Garage doors** play Sound Fixes Pack's door sound (played from Sound Fixes Pack itself, which loads below World).
 - **Flashing green**: the last 3 s of green on 108 standard traffic-light models become the engine's `green_trans`
   state, and their 91 models get a `flare.traffic.green.trans` locator on every green lens, built like the base game's
   own flashing-green models. World owns this timing because the engine looks semaphore models up by unit id, so it
@@ -49,7 +50,8 @@ trains), [ADR-0002](docs/adr/ADR-0002-world-graphics.md) (graphics, weather, bra
 ## Install
 
 1. Copy `output/local/drivedog_world_v<version>.scs` (one archive, ~16 GB) to `Documents/Euro Truck Simulator 2/mod/`.
-2. In the mod manager, place it **above** Sound Fixes Pack (optional), any other train sound or length mod, and
+2. In the mod manager, place it **above** Sound Fixes Pack (needed for the garage-door sound: World points at its
+   sound files), any other train sound or length mod, and
    Daniel's Random Events Mod when it is loaded on its own (its patch models are the full 20 mm bump).
 3. Disable the mods it contains (Workshop subscriptions included): Weather_3.9, Asphalt_improved, grass_4.0_lite,
    tree_improved_4k, Beautiful Nature, Beautiful Water, Realistic Rain, Realistic Rain Reflections, Realistic Rain &
@@ -60,21 +62,23 @@ trains), [ADR-0002](docs/adr/ADR-0002-world-graphics.md) (graphics, weather, bra
 4. Remove the DriveDogs Better Flares Traffic Lights add-on (`BetterFlaresAddOns/TrafficLights`, deprecated): World
    carries everything it did.
 
-Sound Fixes Pack and Better Flares stay separate mods and work with World.
+Sound Fixes Pack and Better Flares stay separate mods and work with World. Without Sound Fixes Pack, garage doors
+are silent.
 
 The lenses, the flash and the night yellow blink work on their own and take Better Flares' glow when it is loaded.
 
 ## Build
 
 Requires Python 3.10+ with the megapack skill's `scripts/requirements.txt`, Pillow and numpy, `scs_packer` on
-`PATH`, the base game extracted at the version in `megapack.yaml`, every Workshop source in `sources.yaml` extracted
-(`extract-reference`, category `workshop`, at the listed version), and Realistic Rain Reflections Standalone v1.4
+`PATH`, the base game extracted at the version in `megapack.yaml`, every Workshop source in `sources.yaml` and reference
+in `megapack.yaml` extracted (`extract-reference`, category `workshop`, at the listed version; Sound Fixes Pack with
+`--package sound`), and Realistic Rain Reflections Standalone v1.4
 (Grimes, not on the Workshop) unzipped to `<extracted root>/local/rain-reflections/1.4/`. Build with megapack 0.14
 or later: older versions leave out of the archive every image whose texture definition (`.tobj`) is the base game's,
 among them four of the blended road normal maps (`megapack check` reports `base-game .tobj added` for them).
 
 ```bash
-python tools/harvest_edits.py        # trains -> world/edits.yaml
+python tools/harvest_edits.py        # trains, crossing and garage-door sounds -> world/edits.yaml (rerun when traffic_light_timing.py changes its files)
 python tools/harvest_graphics.py     # graphics sources' game config -> world/graphics.yaml
 python tools/harvest_brands.py       # Real companies & gas stations' names/paint jobs -> world/brands.yaml, world/units/
 python tools/night_climate.py        # rain mix + night and dawn/dusk rain limits -> world/climate.yaml
@@ -108,7 +112,8 @@ asphalt-patch models and the patched source models in `overrides/` are git-ignor
 | Source update (Steam re-sync) | `megapack updates` reports it. Re-extract it at the new version, set the version in `sources.yaml`, `megapack lock` (stale `resolutions.yaml` entries need review), rerun the tools, `check_sign_defs.py` and `check_model_pairs.py`, rebuild. For Real companies, `model_variants.py` then reports patches the update made unnecessary (`no longer needed`: remove them from `world/model_variants.yaml`) and fails on new mismatches; revisit its look choices. |
 | Rain Reflections update | Unzip it to a new `local/rain-reflections/<version>/`, set `RRR_VERSION` in `tools/rain_reflections.py`, rerun it, rebuild. |
 | Bus-stop people (2893480838) update | Extract it with `extract-reference` to `workshop/2893480838/<version>/`, set `MOD_VERSION` in `tools/bus_stop_people.py`, rerun it, compare its definitions with `world/units/`, rebuild. |
-| Sound Fixes Pack / Better Flares update | Nothing. World does not use their files. |
+| Sound Fixes Pack update | `megapack updates` reports it. Extract it to `workshop/648591060/<version>/` with `--package sound`, set its version in `megapack.yaml` `references`, rerun `harvest_edits.py` (it fails on a picked sound that no longer resolves), rebuild. |
+| Better Flares update | Nothing. World does not use its files. |
 | Patch bump height | Set `HEIGHTS` in `tools/patch_bump.py`, rerun it, rebuild. Daniel's Random Events updates need nothing: World uses the base game's models, not his files. |
 | Flash length or targets change | Set `FLASH_SECONDS` (or the model rules) in `tools/traffic_light_timing.py`, rerun it, then `tools/traffic_light_locators.py`, rebuild. |
 
@@ -116,7 +121,7 @@ asphalt-patch models and the patched source models in `overrides/` are git-ignor
 
 | Path | Purpose |
 |---|---|
-| `megapack.yaml` | package identity, base game version, base-edit files, `references:` (Realistic Train Lengths, Busy Bus Stations), one-archive cap |
+| `megapack.yaml` | package identity, base game version, base-edit files, `references:` (Realistic Train Lengths, Sound Fixes Pack, Busy Bus Stations), one-archive cap |
 | `sources.yaml` | the 17 merged sources: layers, overrides, excludes (DBM's sign atlas/frame definitions must match the textures that win, see its comment) |
 | `resolutions.yaml` | per-path collision decisions (partly written by `rain_reflections.py` and `model_variants.py`) |
 | `world/*.yaml` | base-game edits: generated by the tools, except `environment.yaml` |
