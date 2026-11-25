@@ -25,7 +25,9 @@ Current content (v1.7.4, ETS2 1.62.1.0, checked on 1.62.3.3):
 - **People at bus stops** from d-luX's Busy Bus Stations: its people, parked bus and lamp placed on the 1.62
   bus-stop models (not its 2022 copies of them).
 - **Trains**: Realistic Train Lengths and Cip's Real Train Sounds, rebuilt on the 1.62 game files.
-- **Garage doors** play Sound Fixes Pack's door sound (played from Sound Fixes Pack itself, which loads below World).
+- **From Sound Fixes Pack** (picked lines, `harvest_edits.py`): the garage-door sound (played from Sound Fixes
+  Pack itself, which loads below World), its locomotive headlights, and its extra Class 252 locomotives for Spain
+  and Portugal (with World's Class 252 sound and view distances).
 - **Flashing green**: the last 3 s of green on 108 standard traffic-light models become the engine's `green_trans`
   state, and their 91 models get a `flare.traffic.green.trans` locator on every green lens, built like the base game's
   own flashing-green models. World owns this timing because the engine looks semaphore models up by unit id, so it
@@ -82,7 +84,7 @@ or later: older versions leave out of the archive every image whose texture defi
 among them four of the blended road normal maps (`megapack check` reports `base-game .tobj added` for them).
 
 ```bash
-python tools/harvest_edits.py        # trains, crossing and garage-door sounds -> world/edits.yaml (rerun when traffic_light_timing.py changes its files)
+python tools/harvest_edits.py        # trains, crossing sounds, Sound Fixes Pack picks -> world/edits.yaml (rerun when traffic_light_timing.py changes its files)
 python tools/harvest_graphics.py     # graphics sources' game config -> world/graphics.yaml
 python tools/harvest_brands.py       # Real companies & gas stations' names/paint jobs -> world/brands.yaml, world/units/
 python tools/night_climate.py        # rain mix + night and dawn/dusk rain limits -> world/climate.yaml

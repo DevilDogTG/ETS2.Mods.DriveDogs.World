@@ -58,7 +58,16 @@
      takes, one item at a time. Train and crossing sounds stay Cip's (a build that switched them to SFP's,
      1.8.0-dev.1, was dropped before playtesting).
    - Picks today: the garage-door `sounds[]` on `tr_sem_mdl.garage_sc`, `g_exp_door`, `g_mid_door` and
-     `g_poor_door` in `semaphore_model.sii` (World ships that file for its traffic lights and crossings).
+     `g_poor_door` in `semaphore_model.sii` (World ships that file for its traffic lights and crossings), and
+     `headlights_angle`/`headlights_diffuse` on every `traffic.*` unit of the train files World ships (65
+     locomotives; the game sets none). A file glob in a pick applies only to files World already ships, so a pick
+     never makes World hide SFP's other changes in a file it did not ship before.
+   - New units: `SFP_NEW_UNITS` copies SFP's Class 252 `.mod` locomotives for Spain and Portugal (10 units, the
+     game's own Class 252 model and coaches) into `train_class334_locomotive.sui` as `after:` lines. Their sound
+     and `lod_dist` are the base Class 252's as World ships it (Cip's generic electric sound, Lengths' distances),
+     so only their headlights point at SFP's values. The harvest fails if a name already exists in the file, a
+     referenced accessory or spawn condition is not one of the group (or is referenced twice), a `data_path` is
+     not a base-game file, a chain token is not a base-game trailer, or a sound does not resolve.
    - How: `harvest_edits.py` `SFP_PICKS` lists (file, unit pattern, keys). The harvest applies SFP's values with
      its `@include`s inlined, after Lengths' and Cip's. A key SFP drops is unset. It fails on a pick that matches
      no unit, on a unit another `base_edits` file edits, and on a sound that does not resolve

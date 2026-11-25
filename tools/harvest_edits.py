@@ -7,9 +7,10 @@ Generates world/edits.yaml: the train and level-crossing edits World applies to 
                                       carries (max_speed, engine_power, vehicle_mass, cargo_mass; these come
                                       from Sound Fixes Pack 26.66, which it was built on)
   Real Train Sounds (Cip) 2439106226  per-train sound_move/sound_horn, max_speed, crossing sounds[]
-  Sound Fixes Pack 648591060          only the picks in SFP_PICKS (today the garage-door sounds). World ships
-                                      none of SFP's files, so these lines play from SFP itself, which must load
-                                      below World (ADR-0001 decision 6)
+  Sound Fixes Pack 648591060          only the picks in SFP_PICKS (garage-door sounds, train headlights) and the
+                                      units in SFP_NEW_UNITS (Class 252 locomotives for Spain and Portugal).
+                                      World ships none of SFP's files, so picked sounds play from SFP itself,
+                                      which must load below World (ADR-0001 decision 6)
 
 Only attributes listed in CARRY are taken, and only on units that exist in the base game, so units the base
 game added since a mod was made (e.g. 1.61's traffic.frt.nl) keep their vanilla values instead of being
@@ -18,7 +19,9 @@ after Lengths', so on a unit both change, Cip's max_speed wins. SFP's picks are 
 
 Every carried value is checked: trailer_chains tokens must name a base-game trailer or trailer type, and every
 `bank#event` must be an event of a bank Cip ships, and every sound a pick sets must resolve (soundref -> bank ->
-event) in SFP or the base game. Any failure aborts without writing.
+event) in SFP or the base game. Units added from SFP must be new to their file, reference only units of their own
+group (each once) or base-game files, use base-game chain tokens and resolving sounds. Any failure aborts without
+writing.
 
 usage: python tools/harvest_edits.py [--check]    (--check: fail if world/edits.yaml would change)
 Inputs are read from the extracted-reference root of this host (profile host file), at the versions in
@@ -27,6 +30,7 @@ megapack.yaml (base_game, references: Lengths, SFP) and sources.yaml (Cip).
 from __future__ import annotations
 
 import argparse
+import fnmatch
 import pathlib
 import re
 import sys
@@ -55,11 +59,28 @@ RETARGET = {
                                            {"traffic.fs_e_405": "traffic.fs_e_405.it"}),
 }
 # Sound Fixes Pack lines World takes: (file, unit pattern, keys). SFP's values (its @includes inlined) replace the
-# base game's on every matching unit; a key SFP drops is unset. A pick that matches no unit is an error.
+# base game's on every matching base-game unit; a key SFP drops is unset. A file glob applies only to the files World
+# already ships (never adds one: World would then hide SFP's other changes in it). A pick that matches no base-game
+# unit is an error.
 SFP_PICKS = [
     # garage doors: SFP's door sound instead of the game's iron gate
     ("def/world/semaphore_model.sii", r"tr_sem_mdl\.(garage_sc|g_exp_door|g_mid_door|g_poor_door)", ["sounds[]"]),
+    # locomotive headlights: SFP's warm halogen colour and wide beam (the game sets none on trains)
+    ("def/vehicle/ai/*", r"traffic\..+", ["headlights_angle", "headlights_diffuse"]),
 ]
+# Sound Fixes Pack units World adds to a base-game file: (file, anchor unit, SFP unit pattern, {vehicle: twin}).
+# SFP's matching units (its @includes inlined) are inserted after the anchor's closing brace, in SFP's order, with
+# SFP's values except the TWIN_KEYS, which come from the twin vehicle as World ships it (base game + the edits
+# above), so the added trains sound and draw like the same locomotive World already has.
+SFP_NEW_UNITS = [
+    # Class 252 locomotives that spawn on their own in Spain / Portugal, on top of the country lists' Class 252
+    ("def/vehicle/ai/train_class334_locomotive.sui", ".cls334_loco.sp.rwheel", r"\.?(traffic\.)?cls252_loco\.sp\.mod(\..+)?",
+     {"traffic.cls252_loco.sp.mod": ("def/vehicle/ai/train_cls252_locomotive.sui", "traffic.cls252_loco.sp")}),
+    ("def/vehicle/ai/train_class334_locomotive.sui", ".cls334_loco.pt.rwheel", r"\.?(traffic\.)?cls252_loco\.pt\.mod(\..+)?",
+     {"traffic.cls252_loco.pt.mod": ("def/vehicle/ai/train_cls252_locomotive.sui", "traffic.cls252_loco.pt")}),
+]
+TWIN_KEYS = re.compile(r"sound.*|lod_dist\[\]")
+REFS = ("accessories[]", "spawn_condition[]")  # keys naming other units
 SII_SUFFIXES = {".sii", ".sui"}
 NUM = re.compile(r"^-?\d+(\.\d+)?$")
 BANK_REF = re.compile(r'"/?(sound/[^"#]+\.bank)#([^"]+)"')
@@ -174,39 +195,124 @@ def harvest_sfp(base: pathlib.Path, sfp: pathlib.Path, edits: dict, shipped: dic
                 skipped: list[str], errors: list[str]) -> None:
     """SFP_PICKS onto the base game's units, after Lengths' and Cip's edits."""
     seen: dict[str, str | None] = {}
-    for rel, pattern, keys in SFP_PICKS:
-        if not (sfp / rel).is_file() or not (base / rel).is_file():
-            errors.append(f"sfp: {rel}: not in {'Sound Fixes Pack' if (base / rel).is_file() else 'the base game'}")
-            continue
-        b, m = SiiFile.read(base / rel), SiiFile(inline(sfp, sfp / rel, errors))
-        units = [u for u in m.order if re.fullmatch(pattern, u)]
-        if not units:
-            errors.append(f"sfp: {rel}: pick {pattern!r} matches no unit")
-        for unit in units:
-            if unit not in b.units:
-                errors.append(f"sfp: {rel}: unit {unit} not in base game")
+    for pick, pattern, keys in SFP_PICKS:
+        glob = any(c in pick for c in "*?[")
+        files = sorted(f for f in set(edits) | set(shipped) if fnmatch.fnmatchcase(f, pick)) if glob else [pick]
+        matched = 0
+        for rel in files:
+            if not (sfp / rel).is_file() or not (base / rel).is_file():
+                if not glob:
+                    errors.append(f"sfp: {rel}: not in "
+                                  f"{'Sound Fixes Pack' if (base / rel).is_file() else 'the base game'}")
                 continue
-            for key in keys:
-                mv, bv = values(m, unit, key), values(b, unit, key)
-                if [canon(v) for v in mv] == [canon(v) for v in bv]:
-                    skipped.append(f"sfp: {rel}: {unit} {key}: same as the base game")
+            b, m = SiiFile.read(base / rel), SiiFile(inline(sfp, sfp / rel, errors))
+            for unit in (u for u in m.order if re.fullmatch(pattern, u)):
+                if unit not in b.units:
+                    skipped.append(f"sfp: {rel}: unit {unit} not in base game")
                     continue
-                if unit in shipped.get(rel, ()):
-                    errors.append(f"sfp: {rel}: {unit} is edited by another base_edits file; carry SFP's {key} there")
-                    continue
-                for v in mv:
+                matched += 1
+                harvest_sfp_unit(rel, unit, keys, b, m, sfp, base, edits, shipped, skipped, errors, seen)
+        if not matched:
+            errors.append(f"sfp: {pick}: pick {pattern!r} matches no base-game unit")
+
+
+def harvest_sfp_unit(rel: str, unit: str, keys: list[str], b: SiiFile, m: SiiFile, sfp: pathlib.Path,
+                     base: pathlib.Path, edits: dict, shipped: dict[str, set[str]], skipped: list[str],
+                     errors: list[str], seen: dict[str, str | None]) -> None:
+    for key in keys:
+        mv, bv = values(m, unit, key), values(b, unit, key)
+        if not mv and not bv:
+            continue
+        if [canon(v) for v in mv] == [canon(v) for v in bv]:
+            skipped.append(f"sfp: {rel}: {unit} {key}: same as the base game")
+            continue
+        if unit in shipped.get(rel, ()):
+            errors.append(f"sfp: {rel}: {unit} is edited by another base_edits file; carry SFP's {key} there")
+            continue
+        for v in mv:
+            for ref in SOUND_PATH.findall(v):
+                if why := check_sound(ref, (sfp, base), seen):
+                    errors.append(f"sfp: {rel}: {unit}: {key}: {why}")
+        ops = edits.setdefault(rel, {}).setdefault(unit, {})
+        if not mv:
+            ops.setdefault("unset", []).append(key)
+            ops.get("set", {}).pop(key, None)
+            continue
+        if not key.endswith("[]") and len(mv) > 1:
+            skipped.append(f"sfp: {rel}: {unit} {key}: {len(mv)} lines, last kept: {mv[-1]}")
+            mv = mv[-1:]
+        ops.setdefault("set", {})[key] = mv if key.endswith("[]") else mv[0]
+
+
+def shipped_values(base: pathlib.Path, edits: dict, rel: str, unit: str) -> list[tuple[str, str]]:
+    """(key, value) lines of a base-game unit as World ships it: the base game's, with the `set` edits so far."""
+    b = SiiFile.read(base / rel)
+    ops = edits.get(rel, {}).get(unit, {})
+    out, done = [], set()
+    for _, key, v in b.units[unit].attrs:
+        if key in ops.get("unset", []):
+            continue
+        if key in ops.get("set", {}):
+            if key not in done:
+                new = ops["set"][key]
+                out += [(key, x) for x in (new if isinstance(new, list) else [new])]
+                done.add(key)
+            continue
+        out.append((key, v))
+    for key, new in ops.get("set", {}).items():
+        if key not in done:
+            out += [(key, x) for x in (new if isinstance(new, list) else [new])]
+    return out
+
+
+def harvest_sfp_new_units(base: pathlib.Path, sfp: pathlib.Path, cip: pathlib.Path, edits: dict,
+                          shipped: dict[str, set[str]], catalog: set[str], errors: list[str]) -> None:
+    """SFP_NEW_UNITS as `after:` lines on their anchor units (TWIN_KEYS from the twin as World ships it)."""
+    seen: dict[str, str | None] = {}
+    for rel, anchor, pattern, twins in SFP_NEW_UNITS:
+        where = f"sfp new units: {rel}"
+        b, m = SiiFile.read(base / rel), SiiFile(inline(sfp, sfp / rel, errors))
+        if anchor not in b.units or anchor in shipped.get(rel, ()):
+            errors.append(f"{where}: anchor {anchor} " + ("not in base game" if anchor not in b.units
+                                                          else "is edited by another base_edits file"))
+            continue
+        group = [u for u in m.order if re.fullmatch(pattern, u)]
+        if not group or not set(twins) <= set(group):
+            errors.append(f"{where}: {pattern!r} matches {group}, missing {sorted(set(twins) - set(group))}")
+            continue
+        lines: list[str] = []
+        refs: list[str] = []
+        for name in group:
+            u = m.units[name]
+            if name in b.units:
+                errors.append(f"{where}: {name} is already a base-game unit")
+            attrs = [(k, v) for _, k, v in u.attrs]
+            if name in twins:
+                trel, tunit = twins[name]
+                theirs = [(k, v) for k, v in shipped_values(base, edits, trel, tunit) if TWIN_KEYS.fullmatch(k)]
+                at = next((i for i, (k, _) in enumerate(attrs) if TWIN_KEYS.fullmatch(k)), len(attrs))
+                attrs = [a for a in attrs[:at] if not TWIN_KEYS.fullmatch(a[0])] + theirs + \
+                        [a for a in attrs[at:] if not TWIN_KEYS.fullmatch(a[0])]
+            for k, v in attrs:
+                if k in REFS:
+                    refs.append(v.strip().strip('"'))
+                elif k == "data_path" and not (base / v.strip().strip('"').lstrip("/")).is_file():
+                    errors.append(f"{where}: {name}: data_path {v} not in base game")
+                elif k == "trailer_chains[]" and v.strip().strip('"'):
+                    for part in v.strip().strip('"').split("|"):
+                        token = (part.split() or [""])[0]
+                        if token not in catalog:
+                            errors.append(f"{where}: {name}: chain token {token!r} is not a base-game trailer")
+                elif k.startswith("sound"):
                     for ref in SOUND_PATH.findall(v):
-                        if why := check_sound(ref, (sfp, base), seen):
-                            errors.append(f"sfp: {rel}: {unit}: {key}: {why}")
-                ops = edits.setdefault(rel, {}).setdefault(unit, {})
-                if not mv:
-                    ops.setdefault("unset", []).append(key)
-                    ops.get("set", {}).pop(key, None)
-                    continue
-                if not key.endswith("[]") and len(mv) > 1:
-                    skipped.append(f"sfp: {rel}: {unit} {key}: {len(mv)} lines, last kept: {mv[-1]}")
-                    mv = mv[-1:]
-                ops.setdefault("set", {})[key] = mv if key.endswith("[]") else mv[0]
+                        if why := check_sound(ref, (cip, base), seen):
+                            errors.append(f"{where}: {name}: {k}: {why}")
+            lines += ["", f"{u.type} : {name}", "{"] + [f"\t{k}: {v}" for k, v in attrs] + ["}"]
+        for ref in sorted(set(refs)):
+            if ref not in group or refs.count(ref) != 1:
+                errors.append(f"{where}: {ref} must be a unit of the added group, referenced once "
+                              f"({refs.count(ref)} references)")
+        edits.setdefault(rel, {}).setdefault(anchor, {}).setdefault("after", []).extend(lines)
 
 
 def guid_events(bank: pathlib.Path) -> set[str] | None:
@@ -265,8 +371,9 @@ def render(edits: dict) -> str:
         "# GENERATED by tools/harvest_edits.py — do not edit by hand; change the script and rerun it.\n"
         "# Edits of base-game files (megapack base_edits), applied at build to the base game in megapack.yaml.\n"
         "# Train lengths/physics from Realistic Train Lengths 3209674677; sounds, speeds and crossing sounds\n"
-        "# from Real Train Sounds 2439106226 (Cip); garage-door sounds from Sound Fixes Pack 648591060 (played from\n"
-        "# SFP itself, loaded below World). See docs/adr/ADR-0001-world-megapack.md.\n")
+        "# from Real Train Sounds 2439106226 (Cip); from Sound Fixes Pack 648591060 the garage-door sounds (played\n"
+        "# from SFP itself, loaded below World), locomotive headlights and Class 252 locomotives for Spain and\n"
+        "# Portugal. See docs/adr/ADR-0001-world-megapack.md.\n")
     body = yaml.safe_dump({k: edits[k] for k in sorted(edits)}, sort_keys=False, allow_unicode=True, width=10_000)
     return head + body
 
@@ -281,8 +388,10 @@ def main() -> int:
     errors: list[str] = []
     harvest("lengths", base, lengths, edits, skipped)
     harvest("cip", base, cip, edits, skipped)
-    harvest_sfp(base, sfp, edits, other_edits(), skipped, errors)
-    errors += validate(edits, base_catalog(base), bank_events(cip))
+    shipped, catalog = other_edits(), base_catalog(base)
+    harvest_sfp(base, sfp, edits, shipped, skipped, errors)
+    harvest_sfp_new_units(base, sfp, cip, edits, shipped, catalog, errors)
+    errors += validate(edits, catalog, bank_events(cip))
     for s in skipped:
         print(f"skip  {s}")
     for e in errors:
