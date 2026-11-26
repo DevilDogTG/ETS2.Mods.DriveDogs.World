@@ -1802,7 +1802,7 @@ sources:
   - id: kass-thunder
     name: Realistic Rain & Water & Thunder Sounds
     author: Kass
-    version: "V10.9"
+    version: "V11.0"
     workshop: 3103103198
     origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=3103103198" }
     layer: 90
@@ -1918,14 +1918,14 @@ sources:
   # landmark and panorama textures and its own sign/gas-station models (maintainer: option a, other content
   # included, 2026-10-01). Its def/ (company names, paint-job masks) is carried as edits of the base game
   # (tools/harvest_brands.py -> world/brands.yaml, world/units/). It wins the company and gas signs over DBM.
-  # 2.04.13 supports ETS2 up to 1.61: its Primel/Pegi price signs and Greek gas-station prefabs lack the looks and
+  # 2.04.13 supported ETS2 up to 1.61; 2.04.15 (World 1.8.0) adds Iceland but keeps these models: its Primel/Pegi price signs and Greek gas-station prefabs lack the looks and
   # variants 1.62 added (`Unknown variant name 'price2'`, playtest 2026-11-07). tools/model_variants.py patches them
   # (world/model_variants.yaml). REVISIT when Real companies updates for 1.62: rerun that tool and drop the entries it
   # reports as no longer needed.
   - id: real-companies
     name: Real companies & gas stations
     author: MLH82, 4of25
-    version: "2.04.13"
+    version: "2.04.15"
     workshop: 2933731468
     origin: { type: steam-workshop, url: "https://steamcommunity.com/sharedfiles/filedetails/?id=2933731468" }
     layer: 100

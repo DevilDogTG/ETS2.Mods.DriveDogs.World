@@ -4,7 +4,7 @@ ETS2 mod for the world around the road, built as a local **megapack** with the `
 `scs-mod-developer` agent profile. This repo holds only configuration and tools. The mod is built from the
 extracted base game, subscribed Workshop items and one local archive. It is never redistributed.
 
-Current content (v1.7.4, ETS2 1.62.1.0, checked on 1.62.3.3):
+Current content (v1.8.0, ETS2 1.62.1.0, checked on 1.62.3.3):
 
 - **Graphics** from Juninho944 (Weather_3.9, Asphalt_improved, grass_4.0_lite, tree_improved_4k), DIOX (Beautiful
   Nature), Darkcaptain (Realistic Rain) and DBM (Vegetation, Terrain Textures, Road Textures, Guard Rails 4K, World &
@@ -100,6 +100,7 @@ python tools/generate_cover.py
 python ~/.agent-brains/profiles/scs-mod-developer/skills/megapack/scripts/megapack.py lock
 python tools/sign_frames.py          # base sign frames scaled to the winning texture -> world/sign_frames.yaml (after lock)
 python tools/model_variants.py      # source models older than the base: missing looks/variants added -> overrides/ (after lock; after a clone too)
+python ~/.agent-brains/profiles/scs-mod-developer/skills/megapack/scripts/megapack.py lock   # again after a fresh clone: model_variants.py's overrides are git-ignored, so the first lock misses them in COLLISIONS.md
 python tools/check_sign_defs.py      # sign atlas/frame pixel coords match the textures that win (after lock)
 python tools/check_model_pairs.py    # every shipped .pmd fits the .pmg that wins (materials, parts) (after lock)
 python ~/.agent-brains/profiles/scs-mod-developer/skills/megapack/scripts/megapack.py check --strict

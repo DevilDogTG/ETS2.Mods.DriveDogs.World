@@ -3,7 +3,7 @@
 # `base_copy: true` for a .pmc (the base game's own file, written when the source's collision shape is the base
 # game's), or `ignore: <reason>`. Every mismatch must be listed; --check fails on a new one.
 #
-# Real companies 2.04.13 supports ETS2 up to 1.61. When it ships a 1.62 update, rerun the tool: it reports entries
+# Real companies 2.04.13 supports ETS2 up to 1.61; 2.04.15 (Iceland) still needs every entry. When it ships a 1.62 update, rerun the tool: it reports entries
 # the update makes unnecessary ("no longer needed") and fails on new mismatches. Revisit the look choices then too.
 # `bi` is Bosnia and Herzegovina (West Balkans); Real companies' West Balkans gas stations are a work in progress, so
 # each `bi` look copies the source's nearest Balkan look (`blkw_rs` Serbia, `bg` Bulgaria) or the model's own (`gr`).

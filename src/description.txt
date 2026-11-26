@@ -25,7 +25,8 @@ Asphalt-patch bump: Daniel's Random Events Mod by Daniel (his collision plates, 
 [normal]- Garage doors (the small, medium and large garage doors and the Scandinavian one) open and close with Sound Fixes Pack's door sound instead of the game's iron-gate sound. World plays it from Sound Fixes Pack, so Sound Fixes Pack is now needed: load it below World
 - Locomotives light the track with Sound Fixes Pack's warm halogen headlights and a wider beam, like its car headlights (every locomotive World carries, 65 kinds); until now trains used the game's default light
 - More Class 252 trains in Spain and Portugal, from Sound Fixes Pack: extra Class 252 locomotives with their coaches, sometimes running alone, and in Portugal sometimes with freight. They sound like World's other Class 252 and stay detailed as far away
-- Train and level-crossing sounds, rain and thunder as in 1.7.4
+- Takes Real companies & gas stations 2.04.15: Iceland's companies get their real names and logos (Samskip, Brim, Mjólkursamsalan, PCC Husavik and more), and its gas stations real price boards and roofs
+- Takes Realistic Rain & Water & Thunder Sounds V11.0 (Kass): none of the files World uses from it changes, so train and level-crossing sounds, rain and thunder are as in 1.7.4
 
 [orange]v1.7.4
 [normal]- Lane lines can be felt: crossing a lane divider or centre line gives a light thump, while the motorway edge keeps its harder rumble, so drifting into the next lane and running off the road feel different. Only where the road paints a line; junctions not yet
