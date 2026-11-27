@@ -11,7 +11,7 @@
 Train speeds, power and weights: Sound Fixes Pack by Drive Safely (as carried by Realistic Train Lengths)
 Garage-door sound: Sound Fixes Pack by Drive Safely (played from Sound Fixes Pack itself, loaded below World)
 Locomotive headlights and the extra Class 252 locomotives in Spain and Portugal: Sound Fixes Pack by Drive Safely
-Wet-road puddles and surface reflections: Realistic Rain Reflections Standalone v1.4 by Grimes (blended into Asphalt_improved's roads)
+Wet-road puddles and surface reflections: Realistic Rain Reflections Standalone v1.5 by Grimes (blended into Asphalt_improved's roads)
 Asphalt-patch bump: Daniel's Random Events Mod by Daniel (his collision plates, lowered, on the game's own patch models)
 --------------------
 [orange]Download the originals / support the authors:
@@ -20,6 +20,10 @@ Asphalt-patch bump: Daniel's Random Events Mod by Daniel (his collision plates, 
 - Daniel's Random Events Mod: https://forum.scssoft.com/viewtopic.php?t=265242
 --------------------
 [green]Changelogs
+
+[orange]v1.8.1
+[normal]- Wet roads take Realistic Rain Reflections 1.5's new wheel tracks: on many roads in the Baltic states, the Balkans, France, Germany, Iberia and Italy, and some universal asphalt, the wet tracks are now several narrower streaks instead of two wide bands, without the hard line the old tracks had near one edge of the lane. Dry roads look as in 1.8.0
+- Everything else as in 1.8.0
 
 [orange]v1.8.0
 [normal]- Garage doors (the small, medium and large garage doors and the Scandinavian one) open and close with Sound Fixes Pack's door sound instead of the game's iron-gate sound. World plays it from Sound Fixes Pack, so Sound Fixes Pack is now needed: load it below World

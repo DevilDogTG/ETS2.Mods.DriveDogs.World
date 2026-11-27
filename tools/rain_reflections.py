@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generates World's take on Realistic Rain Reflections Standalone (Grimes, v1.4; not on the Workshop) into
+Generates World's take on Realistic Rain Reflections Standalone (Grimes, v1.5; not on the Workshop) into
 overrides/: wet-road puddles blended into the winning road normal maps, and its reflection/shine values on base
 materials. The mod itself is never merged: its road colour textures lose to Asphalt_improved, and its junction
 models, truck headlights, climate, env_data and rain files are old whole copies or effects World takes from
@@ -65,7 +65,7 @@ SKILL = pathlib.Path.home() / ".agent-brains/profiles/scs-mod-developer/skills/m
 sys.path.insert(0, str(SKILL))
 from megapack import base_dir as base_ref_dir, reference_root, repo_game, ref_path  # noqa: E402
 
-RRR_ID, RRR_VERSION = "rain-reflections", "1.4"   # <reference root>/local/<id>/<version>/, the unzipped .scs
+RRR_ID, RRR_VERSION = "rain-reflections", "1.5"   # <reference root>/local/<id>/<version>/, the unzipped .scs
 MANIFEST = ROOT / "world" / "rain_reflections.tsv"
 OVERRIDES = ROOT / "overrides"
 RESOLUTIONS = ROOT / "resolutions.yaml"
