@@ -2,6 +2,8 @@
 
 - Status: accepted
 - Date: 2026-09-28
+- Amended: 2026-11-25 (1.8.0: decision 6 makes SFP a required companion below World; it supersedes "SFP is
+  optional" in decision 2)
 
 ## Context
 
@@ -50,12 +52,39 @@
    - It fails if a chain token names no base-game trailer or trailer type, or if a sound event is not in the
      Cip bank it names.
    - Only units that exist in the base game are edited. Units the game adds later keep vanilla values.
+6. **SFP is required below World, and World takes picked SFP lines (1.8.0).**
+   - Why: World ships whole copies of 56 train/crossing definition files, so SFP's copies of them never load.
+     The maintainer reviewed what that hides (brains report `2026-11-24-sfp-conflicts`) and picks what World
+     takes, one item at a time. Train and crossing sounds stay Cip's (a build that switched them to SFP's,
+     1.8.0-dev.1, was dropped before playtesting).
+   - Picks today: the garage-door `sounds[]` on `tr_sem_mdl.garage_sc`, `g_exp_door`, `g_mid_door` and
+     `g_poor_door` in `semaphore_model.sii` (World ships that file for its traffic lights and crossings), and
+     `headlights_angle`/`headlights_diffuse` on every `traffic.*` unit of the train files World ships (65
+     locomotives; the game sets none). A file glob in a pick applies only to files World already ships, so a pick
+     never makes World hide SFP's other changes in a file it did not ship before.
+   - New units: `SFP_NEW_UNITS` copies SFP's Class 252 `.mod` locomotives for Spain and Portugal (10 units, the
+     game's own Class 252 model and coaches) into `train_class334_locomotive.sui` as `after:` lines. Their sound
+     and `lod_dist` are the base Class 252's as World ships it (Cip's generic electric sound, Lengths' distances),
+     so only their headlights point at SFP's values. The harvest fails if a name already exists in the file, a
+     referenced accessory or spawn condition is not one of the group (or is referenced twice), a `data_path` is
+     not a base-game file, a chain token is not a base-game trailer, or a sound does not resolve.
+   - How: `harvest_edits.py` `SFP_PICKS` lists (file, unit pattern, keys). The harvest applies SFP's values with
+     its `@include`s inlined, after Lengths' and Cip's. A key SFP drops is unset. It fails on a pick that matches
+     no unit, on a unit another `base_edits` file edits, and on a sound that does not resolve
+     (soundref -> bank -> event) in SFP or the base game.
+   - World ships none of SFP's files: the picked lines point at SFP's own sound files, so SFP must load below
+     World. SFP is a `megapack.yaml` reference (`package: sound`, its 1.62 archive) so `megapack updates`
+     reports new versions.
+   - Considered: shipping SFP's banks in World so SFP stays optional. Rejected for now: World's copy would go
+     stale and override SFP's newer one when SFP updates.
 
 ## Consequences
 
 - A game update means extracting the new base, harvesting and rebuilding. Removed or renamed units fail the
   harvest or the build loudly instead of being dropped silently.
-- SFP updates never require a World rebuild. SFP users hear Cip's train sounds instead of SFP's.
+- SFP users hear Cip's train sounds instead of SFP's.
+- Since 1.8.0 (decision 6) SFP is needed below World: without it the picked sounds (garage doors) are silent. An
+  SFP update needs a re-harvest only when it renames or drops a picked sound; the harvest fails loudly then.
 - Switching to an SFP-based build later only adds SFP as a source and changes the harvest base. The repo
   layout stays the same.
 - Units only in newer game versions (e.g. 1.61's NL Flirt) get vanilla lengths until the harvest rules give

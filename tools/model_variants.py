@@ -3,7 +3,7 @@
 Patches merged models that are older than the current base game: copies a source ships of a base model that lack
 look or variant names the base model has. The game logs `Unknown variant name 'x' on model ...` (or an unknown look)
 for every map item that asks for a name the winning model does not have, and draws its first variant / look instead.
-Real companies 2.04.13 (supports ETS2 up to 1.61) ships the gas-station price signs and prefabs that ETS2 1.62
+Real companies 2.04.13 (supports ETS2 up to 1.61; 2.04.15 keeps the same models) ships the gas-station price signs and prefabs that ETS2 1.62
 gave new names (Primel `price2`/`price3`, the `bi` looks); the 1.62 playtest log (2026-11-07) showed the Primel
 errors in Greece. Decisions: docs/adr/ADR-0007, plan log-errors-162.
 

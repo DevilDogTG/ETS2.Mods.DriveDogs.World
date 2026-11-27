@@ -6,7 +6,7 @@ package:
   name: drivedog_world                   # archive: <name>_v<version>.scs
   versioned_filenames: true              # DriveDogs convention; each release is a new mod in the mod manager
   display_name: "DriveDogs: World"
-  version: "1.7.4"                       # World's own version, independent of sources
+  version: "1.8.0"                       # World's own version, independent of sources
   author: "DevilDogTG"
   game: ets2                             # ets2 | ats — sources must be for this game
   manifest_template: src/manifest.sii
@@ -48,6 +48,9 @@ base_edits:
 # Mods whose edits world/ carries (never merged). `megapack updates` reports new versions.
 references:
   - { id: train-lengths, name: Realistic Train Lengths, author: Femboy Enthusiast, workshop: 3209674677, version: "1.0" }
+  # picked lines only (tools/harvest_edits.py SFP_PICKS: the garage-door sounds): World ships none of its files, so
+  # SFP must load below World. `sound` is its 1.62 package (an archive; the default pick would be its downgrade info)
+  - { id: sound-fixes-pack, name: Sound Fixes Pack, author: Drive Safely, workshop: 648591060, version: "26.80", package: sound }
   # its locators carried onto the base bus-stop models and its definitions copied (tools/bus_stop_people.py)
   - { id: busy-bus-stations, name: Busy Bus Stations, author: d-luX, workshop: 2893480838, version: "1.00" }
 

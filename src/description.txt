@@ -1,7 +1,7 @@
 [orange]{{display_name}}{{part_label}}
 
-[normal]The world around the road for ETS2 1.62: weather, rain, roads, grass, trees and water from Juninho944, DIOX, Realistic Rain and Kass, DBM's trees and grass, terrain, road surfaces, guard rails, rocks and walls, water and 4K road signs and markings, country traffic-light lenses, and real company and gas station brands in one pack, with wet-road puddles, lightning and thunder, a realistic mix of light and heavy rain, a fixed late-September date for natural day and night, and a fix for poor headlight reach in night rain; asphalt patches the wheels feel as a light bump; lane lines that give a light thump, softer than the edge rumble; people waiting at bus stops; realistic train lengths and Cip's real train and level-crossing sounds. Game settings are built on the current game files, so what the game adds in updates keeps working.
-[red]Place ABOVE Sound Fixes Pack (optional) and any other train sound or train length mod, and ABOVE Daniel's Random Events Mod if you load it on its own (keep it: World only lowers its asphalt-patch bump).
+[normal]The world around the road for ETS2 1.62: weather, rain, roads, grass, trees and water from Juninho944, DIOX, Realistic Rain and Kass, DBM's trees and grass, terrain, road surfaces, guard rails, rocks and walls, water and 4K road signs and markings, country traffic-light lenses, and real company and gas station brands in one pack, with wet-road puddles, lightning and thunder, a realistic mix of light and heavy rain, a fixed late-September date for natural day and night, and a fix for poor headlight reach in night rain; asphalt patches the wheels feel as a light bump; lane lines that give a light thump, softer than the edge rumble; people waiting at bus stops; realistic train lengths and Cip's real train and level-crossing sounds; from Sound Fixes Pack its garage-door sound, locomotive headlights and extra Class 252 trains in Spain and Portugal. Game settings are built on the current game files, so what the game adds in updates keeps working.
+[red]Place ABOVE Sound Fixes Pack (needed: World plays its garage-door sound from it) and any other train sound or train length mod, and ABOVE Daniel's Random Events Mod if you load it on its own (keep it: World only lowers its asphalt-patch bump).
 [red]Do not load these, they are built in (disable them, including Workshop subscriptions): Weather_3.9, Asphalt_improved, grass_4.0_lite, tree_improved_4k (Juninho944), Beautiful Water, Beautiful Nature (DIOX), Realistic Rain, Realistic Rain Reflections, Realistic Rain & Water & Thunder Sounds (Kass), DBM Road Signs & Markings 4K, DBM Vegetation, DBM Terrain Textures, DBM Guard Rails 4K, DBM World & Buildings HD, DBM Water, DBM Road Textures, Real companies & gas stations, Busy Bus Stations, Realistic Train Lengths, Real Train Sounds ETS2, Different lenses of traffic lights.
 [red]Also disable any day/night or date mod (e.g. Workshop 1061306287): World sets the date.
 [red]Remove the DriveDogs: Better Flares Traffic Lights add-on: World now does everything it did (with or without Better Flares).
@@ -9,16 +9,24 @@
 [orange]Included sources:
 [normal]{{source_list}}
 Train speeds, power and weights: Sound Fixes Pack by Drive Safely (as carried by Realistic Train Lengths)
+Garage-door sound: Sound Fixes Pack by Drive Safely (played from Sound Fixes Pack itself, loaded below World)
+Locomotive headlights and the extra Class 252 locomotives in Spain and Portugal: Sound Fixes Pack by Drive Safely
 Wet-road puddles and surface reflections: Realistic Rain Reflections Standalone v1.4 by Grimes (blended into Asphalt_improved's roads)
 Asphalt-patch bump: Daniel's Random Events Mod by Daniel (his collision plates, lowered, on the game's own patch models)
 --------------------
 [orange]Download the originals / support the authors:
 [normal]{{source_links}}
-- Sound Fixes Pack: https://steamcommunity.com/sharedfiles/filedetails/?id=648591060
 - Realistic Rain Reflections (Grimes): https://grimesmods.wordpress.com/2017/05/08/realistic-rain-reflections-standalone/
 - Daniel's Random Events Mod: https://forum.scssoft.com/viewtopic.php?t=265242
 --------------------
 [green]Changelogs
+
+[orange]v1.8.0
+[normal]- Garage doors (the small, medium and large garage doors and the Scandinavian one) open and close with Sound Fixes Pack's door sound instead of the game's iron-gate sound. World plays it from Sound Fixes Pack, so Sound Fixes Pack is now needed: load it below World
+- Locomotives light the track with Sound Fixes Pack's warm halogen headlights and a wider beam, like its car headlights (every locomotive World carries, 65 kinds); until now trains used the game's default light
+- More Class 252 trains in Spain and Portugal, from Sound Fixes Pack: extra Class 252 locomotives with their coaches, sometimes running alone, and in Portugal sometimes with freight. They sound like World's other Class 252 and stay detailed as far away
+- Takes Real companies & gas stations 2.04.15: Iceland's companies get their real names and logos (Samskip, Brim, Mjólkursamsalan, PCC Husavik and more), and its gas stations real price boards and roofs
+- Takes Realistic Rain & Water & Thunder Sounds V11.0 (Kass): none of the files World uses from it changes, so train and level-crossing sounds, rain and thunder are as in 1.7.4
 
 [orange]v1.7.4
 [normal]- Lane lines can be felt: crossing a lane divider or centre line gives a light thump, while the motorway edge keeps its harder rumble, so drifting into the next lane and running off the road feel different. Only where the road paints a line; junctions not yet

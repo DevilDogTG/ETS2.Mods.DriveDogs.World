@@ -146,6 +146,11 @@ def/company/bjork.sui:
     set:
       name: '"Sodra"'
       sort_name: '"Sodra"'
+def/company/blatt_voruhu.dlc_iceland.sui:
+  company.permanent.blatt_voruhu:
+    set:
+      name: '"Samskip"'
+      sort_name: '"samskip"'
 def/company/blt.dlc_balt.sui:
   company.permanent.blt:
     set:
@@ -366,6 +371,11 @@ def/company/dimitriou.dlc_greece.sui:
     set:
       name: '"Autohellas Hertz."'
       sort_name: '"autohellas hertz."'
+def/company/djup_vinnsla.dlc_iceland.sui:
+  company.permanent.djup_vinnsla:
+    set:
+      name: '"Brim"'
+      sort_name: '"brim"'
 def/company/dobr_ferm_bg.dlc_balkan_e.sui:
   company.permanent.dobr_ferm_bg:
     set:
@@ -501,6 +511,11 @@ def/company/fintyre_ru.dlc_balt.sui:
     set:
       name: '"Nokian Tyres"'
       sort_name: '"nokian tyres"'
+def/company/fjallafeadi.dlc_iceland.sui:
+  company.permanent.fjallafeadi:
+    set:
+      name: '"Mjólkursamsalan"'
+      sort_name: '"Mjólkursamsalan"'
 def/company/fjoste.dlc_polar.sui:
   company.permanent.fjoste:
     set:
@@ -621,6 +636,11 @@ def/company/kathode.sui:
     set:
       name: '"CMS Electronics"'
       sort_name: '"cms electronics"'
+def/company/kisilverksmi.dlc_iceland.sui:
+  company.permanent.kisilverksmi:
+    set:
+      name: '"PCC Husavik"'
+      sort_name: '"pcc husavik"'
 def/company/kivi.dlc_balt.sui:
   company.permanent.kivi:
     set:
@@ -633,6 +653,11 @@ def/company/kivisydan.dlc_polar.sui:
       sort_name: '"crh"'
 def/company/konstnr.sui:
   company.permanent.konstnr:
+    set:
+      name: '"Skanska"'
+      sort_name: '"skanska"'
+def/company/konstnr_epw.dlc_iceland.sui:
+  company.permanent.konstnr_epw:
     set:
       name: '"Skanska"'
       sort_name: '"skanska"'
@@ -1072,6 +1097,11 @@ def/company/stokes.sui:
     set:
       name: '"DHL"'
       sort_name: '"dhl"'
+def/company/stormarka.dlc_iceland.sui:
+  company.permanent.stormarka:
+    set:
+      name: '"Bonus"'
+      sort_name: '"bonus"'
 def/company/stronghold.sui:
   company.permanent.stronghold:
     set:
@@ -1213,6 +1243,11 @@ def/company/vesna_mill.dlc_balkan_w.sui:
     set:
       name: '"Podravka"'
       sort_name: '"Podravka"'
+def/company/vikingabyli.dlc_iceland.sui:
+  company.permanent.vikingabyli:
+    set:
+      name: '"Bændasamtök Íslands"'
+      sort_name: '"bændasamtök islands"'
 def/company/viljo_paper.sui:
   company.permanent.viljo_paper:
     set:
